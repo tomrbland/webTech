@@ -18,12 +18,12 @@
          newContent += "</p>";
          document.write(newContent);
          /* This is how my book does it but I can't get it to work
-            document.getElementById("content").innerHTML = newContent;
+            document.getElementById("country").innerHTML = newContent;
          */
       }
       document.write("<p>" + "<a href='index.html'>" + "BACK" + "</a>" + "</p>");
    };
 
-                  // url would go here  // true == asynchronous processing
-   xhr.open("GET", "js/test.json", true);
+                       // true == asynchronous processing
+   xhr.open("GET", url, true);
    xhr.send(null);
