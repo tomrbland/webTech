@@ -43,6 +43,26 @@ div.footer {
   clear: both;
 }
 
+/* unvisited link */
+a:link {
+    color: red;
+}
+
+/* visited link */
+a:visited {
+    color: green;
+}
+
+/* mouse over link */
+a:hover {
+    color: hotpink;
+}
+
+/* selected link */
+a:active {
+    color: blue;
+}
+
 /* The left and right columns. */
 section.left, section.right {
     width: 44%;
