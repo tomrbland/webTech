@@ -1,5 +1,5 @@
 
-   var url = "api.dronestre.am/data";
+   var url = "http://api.dronestre.am/data";
 
    var xhr = new XMLHttpRequest();
 
