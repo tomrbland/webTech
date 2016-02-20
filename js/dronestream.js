@@ -24,6 +24,7 @@
       document.write("<p>" + "<a href='index.html'>" + "BACK" + "</a>" + "</p>");
    };
 
-                       // true == asynchronous processing
+                  // replace url with "js/test.json" to see it working with the test file
+                        // true == asynchronous processing
    xhr.open("GET", url, true);
    xhr.send(null);
