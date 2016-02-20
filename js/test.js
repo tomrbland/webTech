@@ -1,3 +1,7 @@
+/*
+   var data={ "firstName" : "Hi Tom." };
+   alert(data.firstName);
+*/
    var today = new Date();
    var hourNow = today.getHours();
    var minNow = today.getMinutes();
