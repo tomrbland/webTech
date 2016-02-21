@@ -31,7 +31,7 @@
       }
       else{
          var pelement = document.createElement("p");
-         var textnode = document.createTextNode("Response Not 200");
+         var textnode = document.createTextNode("Response Not 200. is: " + request.status);
          pelement.appendChild(textnode);
          document.getElementById("responseCheck").appendChild(pelement);
       }
