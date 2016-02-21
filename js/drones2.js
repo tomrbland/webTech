@@ -18,6 +18,7 @@ var xhr = new XMLHttpRequest();
 xhr.onload = function() {
    if (xhr.status === 200) {
       var scr = document.getElementById('responseCheck');
+      
       document.write("<p>" + "Response check." + "</p>");
       responseObject = JSON.parse(xhr.responseText);
 
