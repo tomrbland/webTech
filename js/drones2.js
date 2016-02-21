@@ -13,7 +13,13 @@
    var url = "http://api.dronestre.am/data";
    var request = new XMLHttpRequest();
 
-   request.addEventListener("load", drones);
+   //request.addEventListener("load", drones);
+   request.onreadystatechange = drones;
+
+   // replace url with "js/test.json" to see it working with the test file
+   // true == asynchronous processing
+   request.open("GET", url, true);
+   request.send(null);
 
    function drones()
    {
@@ -30,8 +36,3 @@
          document.getElementById("responseCheck").appendChild(pelement);
       }
    }
-
-   // replace url with "js/test.json" to see it working with the test file
-   // true == asynchronous processing
-   request.open("GET", url, true);
-   request.send(null);
