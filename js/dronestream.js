@@ -24,7 +24,7 @@
       }
    };
 
-   xhr.open("GET", js/dronrs.json, true);
+   xhr.open("GET", 'js/drones.json', true);
    xhr.send(null);
 
    function printResponse(s)
