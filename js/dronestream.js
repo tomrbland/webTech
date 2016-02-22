@@ -18,7 +18,7 @@
          var newContent;
          for (var i = 0; i < responseObject.strike.length; i++) {
             // Parses the country of each drone strike event
-            newContent += " " + responseObject.strike[i].country + " ";
+            newContent += " " + responseObject.strike[i].names + " ";
          }
          printDrones(newContent);
       }
