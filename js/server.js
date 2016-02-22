@@ -46,11 +46,9 @@ function start() {
     test();
     var httpService = http.createServer(serve);
     httpService.listen(ports[0], 'localhost');
-    //httpService.listen(ports[0]);
     var options = { key: key, cert: cert };
     var httpsService = https.createServer(options, serve);
     httpsService.listen(ports[1], 'localhost');
-    //httpsService.listen(ports[1]);
     printAddresses();
 }
 
@@ -64,11 +62,6 @@ function printAddresses() {
     httpsAddress += "/";
     console.log('Server running at', httpAddress, 'and', httpsAddress);
 }
-
-// All URLs other than / start with a randomly chosen prefix /site-x so the
-// site is forced to use relative links, and can then be published anywhere.
-var letter = "abcdefghijklmnopqrstuvwxyz".charAt(Math.floor(Math.random()*26));
-var prefix = "/site-" + letter;
 
 // Response codes: see http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 var OK = 200, Redirect = 307, NotFound = 404, BadType = 415, Error = 500;
@@ -94,17 +87,14 @@ function fail(response, code) {
     response.end();
 }
 
-// Serve a single request.  Redirect / to add the prefix, but otherwise insist
-// that every URL should start with the prefix.  A URL ending with / is treated
-// as a folder and index.html is added.  A file name without an extension is
-// reported as an error (because we don't know how to deliver it, or if it was
-// meant to be a folder, it would inefficiently have to be redirected for the
-// browser to get relative links right).
-function serve(request, response) {
+// Serve a single request.  A URL ending with / is treated as a folder and
+// index.html is added.  A file name without an extension is reported as an
+// error (because we don't know how to deliver it, or if it was meant to be a
+// folder, it would inefficiently have to be redirected for the browser to get
+// relative links right).
+function serve(request, response) { // <-- This deals with requests
     var file = request.url;
-    if (file == '/') return redirect(response, prefix + '/');
-    if (! starts(file,prefix)) return fail(response, NotFound);
-    file = file.substring(prefix.length);
+    console.log("Request URL: " + file);
     if (ends(file,'/')) file = file + 'index.html';
     file = "." + file;
     var type = findType(request, path.extname(file));
