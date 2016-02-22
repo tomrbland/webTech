@@ -1,4 +1,11 @@
-/*
+
+   /*  First attempt (which worked on Safari w/o the server) */
+
+   /* The CORS stuff I couldn't get working
+   var cors = require('cors');
+   var app = express()
+   app.use(cors()) */
+
    var url = "http://api.dronestre.am/data";
 
    var xhr = new XMLHttpRequest();
@@ -17,18 +24,19 @@
          }
          newContent += "</p>";
          document.write(newContent);
-         /* This is how my book does it but I can't get it to work
-            document.getElementById("country").innerHTML = newContent;
-
       }
       document.write("<p>" + "<a href='index.html'>" + "BACK" + "</a>" + "</p>");
    };
 
-                   replace url with "js/test.json" to see it working with the test file
-                        true == asynchronous processing
    xhr.open("GET", url, true);
    xhr.send(null);
-*/
+
+
+   /*
+   Code from: https://www.nczonline.net/blog/2010/05/25/cross-domain-ajax-with-cross-origin-resource-sharing/
+
+   Tried to get it working w/o a server - hence why I'm not writing with DOM.
+   Still throws a CORS error.
 
    function createCORSRequest(method, url) {
        var xhr = new XMLHttpRequest();
@@ -62,13 +70,13 @@
              document.write(newContent);
           }
      };
-
+     request.send();
    }
-    request.send();
+*/
 
 
 
-/*
+   /* Ian's code
    "use strict";
 
    var url = "http://api.dronestre.am/data";
@@ -80,10 +88,7 @@
 
    function receive() {
       if (this.readyState != XMLHttpRequest.DONE) {
-         var pelement = document.createElement("p");
-         var textnode = document.createTextNode("Response not OK");
-         pelement.appendChild(textnode);
-         document.getElementById("responseCheck").appendChild(pelement);
+         return;
       }
       else {
          var pelement = document.createElement("p");
@@ -91,5 +96,4 @@
          pelement.appendChild(textnode);
          document.getElementById("responseCheck").appendChild(pelement);
       }
-   }
-*/
+   } */
