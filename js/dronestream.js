@@ -11,27 +11,37 @@
    var xhr = new XMLHttpRequest();
 
    xhr.onload = function() {
-      document.write("<h1>" + "Data Visualisation Experiments" + "</h1>");
       if (xhr.status === 200) {
-         document.write("<p>" + "Response check." + "</p>");
+         printResponse("Response OK");
          responseObject = JSON.parse(xhr.responseText);
 
-         // Build up the string with new content
-         var newContent = "<p>";
+         var newContent;
          for (var i = 0; i < responseObject.strike.length; i++) {
             // Parses the country of each drone strike event
             newContent += " " + responseObject.strike[i].country + " ";
          }
-         newContent += "</p>";
-         document.write(newContent);
+         printDrones(newContent);
       }
-      document.write("<p>" + "<a href='index.html'>" + "BACK" + "</a>" + "</p>");
    };
 
-   xhr.open("GET", url, true);
+   xhr.open("GET", js/dronrs.json, true);
    xhr.send(null);
 
+   function printResponse(s)
+   {
+      var pelement = document.createElement("p");
+      var textnode = document.createTextNode(s);
+      pelement.appendChild(textnode);
+      document.getElementById("responseCheck").appendChild(pelement);
+   }
 
+   function printDrones(s)
+   {
+      var pelement = document.createElement("p");
+      var textnode = document.createTextNode(s);
+      pelement.appendChild(textnode);
+      document.getElementById("responseCheck").appendChild(pelement);
+   }
    /*
    Code from: https://www.nczonline.net/blog/2010/05/25/cross-domain-ajax-with-cross-origin-resource-sharing/
 

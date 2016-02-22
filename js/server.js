@@ -116,7 +116,7 @@ function serve(request, response) { // <-- This deals with requests
 
     function ready(error, content) {
         if (error) return fail(response, NotFound);
-        succeed(response, type, content);
+        succeed(response, type, content); //Send back content etc
         //console.log("Ready! Type: " + type + " Content: " + content);
     }
 }
