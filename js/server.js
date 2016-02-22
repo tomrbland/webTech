@@ -94,20 +94,30 @@ function fail(response, code) {
 // relative links right).
 function serve(request, response) { // <-- This deals with requests
     var file = request.url;
-    console.log("Request URL: " + file);
-    if (ends(file,'/')) file = file + 'index.html';
-    file = "." + file;
+
+    if (ends(file,'/')) file = file + 'index.html'; //If gone to folder route - return to index of the folder.
+
+    file = "." + file;  //Not sure why we do this
+
     var type = findType(request, path.extname(file));
-    if (! type) return fail(response, BadType);
-    if (! inSite(file)) return fail(response, NotFound);
-    if (! matchCase(file)) return fail(response, NotFound);
-    if (! noSpaces(file)) return fail(response, NotFound);
-    try { fs.readFile(file, ready); }
-    catch (err) { return fail(response, Error); }
+    console.log("Request URL: " + file + " Type: " + type);
+
+    if (! type) return fail(response, BadType); //Needs to have a type
+    if (! inSite(file)) return fail(response, NotFound); //Page doesn't exist
+    if (! matchCase(file)) return fail(response, NotFound); //URL is case sensitive!
+    if (! noSpaces(file)) return fail(response, NotFound); //Don't use spaces!
+
+    try {
+      fs.readFile(file, ready); //Read file in from file system - then call ready
+    }
+    catch (err) {
+      return fail(response, Error);
+    }
 
     function ready(error, content) {
         if (error) return fail(response, NotFound);
         succeed(response, type, content);
+        //console.log("Ready! Type: " + type + " Content: " + content);
     }
 }
 
