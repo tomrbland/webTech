@@ -9,8 +9,8 @@ body {
   padding-right: 0em;
   padding-bottom: 0;
   margin: auto;
-  min-width: 640px;
-  max-width: 1200px;
+  min-width: 480px;
+  /*max-width: 1500px;*/
   color: #D0D0D0;
 }
 
@@ -20,27 +20,39 @@ div.container{
   box-shadow: 10px 10px 5px grey;
   margin: auto;
   margin-top: 10px;
-  width: 80%
+  width: 80%;
+  padding: 0px;
 }
 
 /* The header and footer. */
-div.header {
+header {
   background-color: #565656;
   border-radius: 25px 25px 0px 0px;
+  margin: 0px;
   padding-right: 30px;
   padding-left: 30px;
+  padding-bottom: 5px;
   width: 100% -60px;
   clear: both;
 }
 
-div.footer {
+footer {
   background-color: #565656;
   border-radius: 0px 0px 25px 25px;
+  margin: 0px;
   padding-right: 30px;
   padding-left: 30px;
   padding-bottom: 0px;
   width: 100% -60px;
   clear: both;
+}
+
+#map {
+   /*background-color: #FF0000;*/
+   height: 500px;
+   width: 100%;
+   padding: 0px;
+   margin: 0px;
 }
 
 /* unvisited link */
@@ -77,6 +89,14 @@ section.left {
 section.right {
   float: right;
   margin: 0 4% 0 2%;
+}
+
+h1 {
+   margin: 0px;
+}
+
+p {
+   margin: 0px;
 }
 
 /* The content. */
