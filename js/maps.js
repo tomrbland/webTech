@@ -4,7 +4,7 @@ var map;
 
 function initMap() {
 
-   var map = new google.maps.Map(document.querySelector("#map"), { //should use querySelector('#id')
+   var map = new google.maps.Map(document.querySelector("#map"), {
       center: {lat: 45.69, lng: 6.78},
       zoom: 4
    });
