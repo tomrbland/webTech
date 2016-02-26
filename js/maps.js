@@ -1,9 +1,16 @@
 "use strict"
 
+addEventListener('resize', resizeMap);
+
 var map;
 
-function initMap() {
+//Reference: https://developers.google.com/maps/documentation/javascript/reference
 
+function resizeMap(){
+   google.maps.event.trigger(map, 'resize')
+}
+
+function initMap() {
    var map = new google.maps.Map(document.querySelector("#map"), {
       center: {lat: 45.69, lng: 6.78},
       zoom: 4
