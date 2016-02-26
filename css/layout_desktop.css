@@ -51,6 +51,7 @@ header {
    height: 60%;
    clear: right;
    float: right;
+   overflow-y:scroll;
 }
 
 #map{
@@ -65,4 +66,5 @@ header {
    height: 60%;
    clear: left;
    float: left;
+   overflow-y:scroll;
 }
