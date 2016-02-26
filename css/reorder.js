@@ -1,17 +1,23 @@
 "use strict"
 
 addEventListener('load', reorder);
-addEventListener('onresize', reorder);
+addEventListener('resize', reorder);
 
 function reorder(){
-   function swapSibling(node1, node2) {
-     node1.parentNode.replaceChild(node1, node2); //(new, old)
-     node1.parentNode.insertBefore(node2, node1); //(new, referenced)
-   }
+   var width = window.innerWidth;
+   var map = document.querySelector('#map');
+   var reviews = document.querySelector('#reviews');
+   var parent = reviews.parentNode;
+
+   parent.removeChild(reviews);
+   parent.removeChild(map);
 
    if(window.innerWidth > 768){
-      swapSibling(document.querySelector('#map'),
-                  document.querySelector('#reviews'));
+      parent.appendChild(reviews);
+      parent.appendChild(map);
    }
-   //console.log(window.innerWidth + " " + document.body.clientWidth);
+   else{
+      parent.appendChild(map);
+      parent.appendChild(reviews);
+   }
 }
