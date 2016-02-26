@@ -15,31 +15,31 @@ body {
 /* The header and footer. */
 header {
    width: 100%;
-   height: 8%;
+   /*height: 8%;*/
    clear: both;
 }
 
 #nav{
    width:100%;
-   height: 5%;
+   /*height: 5%;*/
    clear:both;
 }
 
 #resortContainer{
    width: 100%;
-   height: 87%;
+   /*height: 200px;*/
    clear: both;
 }
 
 #resort{
    width: 100%;
-   height: 10%;
+   /*height: 10%;*/
    clear: both;
 }
 
 #responsive{
   width: 100%;
-  height: 90%;
+  height: 200px;
   clear: both;
 }
 
