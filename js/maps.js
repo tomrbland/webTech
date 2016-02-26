@@ -1,8 +1,10 @@
+"use strict"
+
 var map;
 
 function initMap() {
 
-   var map = new google.maps.Map(document.getElementById('map'), {
+   var map = new google.maps.Map(document.getElementById('map'), { //should use selectQuery('#id')
       center: {lat: 45.69, lng: 6.78},
       zoom: 4
    });
