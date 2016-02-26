@@ -18,6 +18,11 @@ header {
    clear:both;
 }
 
+#resortContainer{
+   width: 100%;
+   clear: both;
+}
+
 #resort{
    width:100%;
    clear:both;
