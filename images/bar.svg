@@ -14,6 +14,7 @@
    height="30"
    id="svg2"
    version="1.1"
+   preserveAspectRatio="none"
    inkscape:version="0.48.4 r9939"
    sodipodi:docname="bar.svg">
   <defs
