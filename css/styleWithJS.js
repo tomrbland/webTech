@@ -16,9 +16,14 @@ function size(){
    responsive.style.height = setHeight + 'px';
 
    reorderDivs(winWidth);
-
+   resizeMap();
    function getHeight(o){
-      return parseInt(window.getComputedStyle(o, null).getPropertyValue("height"), 10);
+      var ptop = parseInt(window.getComputedStyle(o, null).getPropertyValue('padding-top'), 10);
+      var pbottom = parseInt(window.getComputedStyle(o,null).getPropertyValue("padding-bottom"),10);
+      var mtop = parseInt(window.getComputedStyle(o,null).getPropertyValue("margin-top"),10);
+      var mbottom = parseInt(window.getComputedStyle(o,null).getPropertyValue("margin-bottom"),10);
+      var height = parseInt(window.getComputedStyle(o, null).getPropertyValue('height'), 10);
+      return ptop + pbottom + mtop + mbottom + height;
    }
 }
 

@@ -12,6 +12,7 @@ header {
    background-color: rgb(255,255,0);
    background: url("/images/bar.svg");
    background-size: 100% 100%;
+   padding: 7px;
 }
 
 #resortContainer{
