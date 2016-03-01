@@ -29,8 +29,10 @@ JSON.parse turns a string of JSON text into a Javascript object.
 
       var newContent;
 
-      console.log(jsObject.currently);
+      console.log(jsObject.daily.summary);
+      //console.log(jsObject.currently);
       //console.log(jsObject.minutely.data[2]);
+      //console.log(jsObject.alerts);
 
       for (var i = 0; i < jsObject.hourly.data.length; i++) {
          // Builds a string to print via concatenation.
