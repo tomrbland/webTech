@@ -1,4 +1,6 @@
 /*
+https://developer.forecast.io/docs/v2
+
 JSON.stringify turns a Javascript object into JSON text and stores that JSON text in a string.
 JSON.parse turns a string of JSON text into a Javascript object.
 */
@@ -18,7 +20,7 @@ JSON.parse turns a string of JSON text into a Javascript object.
    var ForecastIo = require('forecastio');
 
    var options = {
-     units: 'uk'
+     units: 'uk2'
    };
 
    // The forecast for Bristol campus!
@@ -31,18 +33,20 @@ JSON.parse turns a string of JSON text into a Javascript object.
       var jsObject = JSON.parse(jsonString);
       //console.log(jsObject);
 
-      var newContent;
+      var weatherData;
 
-      console.log(jsObject.daily.summary);
+      console.log(jsObject.hourly.summary);
       //console.log(jsObject.currently);
       //console.log(jsObject.minutely.data[2]);
       //console.log(jsObject.alerts);
+      //console.log(jsObject.nearestStormDistance);
 
       for (var i = 0; i < jsObject.hourly.data.length; i++) {
          // Builds a string to print via concatenation.
-         newContent += "\n" + jsObject.hourly.data[i].summary;
+      //   weatherData += "\n" + jsObject.hourly.data[i].summary;
+      //   weatherData += "\n" + jsObject.hourly.data[i].windSpeed;
       }
-      //console.log(newContent);
+      //console.log(weatherData);
    });
 
 
