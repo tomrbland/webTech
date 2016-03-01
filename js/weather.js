@@ -17,9 +17,13 @@ JSON.parse turns a string of JSON text into a Javascript object.
 /* PARSING EXPERIMENTS... */
    var ForecastIo = require('forecastio');
 
+   var options = {
+     units: 'uk'
+   };
+
    // The forecast for Bristol campus!
    var forecastIo = new ForecastIo('885a85ff4be082090e0348da41f005dd');
-   forecastIo.forecast('51.457040', '-2.600711').then(function(data) {
+   forecastIo.forecast('51.457040', '-2.600711', options).then(function(data) {
 
       var jsonString = JSON.stringify(data, null, 2);
       //console.log(jsonString);
