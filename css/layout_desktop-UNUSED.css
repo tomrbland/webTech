@@ -1,0 +1,70 @@
+html{
+   height: 100%;
+}
+
+
+body {
+  padding-top: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  margin: auto;
+  height: 100%;
+}
+
+/* The header and footer. */
+header {
+   width: 100%;
+   clear: both;
+}
+
+#nav{
+   width:100% - 14px;
+   clear:both;
+}
+
+#resortContainer{
+   width: 100%;
+   clear: both;
+}
+
+#resort{
+   width: 100%;
+   clear: both;
+}
+
+#responsive{
+   width: 100%;
+   height: 200px;
+   clear: both;
+}
+
+#photos{
+   width: 60%;
+   height: 40%;
+   clear: left;
+   float: left;
+}
+
+#weather{
+   width: 40%;
+   height: 60%;
+   clear: right;
+   float: right;
+   overflow-y:scroll;
+}
+
+#map{
+   width: 40%;
+   height: 40%;
+   clear: right;
+   float: right;
+}
+
+#reviews{
+   width: 60%;
+   height: 60%;
+   clear: left;
+   float: left;
+   overflow-y:scroll;
+}
