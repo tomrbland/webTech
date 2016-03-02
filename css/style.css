@@ -24,10 +24,10 @@ header {
 }
 
 #resortForm{
-   width:30%;
+   text-align: center;
    margin: auto;
    clear: both;
-   min-height: 4em;
+   /*min-height: 4em;*/
    padding: 14px;
    margin: 15px;
    box-sizing: border-box;
