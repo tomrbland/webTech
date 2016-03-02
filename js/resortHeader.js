@@ -8,7 +8,7 @@ function buildHeader() {
    var data = window.location.search.replace("?", "");
    data = data.replace('+', ' ');
    var parts = data.split("=");
-   h1.innerHTML = parts[1];
+   h2.innerHTML = parts[1];
 
    header.appendChild(h2);
 }
