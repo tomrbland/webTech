@@ -22,11 +22,29 @@ header {
 
 #nav{
    width:100% - 14px;
+   overflow: hidden;
+   height: 1%;
    clear:both;
    background-color: rgb(255,255,0);
    background: url("/images/bar.svg");
    background-size: 100% 100%;
+}
+
+.navButton{
    padding: 7px;
+   float: left;
+}
+
+.navButton:hover{
+   background: url("/images/barHover.svg");
+   background-size: 100% 100%;
+   cursor: pointer; cursor: hand;
+}
+
+.navButton:active{
+   background: url("/images/barClicked.svg");
+   background-size: 100% 100%;
+   cursor: pointer; cursor: hand;
 }
 
 #resortContainer{
