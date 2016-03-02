@@ -16,7 +16,7 @@
    version="1.1"
    preserveAspectRatio="none"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="barClicked.svg">
+   sodipodi:docname="barHover.svg">
   <defs
      id="defs4">
     <linearGradient
@@ -111,7 +111,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="22.4"
-     inkscape:cx="-17.125269"
+     inkscape:cx="-11.857412"
      inkscape:cy="16.873025"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
@@ -129,7 +129,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -137,7 +137,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="Clicked"
-     style="opacity:0.31687245;display:inline">
+     style="opacity:0.13580247;display:inline">
     <rect
        style="fill:url(#linearGradient3776);fill-opacity:1;stroke:#000000;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect3768"
