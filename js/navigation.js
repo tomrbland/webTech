@@ -7,7 +7,7 @@ function addNavigation(){
    var navBar = document.querySelector('#nav');
 
    navBar.appendChild(makeDiv('index.html', 'Home'));
-   navBar.appendChild(makeDiv('resort.html', 'Resort Page'));
+   //navBar.appendChild(makeDiv('resort.html', 'Resort Page'));
 
    function makeDiv(path, text){
       var div = document.createElement('div');

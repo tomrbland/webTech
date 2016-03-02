@@ -30,10 +30,12 @@ var types = {
     '.json' : 'application/json',
     '.pdf'  : 'application/pdf',
     '.txt'  : 'text/plain', // plain text only
+    '.ttf'  : 'application/x-font-ttf',
     '.xhtml': '#not suitable for dual delivery, use .html',
     '.htm'  : '#proprietary, non-standard, use .html',
     '.jpg'  : '#common but non-standard, use .jpeg',
     '.rar'  : '#proprietary, non-standard, platform dependent, use .zip',
+    '.docx' : '#proprietary, non-standard, platform dependent, use .pdf',
     '.doc'  : '#proprietary, non-standard, platform dependent, ' +
               'closed source, unstable over versions and installations, ' +
               'contains unsharable personal and printer preferences, use .pdf',
@@ -46,7 +48,6 @@ function start() {
     test();
     var httpService = http.createServer(serve);
     httpService.listen(ports[0], 'localhost');
-    //httpService.listen(ports[0]);
     var options = { key: key, cert: cert };
     var httpsService = https.createServer(options, serve);
     httpsService.listen(ports[1], 'localhost');
@@ -93,32 +94,24 @@ function fail(response, code) {
 // error (because we don't know how to deliver it, or if it was meant to be a
 // folder, it would inefficiently have to be redirected for the browser to get
 // relative links right).
-function serve(request, response) { // <-- This deals with requests
+function serve(request, response) {
     var file = request.url;
-
-    if (ends(file,'/')) file = file + 'index.html'; //If gone to folder route - return to index of the folder.
-
-    file = "." + file;  //Not sure why we do this
-
+    if (ends(file,'/')) file = file + 'index.html';
+    // If there are parameters, take them off
+    var parts = file.split("?");
+    if (parts.length > 1) file = parts[0];
+    file = "." + file;
     var type = findType(request, path.extname(file));
-    console.log("Request URL: " + file + " Type: " + type);
-
-    if (! type) return fail(response, BadType); //Needs to have a type
-    if (! inSite(file)) return fail(response, NotFound); //Page doesn't exist
-    if (! matchCase(file)) return fail(response, NotFound); //URL is case sensitive!
-    if (! noSpaces(file)) return fail(response, NotFound); //Don't use spaces!
-
-    try {
-      fs.readFile(file, ready); //Read file in from file system - then call ready
-    }
-    catch (err) {
-      return fail(response, Error);
-    }
+    if (! type) return fail(response, BadType);
+    if (! inSite(file)) return fail(response, NotFound);
+    if (! matchCase(file)) return fail(response, NotFound);
+    if (! noSpaces(file)) return fail(response, NotFound);
+    try { fs.readFile(file, ready); }
+    catch (err) { return fail(response, Error); }
 
     function ready(error, content) {
         if (error) return fail(response, NotFound);
-        succeed(response, type, content); //Send back content etc
-        //console.log("Ready! Type: " + type + " Content: " + content);
+        succeed(response, type, content);
     }
 }
 
@@ -136,7 +129,7 @@ function findType(request, extension) {
 
 // Check whether a string starts with a prefix, or ends with a suffix
 function starts(s, x) { return s.lastIndexOf(x, 0) == 0; }
-function ends(s, x) { return s.indexOf(x, s.length-x.length) == 0; }
+function ends(s, x) { return s.indexOf(x, s.length-x.length) >= 0; }
 
 // Check that a file is inside the site.  This is essential for security.
 var site = fs.realpathSync('.') + path.sep;
