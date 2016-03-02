@@ -2,8 +2,8 @@
 addEventListener("load", buildHeader);
 
 function buildHeader() {
-   var header = document.querySelector("header");
-   var h1 = document.createElement('h1');
+   var header = document.querySelector("#resort");
+   var h1 = document.createElement('h2');
 
    var data = window.location.search.replace("?", "");
    var parts = data.split("=");
