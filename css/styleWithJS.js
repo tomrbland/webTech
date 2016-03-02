@@ -28,7 +28,7 @@ function size(){
    resizeMap();
 
    function getHeight(o){
-      var ptop = parseInt(window.getComputedStyle(o, null).getPropertyValue('padding-top'), 10);
+      var ptop = parseInt(window.getComputedStyle(o, null).getPropertyValue("padding-top"), 10);
       var pbottom = parseInt(window.getComputedStyle(o,null).getPropertyValue("padding-bottom"),10);
       var mtop = parseInt(window.getComputedStyle(o,null).getPropertyValue("margin-top"),10);
       var mbottom = parseInt(window.getComputedStyle(o,null).getPropertyValue("margin-bottom"),10);

@@ -17,7 +17,10 @@ body {
 header {
    width: 100%;
    clear: both;
-   background-color: rgb(255,0,0);
+   background-image: url(/images/banner.svg);
+   background-size: 5% 100%;
+   background-repeat: repeat-x;
+   background-color: rgb(255,255,255);
 }
 
 #nav{
