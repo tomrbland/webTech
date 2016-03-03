@@ -25,6 +25,9 @@
    <meta name="theme-color" content="#ffffff" />
    <link href="css/style.css" rel="stylesheet" type="text/css" />
    <script type="text/javascript" src="js/navigation.js"></script>
+
+   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places"></script>
+   <script type="text/javascript" src="js/autoComplete.js"></script>
    <!--[if IE]>
    <script
       src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"
@@ -35,7 +38,7 @@
    <header><h1>WEBSITE NAME</h1></header>
    <div id="nav"></div>
       <form id="resortForm" action="resort.html" method="get">
-         <input type="text" name="resort" value="" />
+         <input id="my-address" type="text" name="resort" value="" />
          <input type="submit" value="Search" />
       </form>
 </body>

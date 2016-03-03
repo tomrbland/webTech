@@ -10,6 +10,7 @@ function buildHeader() {
 
    var data = window.location.search.replace("?", "");
    data = data.split('+').join(' ');
+   data = data.split('%2C').join(',');
    var parts = data.split("=");
    resortName = parts[1];
    console.log("resortHeader.js: Global resortName set");
