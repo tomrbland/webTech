@@ -7,7 +7,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
 function buttonOnClick(){
    var b = document.querySelector('#getCords');
    //var form = document.forms['resortForm'];
-   var form = document.querySelector('#resortForm')
+   var form = document.querySelector('#resortForm');
+   
    form.addEventListener('onsubmit', codeAddress);
    b.addEventListener('click', codeAddress);
 }
