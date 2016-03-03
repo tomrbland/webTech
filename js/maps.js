@@ -8,6 +8,7 @@ var long = 6.829677;
 //Reference: https://developers.google.com/maps/documentation/javascript/reference
 
 addEventListener('load', assignLatLong);
+google.maps.event.addDomListener(window, 'load', initMap);
 
 function assignLatLong(){
    var data = window.location.search.replace("?", "");
@@ -42,9 +43,7 @@ function refreshMap(){
    if(mapInitalised){ //ensure map is init before use;
       console.log("maps.js: refreshMap");
 
-      //This bodge makes sure the map prints full size
       map = new google.maps.Map(document.querySelector("#map"), {
-         //center: {lat: lat, lng: long},
          center: new google.maps.LatLng(lat,long),
          zoom: 12
       });
@@ -56,7 +55,6 @@ function refreshMap(){
 
 function addPin(){
    webcamstravel.easymap.load(map);
-   var lesarcs = {lat: lat, lng: long};
    var lesarcs_content = '<div id="content">'+
       '<div id="siteNotice">'+
       '</div>'+
@@ -83,7 +81,6 @@ function addPin(){
 function initMap() {
    console.log("maps.js: InitMap - GMAPS CALLBACK");
    var firstMap = new google.maps.Map(document.querySelector("#map"), {
-      //center: {lat: lat, lng: long},
       center: new google.maps.LatLng(lat,long),
       zoom: 12
    });
