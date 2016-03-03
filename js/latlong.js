@@ -1,9 +1,14 @@
 //http://stackoverflow.com/questions/3490622/get-latitude-and-longitude-based-on-location-name-with-google-autocomplete-api
 
 addEventListener('load', buttonOnClick);
+google.maps.event.addDomListener(window, 'load', initialize);
+
 
 function buttonOnClick(){
    var b = document.querySelector('#getCords');
+   //var form = document.forms['resortForm'];
+   var form = document.querySelector('#resortForm')
+   form.addEventListener('onsubmit', codeAddress);
    b.addEventListener('click', codeAddress);
 }
 
@@ -29,7 +34,6 @@ function initialize() {
    }
 }
 
-
 function codeAddress() {
    console.log("Coding Address");
    geocoder = new google.maps.Geocoder();
@@ -37,14 +41,24 @@ function codeAddress() {
    geocoder.geocode( { 'address': address}, geo);
 
    function geo(results, status){
+      var theForm = document.forms['resortForm'];
+
       if (status == google.maps.GeocoderStatus.OK) {
-         alert("Latitude: "+results[0].geometry.location.lat());
-         alert("Longitude: "+results[0].geometry.location.lng());
+         theForm.appendChild(addToForm('Latitude', results[0].geometry.location.lat()));
+         theForm.appendChild(addToForm('Longitude', results[0].geometry.location.lng()));
       }
       else {
-         alert("Geocode was not successful for the following reason: " + status);
+         addToForm(theForm, 'ERROR', 'There was an Error');
       }
+      theForm.submit();
+   }
+
+   function addToForm(key, value){
+       // Create a hidden input element
+       var input = document.createElement('input');
+       input.type = 'hidden';
+       input.name = key;'name-as-seen-at-the-server';
+       input.value = value;
+       return input;
    }
 }
-
-google.maps.event.addDomListener(window, 'load', initialize);
