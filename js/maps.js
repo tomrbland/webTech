@@ -44,7 +44,8 @@ function refreshMap(){
 
       //This bodge makes sure the map prints full size
       map = new google.maps.Map(document.querySelector("#map"), {
-         center: {lat: lat, lng: long},
+         //center: {lat: lat, lng: long},
+         center: new google.maps.LatLng(lat,long),
          zoom: 12
       });
       google.maps.event.trigger(map, 'resize');
@@ -59,17 +60,17 @@ function addPin(){
    var lesarcs_content = '<div id="content">'+
       '<div id="siteNotice">'+
       '</div>'+
-      '<h1 id="firstHeading" class="firstHeading">Les Arcs!</h1>'+
+      '<h1 id="firstHeading" class="firstHeading">'+resortName+'</h1>'+
       '<div id="bodyContent">'+
-      '<p><b>Les Arcs</b>, is here! Let\'s vote!</p>'+
+      '<p><b>'+resortName+'</b>, is here! Let\'s vote!</p>'+
       '</div>'+
       '</div>';
 
    var infowindow = new google.maps.InfoWindow({content: lesarcs_content});
    var marker = new google.maps.Marker({
-                                        position: lesarcs,
+                                        position: new google.maps.LatLng(lat,long),
                                         map: map,
-                                        title: 'Les Arcs'
+                                        title: resortName
                                       });
 
    marker.addListener('click', function() {
@@ -82,7 +83,8 @@ function addPin(){
 function initMap() {
    console.log("maps.js: InitMap - GMAPS CALLBACK");
    var firstMap = new google.maps.Map(document.querySelector("#map"), {
-      center: {lat: lat, lng: long},
+      //center: {lat: lat, lng: long},
+      center: new google.maps.LatLng(lat,long),
       zoom: 12
    });
 
