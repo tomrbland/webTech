@@ -12,6 +12,7 @@ google.maps.event.addDomListener(window, 'load', initMap);
 
 function assignLatLong(){
    var data = window.location.search.replace("?", "");
+   data = decodeURI(data);
    data = data.split('+').join(' ');
    data = data.split('%2C').join(',');
    var parts = data.split("=");

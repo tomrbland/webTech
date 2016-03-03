@@ -9,6 +9,7 @@ function buildHeader() {
    var h2 = document.createElement('h2');
 
    var data = window.location.search.replace("?", "");
+   data = decodeURI(data);
    data = data.split('+').join(' ');
    data = data.split('%2C').join(',');
    var parts = data.split("=");
