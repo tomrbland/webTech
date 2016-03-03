@@ -1,9 +1,9 @@
-"use strict"
+"use strict";
 
 addEventListener('load', addNavigation);
 
 function addNavigation(){
-
+   console.log("navigation.js: addNavigation - event on load");
    var navBar = document.querySelector('#nav');
 
    navBar.appendChild(makeDiv('index.html', 'Home'));

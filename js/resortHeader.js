@@ -1,14 +1,19 @@
 "use strict";
+
 addEventListener("load", buildHeader);
+var resortName;
 
 function buildHeader() {
+   console.log("resortHeader.js: buildHeader - event on load");
    var header = document.querySelector("#resort");
    var h2 = document.createElement('h2');
 
    var data = window.location.search.replace("?", "");
    data = data.split('+').join(' ');
    var parts = data.split("=");
-   h2.innerHTML = parts[1];
+   resortName = parts[1];
+   console.log("resortHeader.js: Global resortName set");
+   h2.innerHTML = resortName;
 
    header.appendChild(h2);
 }

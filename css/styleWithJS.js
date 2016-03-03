@@ -1,16 +1,20 @@
 "use strict"
 
 addEventListener('load', sizeOnLoad);
-addEventListener('resize', size);
+addEventListener('resize', sizeOnResize);
 
 function sizeOnLoad(){
-   console.log("sizeOnLoad");
+   console.log("styleWithJS.js: size - event on load");
    size();
    //resizeMap();
 }
 
+function sizeOnResize(){
+   console.log("styleWithJS.js: size - event on resize");
+   size();
+}
+
 function size(){
-   console.log("DoPageSizing");
    var winWidth = window.innerWidth;
    var winHeight = window.innerHeight;
    var header = document.querySelector('header');
@@ -46,7 +50,7 @@ function size(){
       parent.removeChild(map);
 
       if(window.innerWidth > 480){
-         console.log("Div order reviews, map");
+         console.log("styleWithJS.js: Div order reviews, map");
          parent.appendChild(reviews);
          parent.appendChild(map);
 
@@ -68,7 +72,7 @@ function size(){
          reviews.style.overflowY = "scroll";
       }
       else{
-         console.log("Div order map, reviews");
+         console.log("styleWithJS.js: Div order map, reviews");
          parent.appendChild(map);
          parent.appendChild(reviews);
 

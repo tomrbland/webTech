@@ -4,12 +4,13 @@ addEventListener('load', addReviews);
 
 function addReviews()
 {
+   console.log("reviews.js: addReviews - event on load. REQUIRES global resortName");
    for(var i = 0; i< 10; i++){
       var review = document.createElement('div');
       review.className = 'review';
 
       var h3 = document.createElement('h3');
-      h3.innerHTML = i+1 + ") A Review";
+      h3.innerHTML = i+1 + ") A Review for " + resortName;
 
       var p = document.createElement('p');
       p.innerHTML = 'THIS IS MY DAMNING REVIEW ' + lori;
