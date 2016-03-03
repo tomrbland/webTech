@@ -47,9 +47,8 @@ function refreshMap(){
          center: new google.maps.LatLng(lat,long),
          zoom: 12
       });
-      google.maps.event.trigger(map, 'resize');
+      google.maps.event.trigger(map, 'r/*esize');
       addPin(map);
-      map.panTo();
    }
 }
 
@@ -80,7 +79,7 @@ function addPin(){
 
 function initMap() {
    console.log("maps.js: InitMap - GMAPS CALLBACK");
-   var firstMap = new google.maps.Map(document.querySelector("#map"), {
+   var map = new google.maps.Map(document.querySelector("#map"), {
       center: new google.maps.LatLng(lat,long),
       zoom: 12
    });
