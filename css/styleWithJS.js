@@ -6,7 +6,6 @@ addEventListener('resize', sizeOnResize);
 function sizeOnLoad(){
    console.log("styleWithJS.js: size - event on load");
    size();
-   //resizeMap();
 }
 
 function sizeOnResize(){
@@ -28,8 +27,6 @@ function size(){
    reorderDivs(winWidth);
 
    responsive.style.height = setHeight + 'px';
-
-   resizeMap();
 
    function getHeight(o){
       var ptop = parseInt(window.getComputedStyle(o, null).getPropertyValue("padding-top"), 10);

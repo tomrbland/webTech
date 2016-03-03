@@ -7,9 +7,40 @@ var lat = 45.572252;
 var long = 6.829677;
 //Reference: https://developers.google.com/maps/documentation/javascript/reference
 
-function resizeMap(){
+addEventListener('load', assignLatLong);
+
+function assignLatLong(){
+   var data = window.location.search.replace("?", "");
+   data = data.split('+').join(' ');
+   data = data.split('%2C').join(',');
+   var parts = data.split("=");
+   var address = parts[1];
+   codeAddress(address);
+}
+
+function codeAddress(address) {
+   console.log("Coding Address");
+   var geocoder = new google.maps.Geocoder();
+   var address = address;
+   geocoder.geocode( { 'address': address}, geo);
+
+   function geo(results, status){
+      if (status == google.maps.GeocoderStatus.OK) {
+         lat = results[0].geometry.location.lat();
+         long = results[0].geometry.location.lng();
+         console.log("lat: " + lat);
+         console.log("long: " + long);
+      }
+      else {
+         //addToForm(theForm, 'ERROR', 'There was an Error');
+      }
+      refreshMap(); //Now need to move pin etc
+   }
+}
+
+function refreshMap(){
    if(mapInitalised){ //ensure map is init before use;
-      console.log("maps.js: ResizeMap");
+      console.log("maps.js: refreshMap");
 
       //This bodge makes sure the map prints full size
       map = new google.maps.Map(document.querySelector("#map"), {
@@ -54,8 +85,6 @@ function initMap() {
       center: {lat: lat, lng: long},
       zoom: 12
    });
-   firstMap.addListener("idle", resizeMap); //Try to get it to risize when everything settled down.
-   //addPin(firstMap);
 
    mapInitalised = true;
    console.log("maps.js: mapInitalised = True");
