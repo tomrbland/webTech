@@ -17,7 +17,7 @@ body {
 header {
    width: 100%;
    clear: both;
-   background-image: url(/images/banner.svg);
+   background-image: url('/images/plainSVG/banner.svg');
    background-size: 5% 100%;
    background-repeat: repeat-x;
    background-color: rgb(255,255,255);
@@ -47,7 +47,7 @@ header {
    clear:both;
    box-sizing: border-box;
    background-color: rgb(255,255,0);
-   background: url("/images/bar.svg");
+   background: url("/images/plainSVG/bar.svg");
    background-size: 100% 100%;
 }
 
@@ -57,14 +57,14 @@ header {
 }
 
 .navButton:hover{
-   background: url("/images/barHover.svg");
+   background: url("/images/plainSVG/barHover.svg");
    background-size: 100% 100%;
    cursor: pointer;
    /*cursor: hand;*/
 }
 
 .navButton:active{
-   background: url("/images/barClicked.svg");
+   background: url("/images/plainSVG/barClicked.svg");
    background-size: 100% 100%;
    cursor: pointer;
    /*cursor: hand;*/
