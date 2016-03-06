@@ -103,6 +103,7 @@ header {
    clear: right;
    float: right;
    background-color: rgb(255,0,255);
+   font-size:14px;
 }
 
 .dayblock {
