@@ -96,12 +96,89 @@ header {
    background-color: rgb(100,100,255);
 }
 
-#weather{
+#weather{ 
    width: 40%;
    height: 60%;
    clear: right;
    float: right;
    background-color: rgb(255,0,255);
+}
+
+.dayblock {
+   width: 130px;
+   height: 300px;
+   float: left;
+   margin-top:12px;
+   margin-left:32px;
+   border-radius: 5px;
+   box-shadow: 2px 2px 5px grey;
+   background-color: rgb(255,255,255);
+}
+
+.day{
+   width: 130px;
+   height: 50px;
+   float: left;
+   border-radius: 5px;
+   border-style: solid;
+   border-color: black;
+}
+
+.day p {
+   text-align: center;
+   line-height: 50px;
+   margin: auto;
+}
+
+.summary{
+   width: 130px;
+   height: 75px;
+   float: left;
+   border-radius: 5px;
+   border-style: solid;
+   border-color: black;
+}
+
+.summary p{
+   text-align: center;
+   line-height: 18px;
+   margin: auto;
+}
+
+.icon{
+   width: 130px;
+   height: 50px;
+   float: left;
+   border-radius: 5px;
+   border-style: solid;
+   border-color: black;
+}
+
+.temperature{
+   width: 130px;
+   height: 30px;
+   float: left;
+   border-radius: 5px;
+   border-style: solid;
+   border-color: black;
+}
+
+.visibility{
+   width: 130px;
+   height: 30px;
+   float: left;
+   border-radius: 5px;
+   border-style: solid;
+   border-color: black;
+}
+
+.wind{
+   width: 130px;
+   height: 30px;
+   float: left;
+   border-radius: 5px;
+   border-style: solid;
+   border-color: black;
 }
 
 #map{
