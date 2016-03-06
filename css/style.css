@@ -97,92 +97,6 @@ header {
    background-color: rgb(100,100,255);
 }
 
-#weather{
-   width: 40%;
-   height: 60%;
-   clear: right;
-   float: right;
-   background-color: rgb(255,0,255);
-   font-size:14px;
-}
-
-.dayblock {
-   width: 130px;
-   height: 300px;
-   float: left;
-   margin-top:12px;
-   margin-left:32px;
-   border-radius: 5px;
-   box-shadow: 2px 2px 5px grey;
-   background-color: rgb(255,255,255);
-}
-
-.day{
-   width: 130px;
-   height: 50px;
-   float: left;
-   border-radius: 5px;
-   border-style: solid;
-   border-color: black;
-}
-
-.day p {
-   text-align: center;
-   line-height: 50px;
-   margin: auto;
-}
-
-.summary{
-   width: 130px;
-   height: 75px;
-   float: left;
-   border-radius: 5px;
-   border-style: solid;
-   border-color: black;
-}
-
-.summary p{
-   text-align: center;
-   line-height: 18px;
-   margin: auto;
-}
-
-.icon{
-   width: 130px;
-   height: 50px;
-   float: left;
-   border-radius: 5px;
-   border-style: solid;
-   border-color: black;
-}
-
-.temperature{
-   width: 130px;
-   height: 30px;
-   float: left;
-   border-radius: 5px;
-   border-style: solid;
-   border-color: black;
-}
-
-.visibility{
-   width: 130px;
-   height: 30px;
-   float: left;
-   border-radius: 5px;
-   border-style: solid;
-   border-color: black;
-}
-
-.wind{
-   width: 130px;
-   height: 30px;
-   float: left;
-   border-radius: 5px;
-   border-style: solid;
-   border-color: black;
-}
-
 #map{
    width: 40%;
    height: 40%;
@@ -191,9 +105,98 @@ header {
    background-color: rgb(255,100,0);
 }
 
+#weather{
+   width: 40%;
+   height: 50%;
+   clear: right;
+   float: right;
+   background-color: rgb(255,255,255);
+   font-size:16px;
+}
+
+.dayblock {
+   width: 130px;
+   height: 282px;
+   float: left;
+   margin-top:15px;
+   margin-right:13px;
+   border-radius: 5px;
+   box-shadow: 0 0 1px 1px #CCC;
+   background-color: rgb(255,255,255);
+}
+
+#dayblock0 {
+   margin-left:10px;
+}
+
+.day{
+   width: 130px;
+   height: 50px;
+   float: left;
+   border-top-left-radius: 5px; /* MAY NOT WORK ON IE8 */
+   border-top-right-radius: 5px;
+   box-shadow: 0 0 1px 1px #CCC; /* MAY NOT WORK ON IE8 */
+}
+
+.day p {
+   text-align: center;
+   line-height: 50px;
+   margin: auto;
+   font-size: 20px;
+}
+
+.icon{
+   width: 130px;
+   height: 75px;
+   float: left;
+   padding-top: 8px;
+}
+
+.summary{
+   width: 130px;
+   height: 75px;
+   float: left;
+   padding-top: 3px;
+}
+
+.summary p{
+   text-align: center;
+   line-height: 18px;
+   margin: 6px;
+}
+
+.wind{
+   width: 130px;
+   height: 30px;
+   float: left;
+   box-shadow: 0 0 1px 1px #CCC;
+   text-align: center;
+   padding-top: 12px;
+}
+
+.minTemperature {
+   width: 58px;
+   height: 23px;
+   float: left;
+   font-size: 20px;
+   color: blue;
+   text-align: center;
+   padding-top: 6px;
+}
+
+.maxTemperature {
+   width: 58px;
+   height: 23px;
+   float: right;
+   font-size: 20px;
+   color: red;
+   text-align: center;
+   padding-top: 6px;
+}
+
 #reviews{
    width: 60%;
-   height: 60%;
+   height: 50%;
    clear: left;
    float: left;
    padding: 0px;
@@ -206,9 +209,9 @@ header {
    padding: 14px;
    margin: 15px;
    box-sizing: border-box;
-   background-color: rgb(240,240,240);
+   background-color: rgb(255,255,255);
    border-radius: 5px;
-   box-shadow: 2px 2px 5px grey;
+   box-shadow: 0 0 1px 1px #CCC;
 }
 
 /* unvisited link */

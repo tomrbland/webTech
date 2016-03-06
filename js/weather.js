@@ -42,9 +42,8 @@ function displayWeatherData(responseObject) {
    for (var i = 0; i < 3; i ++) {
       displayIcons(responseObject, i);
       displayDailySummaries(responseObject, i);
-      displayTemperatures(responseObject, i);
-      displayVisibilityLevels(responseObject, i);
       displayWindSpeeds(responseObject, i);
+      displayTemperatures(responseObject, i);
    }
 }
 
@@ -93,19 +92,16 @@ function displayDailySummaries(responseObject, i) {
    display(responseObject.daily.data[i].summary, "summary" + i);
 }
 
-function displayTemperatures(responseObject, i) {
-   var minTemp = convertToWholeNum(responseObject.daily.data[i].temperatureMin);
-   var maxTemp = convertToWholeNum(responseObject.daily.data[i].temperatureMax);
-   display("Min: " + minTemp + "°C" + "  Max: " + maxTemp + "°C", "temperature" + i);
-}
-
-function displayVisibilityLevels(responseObject, i) {
-   display("Visibility: " + responseObject.daily.data[i].visibility + " miles", "visibility" + i);
-}
-
 function displayWindSpeeds(responseObject, i) {
    var windSpeed = convertToWholeNum(responseObject.daily.data[i].windSpeed)
-   display("Wind speed: " + windSpeed + "mph", "wind" + i);
+   display("Wind: " + windSpeed + "mph", "wind" + i);
+}
+
+function displayTemperatures(responseObject, i) {
+   var minTemp = convertToWholeNum(responseObject.daily.data[i].temperatureMin);
+   display(minTemp + "°C", "minTemperature" + i);
+   var maxTemp = convertToWholeNum(responseObject.daily.data[i].temperatureMax);
+   display(maxTemp + "°C", "maxTemperature" + i);
 }
 
 function convertToWholeNum(rationalNum) {

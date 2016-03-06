@@ -44,12 +44,12 @@ function size(){
       var parent = reviews.parentNode;
 
       parent.removeChild(reviews);
-      parent.removeChild(map);
+      parent.removeChild(weather);
 
       if(window.innerWidth > 480){
          console.log("styleWithJS.js: Div order reviews, map");
          parent.appendChild(reviews);
-         parent.appendChild(map);
+         parent.appendChild(weather);
 
          photos.style.float = "left";
          weather.style.float = "right";
@@ -61,16 +61,16 @@ function size(){
          map.style.clear = "right";
          reviews.style.clear = "left";
 
-         photos.style.width = "60%";
-         weather.style.width = "40%";
-         map.style.width = "40%";
-         reviews.style.width = "60%";
+         photos.style.width = "65%";
+         weather.style.width = "35%";
+         map.style.width = "35%";
+         reviews.style.width = "65%";
 
          reviews.style.overflowY = "scroll";
       }
       else{
          console.log("styleWithJS.js: Div order map, reviews");
-         parent.appendChild(map);
+         parent.appendChild(weather);
          parent.appendChild(reviews);
 
          photos.style.float = "none";
