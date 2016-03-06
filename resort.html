@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"> <!-- Trigger new browsers in to XHTML. Then define the human language twice - once for old browsers, once for new.-->
 <head>
    <meta charset="UTF-8"/><!--Doesn't make webpage use UTF-8 That's in the packet header. This is here to tell validator bots that it's in UTF-8-->
-   <title>maps</title>
+   <title>Resort Report</title>
    <!--crossplatform favicon generated here: realfavicongenerator.net-->
    <link rel="apple-touch-icon" sizes="57x57" href="/images/icons/apple-touch-icon-57x57.png"/>
    <link rel="apple-touch-icon" sizes="60x60" href="/images/icons/apple-touch-icon-60x60.png"/>
@@ -39,7 +39,32 @@
       <div id="resort"></div>
       <div id="responsive">
          <div id="photos">PHOTOS</div>
-         <div id="weather">WEATHER</div>
+         <div id="weather">
+            <div class="dayblock">
+               <div id="day0" class="day"></div>
+               <canvas id="icon0" width="128" height="50" class = "icon"></canvas>
+               <div id="summary0" class="summary"></div>
+               <div id="temperature0" class="temperature"></div>
+               <div id="visibility0" class="visibility"></div>
+               <div id="wind0" class="wind"></div>
+            </div>
+            <div class="dayblock">
+               <div id="day1" class="day"></div>
+               <canvas id="icon1" width="128" height="50" class = "icon"></canvas>
+               <div id="summary1" class="summary"></div>
+               <div id="temperature1" class="temperature"></div>
+               <div id="visibility1" class="visibility"></div>
+               <div id="wind1" class="wind"></div>
+            </div>
+            <div class="dayblock">
+               <div id="day2" class="day"></div>
+               <canvas id="icon2" width="128" height="50" class = "icon"></canvas>
+               <div id="summary2" class="summary"></div>
+               <div id="temperature2" class="temperature"></div>
+               <div id="visibility2" class="visibility"></div>
+               <div id="wind2" class="wind"></div>
+            </div>
+         </div>
          <div id="map">MAP</div>
          <div id="reviews"></div>
       </div>
