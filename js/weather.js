@@ -1,63 +1,123 @@
-/*
-https://developer.forecast.io/docs/v2
+// MAGIC NUMBERS !~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/
 
-JSON.stringify turns a Javascript object into JSON text and stores that JSON text in a string.
-JSON.parse turns a string of JSON text into a Javascript object.
-*/
+"use strict"
 
-/* THIS WORKS
-   var ForecastIo = require('forecastio');
-   // The forecast for London!
-   var forecastIo = new ForecastIo('885a85ff4be082090e0348da41f005dd');
-   forecastIo.forecast('51.506', '-0.127').then(function(data) {
+window.onload = function() {
+   displayDates();
+   // NOTE_ TO SELF: REMEMER TO CHECK FOR FLAGS IN CASE DATA UNAVAILABLE
+   var xhr = new XMLHttpRequest();
+   xhr.onload = function() {
+      if (xhr.status === 200) {
+         console.log("Response OK.")
+         var responseObject = JSON.parse(xhr.responseText);
 
-   console.log(JSON.stringify(data, null, 2));
-   });
-*/
-
-
-/* PARSING EXPERIMENTS... */
-   var ForecastIo = require('forecastio');
-
-   var options = {
-     units: 'uk2'
-   };
-
-   // The forecast for Bristol campus!
-   var forecastIo = new ForecastIo('885a85ff4be082090e0348da41f005dd');
-   forecastIo.forecast('51.457040', '-2.600711', options).then(function(data) {
-
-      var jsonString = JSON.stringify(data, null, 2);
-      //console.log(jsonString);
-
-      var jsObject = JSON.parse(jsonString);
-      //console.log(jsObject);
-
-      var weatherData;
-
-      console.log(jsObject.hourly.summary);
-      //console.log(jsObject.currently);
-      //console.log(jsObject.minutely.data[2]);
-      //console.log(jsObject.alerts);
-      //console.log(jsObject.nearestStormDistance);
-
-      for (var i = 0; i < jsObject.hourly.data.length; i++) {
-         // Builds a string to print via concatenation.
-      //   weatherData += "\n" + jsObject.hourly.data[i].summary;
-      //   weatherData += "\n" + jsObject.hourly.data[i].windSpeed;
+         displayWeatherData(responseObject);
       }
-      //console.log(weatherData);
-   });
+   };
+   xhr.open("GET", "js/weatherData.json", true);
+   xhr.send(null);
+}
 
+function displayDates() {
+   for (var i = 0; i < 3; i++) {
+      var date = computeDate(i);
+      display(date, "day" + i);
+   }
+}
 
+function computeDate (i) {
+   var d = new Date();
+   d.setDate(d.getDate() + i);
+   var dateStr = d.toString();
+   var formattedDateStr = dateStr.replace(" ", ", ");
+   formattedDateStr = formattedDateStr.slice(0, 11);
+   // Removes leading zeroes from date.
+   if (formattedDateStr.charAt(9) == '0') {
+      formattedDateStr = formattedDateStr.replace("0", "");
+   }
+   return formattedDateStr;
+}
 
+function displayWeatherData(responseObject) {
+   for (var i = 0; i < 3; i ++) {
+      displayIcons(responseObject, i);
+      displayDailySummaries(responseObject, i);
+      displayTemperatures(responseObject, i);
+      displayVisibilityLevels(responseObject, i);
+      displayWindSpeeds(responseObject, i);
+   }
+}
+
+function displayIcons(responseObject, i) {
    /*
-   printDrones(newContent);
+      icon: A machine-readable text summary of this data point, suitable for selecting
+      an icon for display. If defined, this property will have one of the following
+      values:
+                     clear-day,
+                     clear-night,
+                     rain,
+                     snow,
+                     sleet,
+                     wind,
+                     fog,
+                     cloudy,
+                     partly-cloudy-day,
+                     partly-cloudy-night.
 
-   function printDrones(s)
-   {
+      (Developers should ensure that a
+      sensible default is defined, as additional values, such as hail, thunderstorm,
+      or tornado, may be defined in the future.)
+   */
+   switch(responseObject.daily.data[i].icon) {
+      case "clear-day":                displayIcon(Skycons.CLEAR_DAY, i);                  break;
+      case "clear-night":              displayIcon(Skycons.CLEAR_DAY, i);                  break;
+      case "rain":                     displayIcon(Skycons.RAIN, i);                       break;
+      case "snow":                     displayIcon(Skycons.SNOW, i);                       break;
+      case "sleet":                    displayIcon(Skycons.SLEET, i);                      break;
+      case "wind":                     displayIcon(Skycons.WIND, i);                       break;
+      case "fog":                      displayIcon(Skycons.FOG, i);                        break;
+      case "cloudy":                   displayIcon(Skycons.CLOUDY, i);                     break;
+      case "partly-cloudy-day":        displayIcon(Skycons.PARTLY_CLOUDY_DAY, i);          break;
+      case "partly-cloudy-night":      displayIcon(Skycons.PARTLY_CLOUDY_DAY, i);          break;
+      default:                         displayIcon(Skycons.PARTLY_CLOUDY_DAY, i);
+   }
+}
+
+function displayIcon(skyconType, i) {
+   var skycons = new Skycons();
+   skycons.add(document.getElementById("icon" + i), skyconType);
+   skycons.play();
+}
+
+function displayDailySummaries(responseObject, i) {
+   display(responseObject.daily.data[i].summary, "summary" + i);
+}
+
+function displayTemperatures(responseObject, i) {
+   var minTemp = convertToWholeNum(responseObject.daily.data[i].temperatureMin);
+   var maxTemp = convertToWholeNum(responseObject.daily.data[i].temperatureMax);
+   display("Min: " + minTemp + "°C" + "  Max: " + maxTemp + "°C", "temperature" + i);
+}
+
+function displayVisibilityLevels(responseObject, i) {
+   display("Visibility: " + responseObject.daily.data[i].visibility + " miles", "visibility" + i);
+}
+
+function displayWindSpeeds(responseObject, i) {
+   var windSpeed = convertToWholeNum(responseObject.daily.data[i].windSpeed)
+   display("Wind speed: " + windSpeed + "mph", "wind" + i);
+}
+
+function convertToWholeNum(rationalNum) {
+   var rationalNumStr = rationalNum.toString();
+   var cutoff = rationalNumStr.indexOf('.');
+   var wholeNumStr = rationalNumStr.slice(0, cutoff);
+   return wholeNumStr;
+}
+
+function display(str, idOfElement) {
    var pelement = document.createElement("p");
-   var textnode = document.createTextNode(s);
+   var textnode = document.createTextNode(str);
    pelement.appendChild(textnode);
-   document.getElementById("responseCheck").appendChild(pelement);
-   } */
+   document.getElementById(idOfElement).appendChild(pelement);
+}
