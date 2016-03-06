@@ -11,6 +11,7 @@ body {
    min-width: 320px;
    background-color: #E0E0E0;
    color: #303030;
+   font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 /* The header and footer. */
@@ -96,7 +97,7 @@ header {
    background-color: rgb(100,100,255);
 }
 
-#weather{ 
+#weather{
    width: 40%;
    height: 60%;
    clear: right;
