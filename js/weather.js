@@ -1,8 +1,11 @@
 // MAGIC NUMBERS !~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/
 
 "use strict"
+addEventListener("load", weather);
 
-window.onload = function() {
+function weather() {
+   buildWeather();
+
    displayDates();
    // NOTE_ TO SELF: REMEMER TO CHECK FOR FLAGS IN CASE DATA UNAVAILABLE
    var xhr = new XMLHttpRequest();
@@ -16,6 +19,55 @@ window.onload = function() {
    };
    xhr.open("GET", "js/weatherData.json", true);
    xhr.send(null);
+
+   function buildWeather(){
+      var container = document.querySelector('#weather');
+      for(var i = 0; i < 3; i++){
+         var day = newDay(i);
+         day.className = "dayblock";
+         container.appendChild(day);
+      }
+
+      function newDay(number){
+         var block = document.createElement('div');
+         block.id = 'dayblock'+number;
+         block.className = 'dayblock';
+
+         var day = document.createElement('div');
+         day.id = 'day'+number;
+         day.className = 'day';
+         block.appendChild(day);
+
+         var icon = document.createElement('canvas');
+         icon.id = 'icon'+number;
+         icon.className = 'icon';
+         /*icon.width = "128";
+         icon.height = "50";*/
+         block.appendChild(icon);
+
+         var summary = document.createElement('div');
+         summary.id = 'summary'+number;
+         summary.className = 'summary';
+         block.appendChild(summary);
+
+         var wind = document.createElement('div');
+         wind.id = 'wind'+number;
+         wind.className = 'wind';
+         block.appendChild(wind);
+
+         var minTemperature = document.createElement('div');
+         minTemperature.id = 'minTemperature'+number;
+         minTemperature.className = 'minTemperature';
+         block.appendChild(minTemperature);
+
+         var maxTemperature = document.createElement('div');
+         maxTemperature.id = 'maxTemperature'+number;
+         maxTemperature.className = 'maxTemperature';
+         block.appendChild(maxTemperature);
+
+         return block;
+      }
+   }
 }
 
 function displayDates() {
