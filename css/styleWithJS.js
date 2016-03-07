@@ -27,8 +27,10 @@ function size(){
 
    var sumHeight = getHeight(header) + getHeight(nav) + getHeight(resort);
    var setHeight = winHeight - sumHeight;
+   console.log("setHeight" + setHeight);
 
-   responsive.style.height = setHeight + 'px';
+   //                    was setHeight
+   responsive.style.height = 559 + 'px';
 
    function getHeight(o){
       /*var ptop = parseInt(window.getComputedStyle(o, null).getPropertyValue("padding-top"), 10);
@@ -36,8 +38,6 @@ function size(){
       var mtop = parseInt(window.getComputedStyle(o,null).getPropertyValue("margin-top"),10);
       var mbottom = parseInt(window.getComputedStyle(o,null).getPropertyValue("margin-bottom"),10);
       var height = parseInt(window.getComputedStyle(o, null).getPropertyValue('height'), 10);*/
-      console.log("clientHeight: " + o.clientHeight);
-      console.log("offsetHeight: " + o.offsetHeight);
 
       return o.offsetHeight;
       //return ptop + pbottom + mtop + mbottom + height;
