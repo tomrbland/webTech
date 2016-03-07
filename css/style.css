@@ -121,10 +121,10 @@ header {
    margin:2%;
    box-sizing: border-box;
    border-radius: 5px;
-   border-width: 1px;
-   border-color: #ccc;
-   border-style: solid;
    background-color: rgb(255,255,255);
+   border-radius: 5px;
+   box-shadow: 0 0 1px 1px #CCC;
+   vertical-align: bottom;
 }
 
 .day{
@@ -150,9 +150,11 @@ header {
 
 .summary{
    width: 100%;
+   height: 4em;
    padding: 10px;
    box-sizing: border-box;
    text-align: center;
+   overflow-y: auto;
 }
 
 .wind{

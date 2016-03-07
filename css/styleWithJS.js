@@ -43,34 +43,40 @@ function size(){
       var reviews = document.querySelector('#reviews');
       var parent = reviews.parentNode;
 
-      parent.removeChild(reviews);
+      parent.removeChild(photos);
+      parent.removeChild(weather);
       parent.removeChild(map);
+      parent.removeChild(reviews);
 
-      if(window.innerWidth > 480){
-         console.log("styleWithJS.js: Div order reviews, map");
-         parent.appendChild(reviews);
+      if(window.innerWidth > 768){
+         console.log("styleWithJS.js: Div order reviews, photos");
          parent.appendChild(map);
+         parent.appendChild(weather);
+         parent.appendChild(reviews);
+         parent.appendChild(photos);
 
-         photos.style.float = "left";
+         photos.style.float = "right";
          weather.style.float = "right";
-         map.style.float = "right";
+         map.style.float = "left";
          reviews.style.float = "left";
 
-         photos.style.clear = "left";
+         photos.style.clear = "right";
          weather.style.clear = "right";
-         map.style.clear = "right";
+         map.style.clear = "left";
          reviews.style.clear = "left";
 
-         photos.style.width = "65%";
+         photos.style.width = "35%";
          weather.style.width = "35%";
-         map.style.width = "35%";
+         map.style.width = "65%";
          reviews.style.width = "65%";
 
          reviews.style.overflowY = "scroll";
       }
       else{
-         console.log("styleWithJS.js: Div order map, reviews");
+         console.log("styleWithJS.js: Div order photos, reviews");
+         parent.appendChild(weather);
          parent.appendChild(map);
+         parent.appendChild(photos);
          parent.appendChild(reviews);
 
          photos.style.float = "none";
