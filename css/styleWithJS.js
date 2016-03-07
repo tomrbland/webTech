@@ -44,12 +44,12 @@ function size(){
       var parent = reviews.parentNode;
 
       parent.removeChild(reviews);
-      parent.removeChild(weather);
+      parent.removeChild(map);
 
       if(window.innerWidth > 480){
          console.log("styleWithJS.js: Div order reviews, map");
          parent.appendChild(reviews);
-         parent.appendChild(weather);
+         parent.appendChild(map);
 
          photos.style.float = "left";
          weather.style.float = "right";
@@ -70,7 +70,7 @@ function size(){
       }
       else{
          console.log("styleWithJS.js: Div order map, reviews");
-         parent.appendChild(weather);
+         parent.appendChild(map);
          parent.appendChild(reviews);
 
          photos.style.float = "none";
