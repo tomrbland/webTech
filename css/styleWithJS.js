@@ -36,8 +36,9 @@ function size(){
       var mtop = parseInt(window.getComputedStyle(o,null).getPropertyValue("margin-top"),10);
       var mbottom = parseInt(window.getComputedStyle(o,null).getPropertyValue("margin-bottom"),10);
       var height = parseInt(window.getComputedStyle(o, null).getPropertyValue('height'), 10);*/
-
-      return o.offsetHeight;
+      
+      //offsetHeight
+      return o.clientHeight;
       //return ptop + pbottom + mtop + mbottom + height;
    }
 
