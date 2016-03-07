@@ -11,7 +11,7 @@ function weather() {
    var xhr = new XMLHttpRequest();
    xhr.onload = function() {
       if (xhr.status === 200) {
-         console.log("Response OK.")
+         console.log("weather.js: Response OK.")
          var responseObject = JSON.parse(xhr.responseText);
 
          displayWeatherData(responseObject);

@@ -21,7 +21,7 @@ function assignLatLong(){
 }
 
 function codeAddress(address) {
-   console.log("Coding Address");
+   console.log("maps.js: Coding Address in to Lat Long");
    var geocoder = new google.maps.Geocoder();
    var address = address;
    geocoder.geocode( { 'address': address}, geo);
@@ -30,8 +30,8 @@ function codeAddress(address) {
       if (status == google.maps.GeocoderStatus.OK) {
          lat = results[0].geometry.location.lat();
          long = results[0].geometry.location.lng();
-         console.log("lat: " + lat);
-         console.log("long: " + long);
+         console.log("maps.js: lat: " + lat);
+         console.log("maps.js: long: " + long);
       }
       else {
          //addToForm(theForm, 'ERROR', 'There was an Error');
@@ -48,7 +48,7 @@ function refreshMap(){
          center: new google.maps.LatLng(lat,long),
          zoom: 12
       });
-      google.maps.event.trigger(map, 'r/*esize');
+      google.maps.event.trigger(map, 'resize');
       addPin(map);
    }
 }

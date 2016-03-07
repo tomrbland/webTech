@@ -26,6 +26,8 @@ function size(){
    reorderDivs(winWidth);
 
    var sumHeight = getHeight(header) + getHeight(nav) + getHeight(resort);
+   console.log("styleWithJS.js: winHeight: " + winHeight);
+   console.log("styleWithJS.js: sumHeight: " + sumHeight);
    var setHeight = winHeight - sumHeight;
 
    responsive.style.height = setHeight + 'px';
