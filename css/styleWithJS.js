@@ -16,6 +16,7 @@ function sizeOnResize(){
 function size(){
    var winWidth = window.innerWidth;
    var winHeight = window.innerHeight;
+   var winHeight2 = document.querySelector('html').clientHeight;
 
    var header = document.querySelector('header');
    var nav = document.querySelector('#nav');
@@ -28,17 +29,6 @@ function size(){
    var setHeight = winHeight - sumHeight;
 
    responsive.style.height = setHeight + 'px';
-
-   function get_viewport_size(){
-    if(typeof(window.innerWidth) == 'number'){
-        my_height = window.innerHeight;
-    }else if(document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight)){
-        my_height = document.documentElement.clientHeight;
-    }else if(document.body && (document.body.clientWidth || document.body.clientHeight)){
-        my_height = document.body.clientHeight;
-    }
-    return {my_height};
-};
 
    function getHeight(o){
       /*var ptop = parseInt(window.getComputedStyle(o, null).getPropertyValue("padding-top"), 10);
