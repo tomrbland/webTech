@@ -89,12 +89,40 @@ header {
    background-color: rgb(0,255,0);
 }
 
+
 #photos{
    width: 60%;
    height: 40%;
    clear: left;
    float: left;
    background-color: rgb(100,100,255);
+   position: relative;
+}
+
+#img {
+   z-index: 9;
+   height: 100%;
+   position: absolute;
+   left: 50%;
+   margin-left: 0px; /* -Half the width */
+}
+
+#left_arrow, #right_arrow {
+   position: absolute;
+   width: 10%;
+   height: 100%;
+   z-index: 10;
+   background: url("/images/plainSVG/arrow.svg");
+   background-size: 100% 100%;
+}
+
+#left_arrow {
+   transform: scale(-1);
+   left: 0;
+}
+
+#right_arrow {
+   right: 0;
 }
 
 #map{
