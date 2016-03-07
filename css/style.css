@@ -107,7 +107,7 @@ header {
 
 #weather{
    width: 40%;
-   height: 50%;
+   height: 60%;
    overflow: auto;
    clear: right;
    float: right;
@@ -193,7 +193,7 @@ header {
 
 #reviews{
    width: 60%;
-   height: 50%;
+   height: 60%;
    clear: left;
    float: left;
    padding: 0px;

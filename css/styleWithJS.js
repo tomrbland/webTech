@@ -21,10 +21,10 @@ function size(){
    var resort = document.querySelector('#resort');
    var responsive = document.querySelector('#responsive');
 
+   reorderDivs(winWidth);
+
    var sumHeight = getHeight(header) + getHeight(nav) + getHeight(resort);
    var setHeight = winHeight - sumHeight;
-
-   reorderDivs(winWidth);
 
    responsive.style.height = setHeight + 'px';
 
