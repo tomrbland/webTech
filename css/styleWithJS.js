@@ -26,11 +26,12 @@ function size(){
    reorderDivs(winWidth);
 
    var sumHeight = getHeight(header) + getHeight(nav) + getHeight(resort);
+   console.log("winHeight: " + winHeight);
+   console.log("sumHeight: " + sumHeight);
    var setHeight = winHeight - sumHeight;
-   console.log("setHeight" + setHeight);
 
-   //                    was setHeight
-   responsive.style.height = 559 + 'px';
+                           // should be 559 on my screen
+   responsive.style.height = setHeight + 'px';
 
    function getHeight(o){
       /*var ptop = parseInt(window.getComputedStyle(o, null).getPropertyValue("padding-top"), 10);
