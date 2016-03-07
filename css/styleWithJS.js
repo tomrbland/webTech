@@ -16,26 +16,31 @@ function sizeOnResize(){
 function size(){
    var winWidth = window.innerWidth;
    var winHeight = window.innerHeight;
+   var winHeight2 = document.querySelector('html').clientHeight;
+
    var header = document.querySelector('header');
    var nav = document.querySelector('#nav');
    var resort = document.querySelector('#resort');
    var responsive = document.querySelector('#responsive');
 
+   reorderDivs(winWidth);
+
    var sumHeight = getHeight(header) + getHeight(nav) + getHeight(resort);
    var setHeight = winHeight - sumHeight;
-
-   reorderDivs(winWidth);
 
    responsive.style.height = setHeight + 'px';
 
    function getHeight(o){
-      var ptop = parseInt(window.getComputedStyle(o, null).getPropertyValue("padding-top"), 10);
+      /*var ptop = parseInt(window.getComputedStyle(o, null).getPropertyValue("padding-top"), 10);
       var pbottom = parseInt(window.getComputedStyle(o,null).getPropertyValue("padding-bottom"),10);
       var mtop = parseInt(window.getComputedStyle(o,null).getPropertyValue("margin-top"),10);
       var mbottom = parseInt(window.getComputedStyle(o,null).getPropertyValue("margin-bottom"),10);
-      var height = parseInt(window.getComputedStyle(o, null).getPropertyValue('height'), 10);
-      return ptop + pbottom + mtop + mbottom + height;
+      var height = parseInt(window.getComputedStyle(o, null).getPropertyValue('height'), 10);*/
+
+      return o.offsetHeight;
+      //return ptop + pbottom + mtop + mbottom + height;
    }
+
    function reorderDivs(width){
       var photos = document.querySelector('#photos');
       var weather = document.querySelector('#weather');
@@ -43,34 +48,40 @@ function size(){
       var reviews = document.querySelector('#reviews');
       var parent = reviews.parentNode;
 
-      parent.removeChild(reviews);
+      parent.removeChild(photos);
+      parent.removeChild(weather);
       parent.removeChild(map);
+      parent.removeChild(reviews);
 
-      if(window.innerWidth > 480){
-         console.log("styleWithJS.js: Div order reviews, map");
-         parent.appendChild(reviews);
+      if(window.innerWidth > 768){
+         console.log("styleWithJS.js: Div order reviews, photos");
          parent.appendChild(map);
+         parent.appendChild(weather);
+         parent.appendChild(reviews);
+         parent.appendChild(photos);
 
-         photos.style.float = "left";
+         photos.style.float = "right";
          weather.style.float = "right";
-         map.style.float = "right";
+         map.style.float = "left";
          reviews.style.float = "left";
 
-         photos.style.clear = "left";
+         photos.style.clear = "right";
          weather.style.clear = "right";
-         map.style.clear = "right";
+         map.style.clear = "left";
          reviews.style.clear = "left";
 
-         photos.style.width = "65%";
+         photos.style.width = "35%";
          weather.style.width = "35%";
-         map.style.width = "35%";
+         map.style.width = "65%";
          reviews.style.width = "65%";
 
          reviews.style.overflowY = "scroll";
       }
       else{
-         console.log("styleWithJS.js: Div order map, reviews");
+         console.log("styleWithJS.js: Div order photos, reviews");
+         parent.appendChild(weather);
          parent.appendChild(map);
+         parent.appendChild(photos);
          parent.appendChild(reviews);
 
          photos.style.float = "none";
