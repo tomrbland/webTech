@@ -14,7 +14,6 @@ body {
    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
-/* The header and footer. */
 header {
    width: 100%;
    clear: both;
@@ -28,7 +27,6 @@ header {
    text-align: center;
    margin: auto;
    clear: both;
-   /*min-height: 4em;*/
    padding: 14px;
    margin: 15px;
    box-sizing: border-box;
@@ -68,7 +66,7 @@ header {
    background: url("/images/plainSVG/barClicked.svg");
    background-size: 100% 100%;
    cursor: pointer;
-   /*cursor: hand;*/
+   /*cursor: hand; may be needed for IE. */
 }
 
 #resortContainer{
@@ -104,7 +102,7 @@ header {
    height: 100%;
    position: absolute;
    left: 50%;
-   margin-left: 0px; /* -Half the width */
+   margin-left: 0px; /* This gets calculated dynamically to be minus half the width of the image. */
 }
 
 #left_arrow, #right_arrow {
