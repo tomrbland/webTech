@@ -4,10 +4,10 @@
 // The server is configured to match the most restrictive publishing sites.
 
 // Load the web-server, file-system and file-path modules.
-var http = require('http');
-var https = require('https');
-var fs = require('fs');
-var path = require('path');
+var http = require("http");
+var https = require("https");
+var fs = require("fs");
+var path = require("path");
 
 // The default port numbers are the standard ones [80,443] for convenience.
 // Change them to e.g. [8080,8443] to avoid privilege or clash problems.
@@ -16,41 +16,41 @@ var ports = [8081, 8443];
 // The most common standard file extensions are supported.
 // The most common non-standard file extensions are excluded, with a message.
 var types = {
-    '.html' : 'text/html, application/xhtml+xml',
-    '.css'  : 'text/css',
-    '.js'   : 'application/javascript',
-    '.png'  : 'image/png',
-    '.mp3'  : 'audio/mpeg', // audio
-    '.aac'  : 'audio/aac',  // audio
-    '.mp4'  : 'video/mp4',  // video
-    '.webm' : 'video/webm', // video
-    '.gif'  : 'image/gif',  // only if imported unchanged
-    '.jpeg' : 'image/jpeg', // only if imported unchanged
-    '.svg'  : 'image/svg+xml',
-    '.json' : 'application/json',
-    '.pdf'  : 'application/pdf',
-    '.txt'  : 'text/plain', // plain text only
-    '.ttf'  : 'application/x-font-ttf',
-    '.xhtml': '#not suitable for dual delivery, use .html',
-    '.htm'  : '#proprietary, non-standard, use .html',
-    '.jpg'  : '#common but non-standard, use .jpeg',
-    '.rar'  : '#proprietary, non-standard, platform dependent, use .zip',
-    '.docx' : '#proprietary, non-standard, platform dependent, use .pdf',
-    '.doc'  : '#proprietary, non-standard, platform dependent, ' +
-              'closed source, unstable over versions and installations, ' +
-              'contains unsharable personal and printer preferences, use .pdf',
+    ".html" : "text/html, application/xhtml+xml",
+    ".css"  : "text/css",
+    ".js"   : "application/javascript",
+    ".png"  : "image/png",
+    ".mp3"  : "audio/mpeg", // audio
+    ".aac"  : "audio/aac",  // audio
+    ".mp4"  : "video/mp4",  // video
+    ".webm" : "video/webm", // video
+    ".gif"  : "image/gif",  // only if imported unchanged
+    ".jpeg" : "image/jpeg", // only if imported unchanged
+    ".svg"  : "image/svg+xml",
+    ".json" : "application/json",
+    ".pdf"  : "application/pdf",
+    ".txt"  : "text/plain", // plain text only
+    ".ttf"  : "application/x-font-ttf",
+    ".xhtml": "#not suitable for dual delivery, use .html",
+    ".htm"  : "#proprietary, non-standard, use .html",
+    ".jpg"  : "#common but non-standard, use .jpeg",
+    ".rar"  : "#proprietary, non-standard, platform dependent, use .zip",
+    ".docx" : "#proprietary, non-standard, platform dependent, use .pdf",
+    ".doc"  : "#proprietary, non-standard, platform dependent, " +
+              "closed source, unstable over versions and installations, " +
+              "contains unsharable personal and printer preferences, use .pdf",
 };
 
 // Start both the http and https services.  Requests can only come from
 // localhost, for security.  (This can be changed to a specific computer, but
-// shouldn't be removed, otherwise the site becomes public.)
+// shouldn"t be removed, otherwise the site becomes public.)
 function start() {
     test();
     var httpService = http.createServer(serve);
-    httpService.listen(ports[0], 'localhost');
+    httpService.listen(ports[0], "localhost");
     var options = { key: key, cert: cert };
     var httpsService = https.createServer(options, serve);
-    httpsService.listen(ports[1], 'localhost');
+    httpsService.listen(ports[1], "localhost");
     printAddresses();
 }
 
@@ -62,7 +62,7 @@ function printAddresses() {
     var httpsAddress = "https://localhost";
     if (ports[1] != 443) httpsAddress += ":" + ports[1];
     httpsAddress += "/";
-    console.log('Server running at', httpAddress, 'and', httpsAddress);
+    console.log("Server running at", httpAddress, "and", httpsAddress);
 }
 
 // Response codes: see http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
@@ -70,7 +70,7 @@ var OK = 200, Redirect = 307, NotFound = 404, BadType = 415, Error = 500;
 
 // Succeed, sending back the content and its type.
 function succeed(response, type, content) {
-    var typeHeader = { 'Content-Type': type };
+    var typeHeader = { "Content-Type": type };
     response.writeHead(OK, typeHeader);
     response.write(content);
     response.end();
@@ -78,7 +78,7 @@ function succeed(response, type, content) {
 
 // Tell the browser to try again at a different URL.
 function redirect(response, url) {
-    var locationHeader = { 'Location': url };
+    var locationHeader = { "Location": url };
     response.writeHead(Redirect, locationHeader);
     response.end();
 }
@@ -91,12 +91,12 @@ function fail(response, code) {
 
 // Serve a single request.  A URL ending with / is treated as a folder and
 // index.html is added.  A file name without an extension is reported as an
-// error (because we don't know how to deliver it, or if it was meant to be a
+// error (because we don"t know how to deliver it, or if it was meant to be a
 // folder, it would inefficiently have to be redirected for the browser to get
 // relative links right).
 function serve(request, response) {
     var file = request.url;
-    if (ends(file,'/')) file = file + 'index.html';
+    if (ends(file,"/")) file = file + "index.html";
     // If there are parameters, take them off
     var parts = file.split("?");
     if (parts.length > 1) file = parts[0];
@@ -122,7 +122,7 @@ function findType(request, extension) {
     if (! type) return type;
     if (extension != ".html") return type;
     var htmlTypes = types[".html"].split(", ");
-    var accepts = request.headers['accept'].split(",");
+    var accepts = request.headers["accept"].split(",");
     if (accepts.indexOf(htmlTypes[1]) >= 0) return htmlTypes[1];
     return htmlTypes[0];
 }
@@ -132,7 +132,7 @@ function starts(s, x) { return s.lastIndexOf(x, 0) == 0; }
 function ends(s, x) { return s.indexOf(x, s.length-x.length) >= 0; }
 
 // Check that a file is inside the site.  This is essential for security.
-var site = fs.realpathSync('.') + path.sep;
+var site = fs.realpathSync(".") + path.sep;
 function inSite(file) {
     var real;
     try { real = fs.realpathSync(file); }
@@ -145,12 +145,12 @@ function inSite(file) {
 // running this server on a case-insensitive file system such as Windows or
 // (usually) OS X on a Mac.  The results are not (yet) cached for efficiency.
 function matchCase(file) {
-    var parts = file.split('/');
-    var dir = '.';
+    var parts = file.split("/");
+    var dir = ".";
     for (var i=1; i<parts.length; i++) {
         var names = fs.readdirSync(dir);
         if (names.indexOf(parts[i]) < 0) return false;
-        dir = dir + '/' + parts[i];
+        dir = dir + "/" + parts[i];
     }
     return true;
 }
@@ -159,18 +159,18 @@ function matchCase(file) {
 // allowed in URLs without being escaped, and escaping is too confusing.
 // URLS with other special characters are also not allowed.
 function noSpaces(name) {
-    return (name.indexOf(' ') < 0);
+    return (name.indexOf(" ") < 0);
 }
 
 // Do a few tests.
 function test() {
-    if (! fs.existsSync('./index.html')) failTest('no index.html page found');
-    if (! inSite('./index.html')) failTest('inSite failure 1');
-    if (inSite('./../site')) failTest('inSite failure 2');
-    if (! matchCase('./index.html')) failTest('matchCase failure');
-    if (matchCase('./Index.html')) failTest('matchCase failure');
-    if (! noSpaces('./index.html')) failTest('noSpaces failure');
-    if (noSpaces('./my index.html')) failTest('noSpaces failure');
+    if (! fs.existsSync("./index.html")) failTest("no index.html page found");
+    if (! inSite("./index.html")) failTest("inSite failure 1");
+    if (inSite("./../site")) failTest("inSite failure 2");
+    if (! matchCase("./index.html")) failTest("matchCase failure");
+    if (matchCase("./Index.html")) failTest("matchCase failure");
+    if (! noSpaces("./index.html")) failTest("noSpaces failure");
+    if (noSpaces("./my index.html")) failTest("noSpaces failure");
 }
 
 function failTest(s) {
