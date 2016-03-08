@@ -161,9 +161,10 @@ function displayWindSpeeds(responseObject, i) {
 }
 
 function displaySunriseAndSunset(responseObject, i) {
-   display("Sunrise: ", "sunrise" + i);
-
-   display("Sunset: ", "sunset" + i);
+   var sunriseTime = convertFromUNIXTimestamp(responseObject.daily.data[i].sunriseTime);
+   display("Sunrise: " + sunriseTime, "sunrise" + i);
+   var sunsetTime = convertFromUNIXTimestamp(responseObject.daily.data[i].sunsetTime);
+   display("Sunset: " + sunsetTime, "sunset" + i);
 }
 
 function displayTemperatures(responseObject, i) {
@@ -178,6 +179,17 @@ function convertToWholeNum(rationalNum) {
    var cutoff = rationalNumStr.indexOf('.');
    var wholeNumStr = rationalNumStr.slice(0, cutoff);
    return wholeNumStr;
+}
+
+function convertFromUNIXTimestamp(UNIXTimestamp) {
+   var date = new Date(UNIXTimestamp * 1000);
+   var hours = date.getHours();
+   var minutes = date.getMinutes();
+   if (minutes < 10) {
+      minutes = minutes = "0" + date.getMinutes();
+   }
+   var time = hours + ":" + minutes;
+   return time;
 }
 
 function display(str, idOfElement) {
