@@ -55,6 +55,16 @@ function weather() {
          wind.className = 'wind';
          block.appendChild(wind);
 
+         var sunrise = document.createElement('div');
+         sunrise.id = 'sunrise'+number;
+         sunrise.className = 'sunrise';
+         block.appendChild(sunrise);
+
+         var sunset = document.createElement('div');
+         sunset.id = 'sunset'+number;
+         sunset.className = 'sunset';
+         block.appendChild(sunset);
+
          var minTemperature = document.createElement('div');
          minTemperature.id = 'minTemperature'+number;
          minTemperature.className = 'minTemperature';
@@ -95,6 +105,7 @@ function displayWeatherData(responseObject) {
       displayIcons(responseObject, i);
       displayDailySummaries(responseObject, i);
       displayWindSpeeds(responseObject, i);
+      displaySunriseAndSunset(responseObject, i);
       displayTemperatures(responseObject, i);
    }
 }
@@ -147,6 +158,12 @@ function displayDailySummaries(responseObject, i) {
 function displayWindSpeeds(responseObject, i) {
    var windSpeed = convertToWholeNum(responseObject.daily.data[i].windSpeed)
    display("Wind: " + windSpeed + "mph", "wind" + i);
+}
+
+function displaySunriseAndSunset(responseObject, i) {
+   display("Sunrise: ", "sunrise" + i);
+
+   display("Sunset: ", "sunset" + i);
 }
 
 function displayTemperatures(responseObject, i) {
