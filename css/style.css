@@ -234,9 +234,9 @@ header {
    padding: 14px;
    margin: 15px;
    box-sizing: border-box;
-   background-color: rgb(255,255,255);
+   background-color: rgb(240,240,240);
    border-radius: 5px;
-   box-shadow: 0 0 1px 1px #CCC;
+   box-shadow: 2px 2px 5px grey;
 }
 
 /* unvisited link */
