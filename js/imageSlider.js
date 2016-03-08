@@ -42,7 +42,7 @@ function imageSlider() {
    var rightArrow = document.querySelector("#right_arrow");
    rightArrow.addEventListener("click", slideRight);
    var leftArrow = document.querySelector("#left_arrow");
-   leftArrow.addEventListener("click",slideLeft);
+   leftArrow.addEventListener("click", slideLeft);
    sliderInit = true;
 }
 
