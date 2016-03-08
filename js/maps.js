@@ -1,5 +1,3 @@
-//Reference: https://developers.google.com/maps/documentation/javascript/reference
-
 "use strict";
 
 var firstMap;
@@ -7,15 +5,16 @@ var map;
 var mapInitalised = false;
 var lat = 45.572252;
 var long = 6.829677;
+//Reference: https://developers.google.com/maps/documentation/javascript/reference
 
-addEventListener("load", assignLatLong);
-google.maps.event.addDomListener(window, "load", initMap);
+addEventListener('load', assignLatLong);
+google.maps.event.addDomListener(window, 'load', initMap);
 
 function assignLatLong(){
    var data = window.location.search.replace("?", "");
    data = decodeURI(data);
-   data = data.split("+").join(" ");
-   data = data.split("%2C").join(",");
+   data = data.split('+').join(' ');
+   data = data.split('%2C').join(',');
    var parts = data.split("=");
    var address = parts[1];
    codeAddress(address);
@@ -25,7 +24,7 @@ function codeAddress(address) {
    console.log("maps.js: Coding Address in to Lat Long");
    var geocoder = new google.maps.Geocoder();
    var address = address;
-   geocoder.geocode( { "address": address}, geo);
+   geocoder.geocode( { 'address': address}, geo);
 
    function geo(results, status){
       if (status == google.maps.GeocoderStatus.OK) {
@@ -35,8 +34,7 @@ function codeAddress(address) {
          console.log("maps.js: long: " + long);
       }
       else {
-         addToForm(theForm, "ERROR", "There was an Error");
-         console.log("maps.js: Google maps error.")
+         //addToForm(theForm, 'ERROR', 'There was an Error');
       }
       refreshMap(); //Now need to move pin etc
    }
@@ -50,21 +48,21 @@ function refreshMap(){
          center: new google.maps.LatLng(lat,long),
          zoom: 12
       });
-      google.maps.event.trigger(map, "resize");
+      google.maps.event.trigger(map, 'resize');
       addPin(map);
    }
 }
 
 function addPin(){
    webcamstravel.easymap.load(map);
-   var lesarcs_content = "<div id="content">"+
-      "<div id="siteNotice">"+
-      "</div>"+
-      "<h1 id="firstHeading" class="firstHeading">"+resortName+"</h1>"+
-      "<div id="bodyContent">"+
-      "<p><b>"+resortName+"</b>, is here! Let\"s vote!</p>"+
-      "</div>"+
-      "</div>";
+   var lesarcs_content = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">'+resortName+'</h1>'+
+      '<div id="bodyContent">'+
+      '<p><b>'+resortName+'</b>, is here! Let\'s vote!</p>'+
+      '</div>'+
+      '</div>';
 
    var infowindow = new google.maps.InfoWindow({content: lesarcs_content});
    var marker = new google.maps.Marker({
@@ -73,7 +71,7 @@ function addPin(){
                                         title: resortName
                                       });
 
-   marker.addListener("click", function() {
+   marker.addListener('click', function() {
       infowindow.open(map, marker);
    });
 
