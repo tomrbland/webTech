@@ -1,7 +1,18 @@
-"use strict"
+"use strict";
 
-addEventListener('load', sizeOnLoad);
-addEventListener('resize', sizeOnResize);
+if (addEventListener) {
+   addEventListener("load", sizeOnLoad);
+}
+else {
+   attachEvent("onload", sizeOnLoad);
+}
+
+if (addEventListener) {
+   addEventListener("resize", sizeOnResize);
+}
+else {
+   attachEvent("onresize", sizeOnResize);
+}
 
 function sizeOnLoad(){
    console.log("styleWithJS.js: size - event on load");
@@ -16,12 +27,12 @@ function sizeOnResize(){
 function size(){
    var winWidth = window.innerWidth;
    var winHeight = window.innerHeight;
-   var winHeight2 = document.querySelector('html').clientHeight;
+   var winHeight2 = document.querySelector("html").clientHeight;
 
-   var header = document.querySelector('header');
-   var nav = document.querySelector('#nav');
-   var resort = document.querySelector('#resort');
-   var responsive = document.querySelector('#responsive');
+   var header = document.querySelector("header");
+   var nav = document.querySelector("#nav");
+   var resort = document.querySelector("#resort");
+   var responsive = document.querySelector("#responsive");
 
    reorderDivs(winWidth);
 
@@ -30,7 +41,7 @@ function size(){
    console.log("styleWithJS.js: sumHeight: " + sumHeight);
    var setHeight = winHeight - sumHeight;
 
-   responsive.style.height = setHeight + 'px';
+   responsive.style.height = setHeight + "px";
 
    function getHeight(o){
       /*var ptop = parseInt(window.getComputedStyle(o, null).getPropertyValue("padding-top"), 10);
@@ -44,10 +55,10 @@ function size(){
    }
 
    function reorderDivs(width){
-      var photos = document.querySelector('#photos');
-      var weather = document.querySelector('#weather');
-      var map = document.querySelector('#map');
-      var reviews = document.querySelector('#reviews');
+      var photos = document.querySelector("#photos");
+      var weather = document.querySelector("#weather");
+      var map = document.querySelector("#map");
+      var reviews = document.querySelector("#reviews");
       var parent = reviews.parentNode;
 
       parent.removeChild(photos);
