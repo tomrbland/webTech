@@ -60,7 +60,7 @@ function addPin(){
       "</div>" +
       "<h1 id='firstHeading' class='firstHeading'>" + resortName + "</h1>" +
       "<div id='bodyContent'>" +
-      "<p><b>" + resortName + "</b>, is here! Let\'s vote!</p>" +
+      "<p><b>" + resortName + " is here!</b></p>" +
       "</div>" +
       "</div>";
 
