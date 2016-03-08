@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 if (addEventListener) {
    addEventListener("load", buildHeader);

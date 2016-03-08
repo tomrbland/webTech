@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 var successfulRequest = 200;
 var numOfWeatherBlocks = 3;
@@ -17,7 +17,7 @@ else {
 function weather() {
    buildWeather();
    displayDates();
-   
+
    var xhr = new XMLHttpRequest();
    xhr.onload = function() {
       if (xhr.status === successfulRequest) {
