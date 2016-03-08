@@ -55,6 +55,16 @@ function weather() {
          wind.className = 'wind';
          block.appendChild(wind);
 
+         var sunrise = document.createElement('div');
+         sunrise.id = 'sunrise'+number;
+         sunrise.className = 'sunrise';
+         block.appendChild(sunrise);
+
+         var sunset = document.createElement('div');
+         sunset.id = 'sunset'+number;
+         sunset.className = 'sunset';
+         block.appendChild(sunset);
+
          var minTemperature = document.createElement('div');
          minTemperature.id = 'minTemperature'+number;
          minTemperature.className = 'minTemperature';
@@ -95,6 +105,7 @@ function displayWeatherData(responseObject) {
       displayIcons(responseObject, i);
       displayDailySummaries(responseObject, i);
       displayWindSpeeds(responseObject, i);
+      displaySunriseAndSunset(responseObject, i);
       displayTemperatures(responseObject, i);
    }
 }
@@ -149,6 +160,13 @@ function displayWindSpeeds(responseObject, i) {
    display("Wind: " + windSpeed + "mph", "wind" + i);
 }
 
+function displaySunriseAndSunset(responseObject, i) {
+   var sunriseTime = convertFromUNIXTimestamp(responseObject.daily.data[i].sunriseTime);
+   display("Sunrise: " + sunriseTime, "sunrise" + i);
+   var sunsetTime = convertFromUNIXTimestamp(responseObject.daily.data[i].sunsetTime);
+   display("Sunset: " + sunsetTime, "sunset" + i);
+}
+
 function displayTemperatures(responseObject, i) {
    var minTemp = convertToWholeNum(responseObject.daily.data[i].temperatureMin);
    display(minTemp + "°C", "minTemperature" + i);
@@ -161,6 +179,17 @@ function convertToWholeNum(rationalNum) {
    var cutoff = rationalNumStr.indexOf('.');
    var wholeNumStr = rationalNumStr.slice(0, cutoff);
    return wholeNumStr;
+}
+
+function convertFromUNIXTimestamp(UNIXTimestamp) {
+   var date = new Date(UNIXTimestamp * 1000);
+   var hours = date.getHours();
+   var minutes = date.getMinutes();
+   if (minutes < 10) {
+      minutes = minutes = "0" + date.getMinutes();
+   }
+   var time = hours + ":" + minutes;
+   return time;
 }
 
 function display(str, idOfElement) {

@@ -199,6 +199,18 @@ header {
    text-align: center;
 }
 
+.sunrise, .sunset{
+   width: 100%;
+   padding: 7px;
+   box-sizing: border-box;
+   clear: both;
+   border-width: 1px;
+   border-style: none;
+   border-bottom-style: solid;
+   border-color: #ccc;
+   text-align: center;
+}
+
 .minTemperature, .maxTemperature{
    width: 50%;
    padding: 7px;
