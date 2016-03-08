@@ -1,5 +1,9 @@
 "use strict";
 
+var baseTen = 10;
+var sixThousandMilliseconds = 6000;
+var oneHundredMilliseconds = 100;
+
 if (addEventListener) {
    addEventListener("load", imageSlider);
 }
@@ -7,8 +11,19 @@ else {
    attachEvent("onload", imageSlider);
 }
 
-addEventListener("focus", start);
-addEventListener("blur", stop);
+if (addEventListener) {
+   addEventListener("focus", start);
+}
+else {
+   attachEvent("onfocus", start);
+}
+
+if (addEventListener) {
+   addEventListener("blur", stop);
+}
+else {
+   attachEvent("onblur", stop);
+}
 
 var automaticSlide;
 var sliderInit = false;
@@ -23,7 +38,7 @@ function imageSlider() {
    Image.style.opacity = currentOpacity;
    loadImage(Image, 0);
 
-   automaticSlide = setInterval(imageLoop, 6000);
+   automaticSlide = setInterval(imageLoop, sixThousandMilliseconds);
    var rightArrow = document.querySelector("#right_arrow");
    rightArrow.addEventListener("click", slideRight);
    var leftArrow = document.querySelector("#left_arrow");
@@ -32,7 +47,7 @@ function imageSlider() {
 }
 
 function start(){
-   if(sliderInit) automaticSlide = setInterval(imageLoop, 6000);
+   if(sliderInit) automaticSlide = setInterval(imageLoop, sixThousandMilliseconds);
 }
 
 function stop(){
@@ -68,7 +83,7 @@ function slide(i) {
       imageCount = totalImages;
    }
    fading = true;
-   fadeEffect = setInterval(fadeOut, 100);
+   fadeEffect = setInterval(fadeOut, oneHundredMilliseconds);
 }
 
 function fadeOut() {
@@ -78,15 +93,15 @@ function fadeOut() {
    if (currentOpacity <= 0) {
       clearInterval(fadeEffect);
       loadImage(Image, imageCount);
-      fadeEffect = setInterval(fadeIn, 100);
+      fadeEffect = setInterval(fadeIn, oneHundredMilliseconds);
       Image.style.opacity = 0;
    }
 }
 
 function loadImage(Image, number){
    Image.src = "/images/img" + number + ".jpg";
-   var width = parseInt(window.getComputedStyle(Image, null).getPropertyValue("width"), 10);
-   var marginLeft = -(width/2);
+   var width = parseInt(window.getComputedStyle(Image, null).getPropertyValue("width"), baseTen);
+   var marginLeft = - (width / 2);
    Image.setAttribute("style", "margin-left:" + marginLeft.toString() + "px");
 }
 
