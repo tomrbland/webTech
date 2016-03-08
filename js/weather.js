@@ -1,16 +1,26 @@
-// MAGIC NUMBERS !~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/!~@/
-
 "use strict"
-addEventListener("load", weather);
+
+var successfulRequest = 200;
+var numOfWeatherBlocks = 3;
+var cutoff = 11;
+var firstDateDigit = 9;
+var conversionInt = 1000;
+var twoDigits = 10;
+
+if (addEventListener) {
+   addEventListener("load", weather);
+}
+else {
+   attachEvent("onload", weather);
+}
 
 function weather() {
    buildWeather();
-
    displayDates();
-   // NOTE_ TO SELF: REMEMER TO CHECK FOR FLAGS IN CASE DATA UNAVAILABLE
+   
    var xhr = new XMLHttpRequest();
    xhr.onload = function() {
-      if (xhr.status === 200) {
+      if (xhr.status === successfulRequest) {
          console.log("weather.js: Response OK.")
          var responseObject = JSON.parse(xhr.responseText);
 
@@ -21,58 +31,56 @@ function weather() {
    xhr.send(null);
 
    function buildWeather(){
-      var container = document.querySelector('#weather');
-      for(var i = 0; i < 3; i++){
+      var container = document.querySelector("#weather");
+      for(var i = 0; i < numOfWeatherBlocks; i++){
          var day = newDay(i);
          day.className = "dayblock";
          container.appendChild(day);
       }
 
       function newDay(number){
-         var block = document.createElement('div');
-         block.id = 'dayblock'+number;
-         block.className = 'dayblock';
+         var block = document.createElement("div");
+         block.id = "dayblock" + number;
+         block.className = "dayblock";
 
-         var day = document.createElement('div');
-         day.id = 'day'+number;
-         day.className = 'day';
+         var day = document.createElement("div");
+         day.id = "day" + number;
+         day.className = "day";
          block.appendChild(day);
 
-         var icon = document.createElement('canvas');
-         icon.id = 'icon'+number;
-         icon.className = 'icon';
-         /*icon.width = "128";
-         icon.height = "50";*/
+         var icon = document.createElement("canvas");
+         icon.id = "icon" + number;
+         icon.className = "icon";
          block.appendChild(icon);
 
-         var summary = document.createElement('div');
-         summary.id = 'summary'+number;
-         summary.className = 'summary';
+         var summary = document.createElement("div");
+         summary.id = "summary" + number;
+         summary.className = "summary";
          block.appendChild(summary);
 
-         var wind = document.createElement('div');
-         wind.id = 'wind'+number;
-         wind.className = 'wind';
+         var wind = document.createElement("div");
+         wind.id = "wind" + number;
+         wind.className = "wind";
          block.appendChild(wind);
 
-         var sunrise = document.createElement('div');
-         sunrise.id = 'sunrise'+number;
-         sunrise.className = 'sunrise';
+         var sunrise = document.createElement("div");
+         sunrise.id = "sunrise" + number;
+         sunrise.className = "sunrise";
          block.appendChild(sunrise);
 
-         var sunset = document.createElement('div');
-         sunset.id = 'sunset'+number;
-         sunset.className = 'sunset';
+         var sunset = document.createElement("div");
+         sunset.id = "sunset" + number;
+         sunset.className = "sunset";
          block.appendChild(sunset);
 
-         var minTemperature = document.createElement('div');
-         minTemperature.id = 'minTemperature'+number;
-         minTemperature.className = 'minTemperature';
+         var minTemperature = document.createElement("div");
+         minTemperature.id = "minTemperature" + number;
+         minTemperature.className = "minTemperature";
          block.appendChild(minTemperature);
 
-         var maxTemperature = document.createElement('div');
-         maxTemperature.id = 'maxTemperature'+number;
-         maxTemperature.className = 'maxTemperature';
+         var maxTemperature = document.createElement("div");
+         maxTemperature.id = "maxTemperature" + number;
+         maxTemperature.className = "maxTemperature";
          block.appendChild(maxTemperature);
 
          return block;
@@ -81,27 +89,27 @@ function weather() {
 }
 
 function displayDates() {
-   for (var i = 0; i < 3; i++) {
+   for (var i = 0; i < numOfWeatherBlocks; i++) {
       var date = computeDate(i);
       display(date, "day" + i);
    }
 }
 
-function computeDate (i) {
+function computeDate(i) {
    var d = new Date();
    d.setDate(d.getDate() + i);
    var dateStr = d.toString();
    var formattedDateStr = dateStr.replace(" ", ", ");
-   formattedDateStr = formattedDateStr.slice(0, 11);
+   formattedDateStr = formattedDateStr.slice(0, cutoff);
    // Removes leading zeroes from date.
-   if (formattedDateStr.charAt(9) == '0') {
+   if (formattedDateStr.charAt(firstDateDigit) == "0") {
       formattedDateStr = formattedDateStr.replace("0", "");
    }
    return formattedDateStr;
 }
 
 function displayWeatherData(responseObject) {
-   for (var i = 0; i < 3; i ++) {
+   for (var i = 0; i < numOfWeatherBlocks; i ++) {
       displayIcons(responseObject, i);
       displayDailySummaries(responseObject, i);
       displayWindSpeeds(responseObject, i);
@@ -111,25 +119,6 @@ function displayWeatherData(responseObject) {
 }
 
 function displayIcons(responseObject, i) {
-   /*
-      icon: A machine-readable text summary of this data point, suitable for selecting
-      an icon for display. If defined, this property will have one of the following
-      values:
-                     clear-day,
-                     clear-night,
-                     rain,
-                     snow,
-                     sleet,
-                     wind,
-                     fog,
-                     cloudy,
-                     partly-cloudy-day,
-                     partly-cloudy-night.
-
-      (Developers should ensure that a
-      sensible default is defined, as additional values, such as hail, thunderstorm,
-      or tornado, may be defined in the future.)
-   */
    switch(responseObject.daily.data[i].icon) {
       case "clear-day":                displayIcon(Skycons.CLEAR_DAY, i);                  break;
       case "clear-night":              displayIcon(Skycons.CLEAR_DAY, i);                  break;
@@ -176,16 +165,16 @@ function displayTemperatures(responseObject, i) {
 
 function convertToWholeNum(rationalNum) {
    var rationalNumStr = rationalNum.toString();
-   var cutoff = rationalNumStr.indexOf('.');
+   var cutoff = rationalNumStr.indexOf(".");
    var wholeNumStr = rationalNumStr.slice(0, cutoff);
    return wholeNumStr;
 }
 
 function convertFromUNIXTimestamp(UNIXTimestamp) {
-   var date = new Date(UNIXTimestamp * 1000);
+   var date = new Date(UNIXTimestamp * conversionInt);
    var hours = date.getHours();
    var minutes = date.getMinutes();
-   if (minutes < 10) {
+   if (minutes < twoDigits) {
       minutes = minutes = "0" + date.getMinutes();
    }
    var time = hours + ":" + minutes;
