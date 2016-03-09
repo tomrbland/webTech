@@ -11,7 +11,7 @@ body {
    min-width: 320px;
    background-color: #E0E0E0;
    color: #303030;
-   font-family: 'Helvetica', 'Arial', sans-serif;
+   font-family: "Helvetica", "Arial", sans-serif;
 }
 
 header {
@@ -21,6 +21,7 @@ header {
    background-size: 5% 100%;
    background-repeat: repeat-x;
    background-color: rgb(255,255,255);
+   font-family: Verdana, Geneva, sans-serif;
 }
 
 #resortForm{
