@@ -1,0 +1,64 @@
+<!DOCTYPE html> <!--Trigger old browsers out of quirks mode and in to standards mode. Modern browsers have quirks mode, standard mode (html), and xhtml mode-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"> <!-- Trigger new browsers in to XHTML. Then define the human language twice - once for old browsers, once for new.-->
+<head>
+   <meta charset="UTF-8"/><!--Doesn't make webpage use UTF-8 That's in the packet header. This is here to tell validator bots that it's in UTF-8-->
+   <title>SkiFree!</title>
+   <!--crossplatform favicon generated here: realfavicongenerator.net-->
+   <link rel="apple-touch-icon" sizes="57x57" href="/images/icons/apple-touch-icon-57x57.png"/>
+   <link rel="apple-touch-icon" sizes="60x60" href="/images/icons/apple-touch-icon-60x60.png"/>
+   <link rel="apple-touch-icon" sizes="72x72" href="/images/icons/apple-touch-icon-72x72.png"/>
+   <link rel="apple-touch-icon" sizes="76x76" href="/images/icons/apple-touch-icon-76x76.png"/>
+   <link rel="apple-touch-icon" sizes="114x114" href="/images/icons/apple-touch-icon-114x114.png"/>
+   <link rel="apple-touch-icon" sizes="120x120" href="/images/icons/apple-touch-icon-120x120.png"/>
+   <link rel="apple-touch-icon" sizes="144x144" href="/images/icons/apple-touch-icon-144x144.png"/>
+   <link rel="apple-touch-icon" sizes="152x152" href="/images/icons/apple-touch-icon-152x152.png"/>
+   <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/apple-touch-icon-180x180.png"/>
+   <link rel="icon" type="image/png" href="/images/icons/favicon-32x32.png" sizes="32x32"/>
+   <link rel="icon" type="image/png" href="/images/icons/favicon-194x194.png" sizes="194x194"/>
+   <link rel="icon" type="image/png" href="/images/icons/favicon-96x96.png" sizes="96x96"/>
+   <link rel="icon" type="image/png" href="/images/icons/android-chrome-192x192.png" sizes="192x192"/>
+   <link rel="icon" type="image/png" href="/images/icons/favicon-16x16.png" sizes="16x16"/>
+   <link rel="manifest" href="/images/icons/manifest.json"/>
+   <link rel="mask-icon" href="/images/icons/safari-pinned-tab.svg" color="#5bbad5"/>
+   <link href="/css/style.css" rel="stylesheet" type="text/css" />
+   <link href="skifree.css" rel="stylesheet" type="text/css" />
+
+   <script type="text/javascript" src="/js/navigation.js"></script>
+
+   <!--[if IE]>
+   <script
+      src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"
+   ></script>
+   <![endif]-->
+</head>
+<body>
+   <header><h1>Ski Free!</h1></header>
+   <div id="nav"></div>
+   <div id="gameContainer">
+      <div id="topMask"></div>
+      <div id="game">
+
+         <!--This will all be built with JS (and animated with JS).
+             Currently it's just here for demo-->
+         <img class="gameImage" id="tree1" src="images/Tree.png" />
+         <img class="gameImage" id="tree2" src="images/Tree.png" />
+         <img class="gameImage" id="tree3" src="images/Tree.png" />
+         <img class="gameImage" id="tree4" src="images/Tree.png" />
+         <img class="gameImage" id="tree5" src="images/Tree.png" />
+
+         <img class="gameImage" id="rock1" src="images/Rock.png" />
+         <img class="gameImage" id="rock2" src="images/Rock.png" />
+
+         <img class="gameImage" id="slowSnow1" src="images/SlowSnow.png" />
+
+         <img class="gameImage" id="liftSupport1" src="images/LiftSupport.png" />
+         <img class="gameImage" id="liftSupport2" src="images/LiftSupport.png" />
+         <img class="gameImage" id="liftSupport3" src="images/LiftSupport.png" />
+
+         <img class="gameImage" id="jump1" src="images/Jump.png" />
+
+      </div>
+      <div id="bottomMask"></div>
+   </div>
+</body>
+</html>

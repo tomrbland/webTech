@@ -1,0 +1,94 @@
+#gameContainer {
+   position: relative;
+   z-index: -1;
+   margin: auto;
+   clear: both;
+   width: 800px;
+   height: 800px;
+   background-color: blue;
+}
+
+#topMask, #bottomMask {
+   position: absolute;
+   z-index: 100;
+   height: 100px;
+   width: 100%;
+   background-color: #E0E0E0;
+}
+
+#topMask {
+   top: 0;
+}
+
+#bottomMask {
+   bottom: 0;
+}
+
+#game {
+   z-index: 0;
+   margin: auto;
+   width: 800px;
+   height: 800px;
+   background-color: white;
+}
+
+.gameImage {
+   position: absolute;
+   zoom: 2;
+   -moz-transform: scale(2);
+}
+
+/*DEMO IMAGES*/
+#tree1{
+   top: 200px;
+   left: 50px;
+}
+#tree2{
+   top: 230px;
+   left: 80px;
+}
+#tree3{
+   top: 400px;
+   left: 600px;
+}
+#tree4{
+   top: 550px;
+   left: 200px;
+}
+#tree5{
+   top: 80px;
+   left: 350px;
+}
+
+
+#rock1{
+   top: 230px;
+   left: 200px;
+}
+#rock2{
+   top: 630px;
+   left: 630px;
+}
+
+#slowSnow1{
+   top: 180px;
+   left: 500px;
+}
+
+#liftSupport1{
+   top: 195px;
+   left: 55px;
+}
+#liftSupport2{
+   top: 395px;
+   left: 210px;
+}
+#liftSupport3{
+   top: 595px;
+   left: 365px;
+}
+
+#jump1{
+   top: 425px;
+   left: 430px;
+}
