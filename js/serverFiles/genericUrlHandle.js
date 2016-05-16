@@ -1,5 +1,7 @@
 //Imports
-   var replier = require('./genericUrlReply.js');
+   var FS = require('fs');
+   var UTIL = require('./utilities.js');
+   var REPLIER = require('./genericUrlReply.js');
 
 //Exports
    module.exports = {
@@ -13,5 +15,10 @@
       console.log("Method:", request.method);
       console.log("URL:", request.url);
       console.log("Headers:", request.headers);
-      replier.reply(response);
+
+      var url = request.url;
+      if (UTIL.ends(url, "/")) url = url + "index.html";
+      if (! UTIL.ends(url, ".html")) return REPLIER.fail(response, BadType, "Not .html");
+      var file = "." + url;
+      FS.readFile(file, REPLIER.reply.bind(null, response));
    }

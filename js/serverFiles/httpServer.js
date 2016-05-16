@@ -2,7 +2,7 @@
 
 //Imports
    var HTTP = require('http');
-   var handler = require('./genericUrlHandle.js');
+   var HANDLER = require('./genericUrlHandle.js');
 
 //Exports
    module.exports = {
@@ -16,7 +16,7 @@
 
    // Provide a service to localhost only.
    function _start(port) {
-      var service = HTTP.createServer(handler.handle);
+      var service = HTTP.createServer(HANDLER.handle);
       service.listen(port, 'localhost');
       console.log("Visit localhost:" + port);
    }
