@@ -2,29 +2,34 @@
 
 //Exports
    module.exports = {
-      reply: function(response, err, content){
-         _reply(response, err, content);
+      reply: function(response, url, type){
+         _reply(response, url, type);
       },
-      
-      fail: function(response, code, message){
-         _fail(response, code, message);
+
+      fail: function(response, code, text){
+         _fail(response, code, text);
       }
    };
 
 //Code
-   var OK = 200, NotFound = 404, BadType = 415;
-
-   function _reply(response, err, content) {
-     if (err) return fail(response, NotFound, "File not found: " + err);
-     var hdrs = { 'Content-Type': 'text/html' };
-     response.writeHead(OK, hdrs);
-     response.write(content);
-     response.end();
+   function _reply(response, url, type) {
+      var file = "." + url;
+      fs.readFile(file, deliver.bind(null, response, type));
    }
 
-   function _fail(response, code, message) {
-     var hdrs = { 'Content-Type': 'text/plain' };
-     response.writeHead(code, hdrs);
-     response.write(message);
-     response.end();
+   // Deliver the file that has been read in to the browser.
+   function deliver(response, type, err, content) {
+      if (err) return _fail(response, NotFound, "File not found");
+      var typeHeader = { 'Content-Type': type };
+      response.writeHead(OK, typeHeader);
+      response.write(content);
+      response.end();
+   }
+
+   // Give a minimal failure response to the browser
+   function _fail(response, code, text) {
+      var textTypeHeader = { 'Content-Type': 'text/plain' };
+      response.writeHead(code, textTypeHeader);
+      response.write(text, 'utf8');
+      response.end();
    }

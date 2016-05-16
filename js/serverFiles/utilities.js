@@ -10,6 +10,10 @@
       //or ends with a suffix
       ends: function (s, x) {
          return s.indexOf(x, s.length-x.length) >= 0;
+      },
+
+      lower: function (s) {
+          return s.toLowerCase();
       }
    };
 
