@@ -1,3 +1,7 @@
+/*
+ * Generic untility functions
+ */
+
 //Imports
 
 //Exports

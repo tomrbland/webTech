@@ -1,8 +1,7 @@
 //Imports
-   //var FS = require('fs');
    var UTIL = require('./utilities.js');
-   var URL_UTIL = require('./handleUtils.js');
-   var REPLIER = require('./genericUrlReply.js');
+   var URL_UTIL = require('./urlUtils.js');
+   var REPLIER = require('./reply.js');
 
 //Exports
    module.exports = {
@@ -15,10 +14,6 @@
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
 
    function _handle(request, response) {
-      /*console.log("Method:", request.method);
-      console.log("URL:", request.url);
-      console.log("Headers:", request.headers);*/
-
       var url = request.url;
       url = URL_UTIL.removeQuery(url);
       url = UTIL.lower(url);
@@ -27,7 +22,6 @@
       if (! URL_UTIL.safe(url)) return REPLIER.fail(response, NotFound, "Unsafe URL");
       if (! URL_UTIL.shouldOpen(url)) return REPLIER.fail(response, NotFound, "URL has been banned");
       var type = URL_UTIL.findType(url);
-      //console.log("type:", type);
       if (type == null) return REPLIER.fail(response, BadType, "File type unsupported");
       if (type == "text/html") type = URL_UTIL.negotiate(request.headers.accept);
       REPLIER.reply(response, url, type);

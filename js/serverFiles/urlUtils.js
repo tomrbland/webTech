@@ -1,3 +1,8 @@
+/*
+ * Utilities for parsing a URL
+ * This file contains unit tests
+ */
+
 //Imports
    var FS = require('fs');
    var UTIL = require('./utilities.js');
@@ -16,7 +21,6 @@
          return _shouldOpen(url);
       },
 
-      // Find the content type to respond with, or undefined.
       findType: function(url) {
          return _findType(url);
       },
@@ -25,7 +29,6 @@
          _negotiate(accept);
       },
 
-      // If the url UTIL.ends with / add index.html.
       addIndex: function (url) {
           return _addIndex(url);
       },

@@ -27,7 +27,7 @@ function weather() {
          displayWeatherData(responseObject);
       }
    };
-   xhr.open("GET", "js/weatherData.json", true);
+   xhr.open("GET", "js/weather/weatherData.json", true);
    xhr.send(null);
 
    function buildWeather(){
