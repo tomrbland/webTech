@@ -6,7 +6,7 @@ function addNavigation(){
    console.log("navigation.js: addNavigation - event on load");
    var navBar = document.querySelector("#nav");
 
-   navBar.appendChild(makeDiv("index.html", "Home"));
+   navBar.appendChild(makeDiv("/index.html", "Home"));
 
    function makeDiv(path, text){
       var div = document.createElement("div");
