@@ -15,12 +15,12 @@ else {
 }
 
 function sizeOnLoad(){
-   console.log("styleWithJS.js: size - event on load");
+   console.log("stylewithjs.js: size - event on load");
    size();
 }
 
 function sizeOnResize(){
-   console.log("styleWithJS.js: size - event on resize");
+   console.log("stylewithjs.js: size - event on resize");
    size();
 }
 
@@ -37,8 +37,8 @@ function size(){
    reorderDivs(winWidth);
 
    var sumHeight = getHeight(header) + getHeight(nav) + getHeight(resort);
-   console.log("styleWithJS.js: winHeight: " + winHeight);
-   console.log("styleWithJS.js: sumHeight: " + sumHeight);
+   console.log("stylewithjs.js: winHeight: " + winHeight);
+   console.log("stylewithjs.js: sumHeight: " + sumHeight);
    var setHeight = winHeight - sumHeight;
 
    responsive.style.height = setHeight + "px";
@@ -60,7 +60,7 @@ function size(){
       parent.removeChild(reviews);
 
       if(window.innerWidth > 768){
-         console.log("styleWithJS.js: Div order reviews, photos");
+         console.log("stylewithjs.js: Div order reviews, photos");
          parent.appendChild(map);
          parent.appendChild(weather);
          parent.appendChild(reviews);
@@ -84,7 +84,7 @@ function size(){
          reviews.style.overflowY = "scroll";
       }
       else{
-         console.log("styleWithJS.js: Div order photos, reviews");
+         console.log("stylewithjs.js: Div order photos, reviews");
          parent.appendChild(weather);
          parent.appendChild(map);
          parent.appendChild(photos);
