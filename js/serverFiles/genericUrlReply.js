@@ -1,4 +1,5 @@
 //Imports
+   var FS = require('fs');
 
 //Exports
    module.exports = {
@@ -12,9 +13,11 @@
    };
 
 //Code
+   var OK = 200, NotFound = 404, BadType = 415, Error = 500;
+
    function _reply(response, url, type) {
       var file = "." + url;
-      fs.readFile(file, deliver.bind(null, response, type));
+      FS.readFile(file, deliver.bind(null, response, type));
    }
 
    // Deliver the file that has been read in to the browser.

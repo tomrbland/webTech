@@ -18,7 +18,11 @@
 
       // Find the content type to respond with, or undefined.
       findType: function(url) {
-         _findType(url);
+         return _findType(url);
+      },
+
+      negotiate: function(accept){
+         _negotiate(accept);
       },
 
       // If the url UTIL.ends with / add index.html.
@@ -34,6 +38,9 @@
 //Code
    var banned = defineBanned();
    var types = defineTypes();
+
+   //TEST
+      test();
 
    function _valid(url) {
       if (! UTIL.starts(url, "/")) return false;
@@ -68,7 +75,19 @@
    function _findType(url){
       var dot = url.lastIndexOf(".");
       var extension = url.substring(dot);
+      //console.log("dot:", dot, " exten:", extension);
       return types[extension];
+   }
+
+   // Do content negotiation, assuming all pages on the site are XHTML and
+   // suitable for dual delivery.  Check whether the browser claims to accept the
+   // XHTML type and, if so, use that instead of the HTML type.
+   function _negotiate(accept) {
+       var htmlType = "text/html";
+       var xhtmlType = "application/xhtml+xml";
+       var accepts = accept.split(",");
+       if (accepts.indexOf(xhtmlType) >= 0) return xhtmlType;
+       else return htmlType;
    }
 
    // If the url UTIL.ends with / add index.html.
@@ -144,3 +163,45 @@
        '.docx' : undefined,      // non-standard, platform dependent, use .pdf
        }
    }
+
+//------------------------------------------------
+
+// Test the server's logic, and make sure there's an index file.
+function test() {
+    check(_removeQuery("/index.html?x=1"), "/index.html");
+    check(UTIL.lower("/index.html"), "/index.html");
+    check(UTIL.lower("/INDEX.HTML"), "/index.html");
+    check(_addIndex("/index.html"), "/index.html");
+    check(_addIndex("/admin/"), "/admin/index.html");
+    check(_valid("/index.html"), true);
+    check(_valid("../x"), false, "urls must start with /");
+    check(_valid("/x/../y"), false, "urls must not contain /../");
+    check(_valid("/x//y"), false, "urls must not contain //");
+    check(_valid("/x/./y"), false, "urls must not contain /./");
+    check(_valid("/.txt"), false, "urls must not contain /.");
+    check(_valid("/x"), false, "filenames must have extensions");
+    check(_safe("/index.html"), true);
+    check(_safe("/\n/"), false);
+    check(_safe("/x y/"), false);
+    check(_shouldOpen("/index.html"), true);
+    check(_shouldOpen("/server.js"), false);
+    check(_findType("/x.txt"), "text/plain");
+    check(_findType("/x"), undefined);
+    check(_findType("/x.abc"), undefined);
+    check(_findType("/x.htm"), undefined);
+    check(_findType("x.html"), "text/html");
+    check(_negotiate("xxx,text/html"), "text/html");
+    check(_negotiate("xxx,application/xhtml+xml"), "application/xhtml+xml");
+
+    check(_negotiate(_findType("x.html")), "text/html");
+
+    check(FS.existsSync('./index.html'), true, "site contains no index.html");
+}
+
+function check(x, out, message) {
+    if (x == out) return;
+    if (message) console.log("Test failed:", message);
+    else console.log("Test failed: Expected", out, "Actual:", x);
+    console.trace();
+    process.exit(1);
+}
