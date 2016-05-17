@@ -4,8 +4,10 @@
  */
 
 //Imports
-   var HTTP = require('http');
+   var HTTP = require('https');
    var HANDLER = require('./handle.js');
+   var CERT = require('./cert');
+   var KEY = require('./key');
 
 //Exports
    module.exports = {
@@ -15,11 +17,12 @@
    };
 
 //Code
-   //start(8080);
+   //start(8443);
 
    // Provide a service to localhost only.
    function _start(port) {
-      var service = HTTP.createServer(HANDLER.handle);
+      var options = { key: KEY, cert: CERT };
+      var service = HTTP.createServer(options, HANDLER.handle);
       service.listen(port, 'localhost');
-      console.log("Visit localhost:" + port);
+      console.log("Visit https://localhost:" + port);
    }
