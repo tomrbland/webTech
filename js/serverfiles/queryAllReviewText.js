@@ -23,7 +23,7 @@
    }
 
    function query(db, response) {
-        //only gets 1st row
+        //only gets 1st row, needs changing
         var ps = db.get("SELECT * FROM Review", reply.bind(null, response));
         db.close();
    }
