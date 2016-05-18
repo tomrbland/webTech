@@ -17,27 +17,12 @@ body {
 header {
    width: 100%;
    clear: both;
+   padding-bottom: 5px;
    background-image: url('/images/plainsvg/banner.svg');
    background-size: 5% 100%;
    background-repeat: repeat-x;
    background-color: rgb(255,255,255);
    font-family: Verdana, Geneva, sans-serif;
-}
-
-#resortForm{
-   text-align: center;
-   margin: auto;
-   clear: both;
-   padding: 14px;
-   margin: 15px;
-   box-sizing: border-box;
-   background-color: rgb(240,240,240);
-   border-radius: 5px;
-   box-shadow: 2px 2px 5px grey;
-}
-
-#searchbox{
-   margin: auto;
 }
 
 #nav{

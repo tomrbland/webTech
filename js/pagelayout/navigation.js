@@ -10,7 +10,6 @@ function addNavigation(){
    navBar.appendChild(makeDiv("/login.html", "Login", "right"));
    navBar.appendChild(makeDiv("/register.html", "Register", "right"));
 
-
    function makeDiv(path, text, float){
       var div = document.createElement("div");
 
