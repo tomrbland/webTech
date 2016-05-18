@@ -23,20 +23,22 @@
    }
 
    function query(db, response) {
-      //only gets 1st row
-      var ps = db.get("SELECT * FROM Review", function(err, row) {
-         console.log("row directly returned from query: " + row);
-
-         var returnData = JSON.stringify(row);
-         console.log("row after being stringified: " + returnData);
-
-         var typeHeader = { 'Content-Type': "text/plain" };
-         response.writeHead(OK, typeHeader);
-         response.write(returnData);
-         response.end();
-      });
-      db.close();
+        //only gets 1st row
+        var ps = db.get("SELECT * FROM Review", reply.bind(null, response));
+        db.close();
    }
+
+   function reply(response, err, row){
+     console.log("row directly returned from query: " + row);
+
+     var returnData = JSON.stringify(row);
+     console.log("row after being stringified: " + returnData);
+
+     var typeHeader = { 'Content-Type': "text/plain" };
+     response.writeHead(OK, typeHeader);
+     response.write(returnData);
+     response.end();
+  }
 
 /*
    function query(one, two, three, four, queryInput, response, db) {
