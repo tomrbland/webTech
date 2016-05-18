@@ -40,7 +40,7 @@
       if (type == "text/html") type = URL_UTIL.negotiate(request.headers.accept);
 
       //console.log("reponse before last conditional: " + response);
-      if (url == "/js/db/reviewquery.js") {
+      if (url == "/js/db/reviewquerytest.js") {
          console.log("URL going into getAllReviewText() " + url);
          console.log("response before going into getAllReviewText()" + response);
          QUERYDB.getAllReviewText(response);

@@ -34,12 +34,17 @@ function startup() {
    err);
 
   db.run("INSERT INTO Person (username) VALUES ('FatherChristmas');", err);
+  db.run("INSERT INTO Person (username) VALUES ('CandideThovex');", err);
+  db.run("INSERT INTO Person (username) VALUES ('JamesBond');", err);
+  db.run("INSERT INTO Person (username) VALUES ('NoviceSkiier');", err);
+  db.run("INSERT INTO Person (username) VALUES ('BoarderDude');", err);
+
   db.run("INSERT INTO Review (personid, text) VALUES (1, 'Excellent resort. The reindeers also liked it.');", err);
-/*
-  db.each("SELECT * FROM Review", function(err, row) {
-    console.log(row);
-  });
-*/
+  db.run("INSERT INTO Review (personid, text) VALUES (2, 'I wasn''t really paying attention to the resort - I was too busy jumping over helicopters!');", err);
+  db.run("INSERT INTO Review (personid, text) VALUES (3, 'There were too many bad guys chasing me in this resort: 2/10.');", err);
+  db.run("INSERT INTO Review (personid, text) VALUES (4, 'I had a great time learning how to ski here.');", err);
+  db.run("INSERT INTO Review (personid, text) VALUES (5, 'It had a great halfpipe.');", err);
+
   db.close();
 }
 
