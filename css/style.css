@@ -51,19 +51,24 @@ header {
    background-size: 100% 100%;
 }
 
-.navButton{
+.navButtonLeft{
    padding: 7px;
    float: left;
 }
 
-.navButton:hover{
+.navButtonRight{
+   padding: 7px;
+   float: right;
+}
+
+.navButtonLeft:hover, .navButtonRight:hover{
    background: url("/images/plainsvg/barHover.svg");
    background-size: 100% 100%;
    cursor: pointer;
    /*cursor: hand;*/
 }
 
-.navButton:active{
+.navButtonLeft:active, .navButtonRight:active{
    background: url("/images/plainsvg/barClicked.svg");
    background-size: 100% 100%;
    cursor: pointer;

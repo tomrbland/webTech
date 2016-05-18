@@ -1,7 +1,7 @@
 "use strict";
 
 //Imports
-   var httpServer = require('./serverFiles/httpServer.js');
+   var httpServer = require('./serverfiles/httpServer.js');
 
 //Exports
 
