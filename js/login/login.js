@@ -1,19 +1,18 @@
 "use strict";
 
 if (addEventListener) {
-   addEventListener("load", signin);
+   addEventListener("load", login);
 }
 else {
-   attachEvent("onload", signin);
+   attachEvent("onload", login);
 }
 
-function signin(){
+function login(){
    //Do server comms
    redirect();
 
    function redirect() {
       var url = sessionStorage.getItem("currenturl");
-      console.log("Redirect");
       window.location=url;
    }
 }
