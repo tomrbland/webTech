@@ -1,13 +1,12 @@
 "use strict";
 /**
- *   HTTP server based on Ian's server4
+ * cert and key generated with "openssl req -x509 -sha512 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365"
  */
 
 //Imports
    var HTTP = require('https');
    var HANDLER = require('./handle.js');
-   var CERT = require('./cert');
-   var KEY = require('./key');
+   var FS = require('fs');
 
 //Exports
    module.exports = {
@@ -20,8 +19,13 @@
    //start(8443);
 
    function _start(port) {
-      var options = { key: KEY.key, cert: CERT.cert };
-      var service = HTTP.createServer(options, HANDLER.handle);
+      var credentials = {
+          key: FS.readFileSync('./js/serverfiles/key.pem'),
+          cert: FS.readFileSync('./js/serverfiles/cert.pem'),
+          passphrase: 'verysecurepassword'
+      }
+
+      var service = HTTP.createServer(credentials, HANDLER.handle);
       service.listen(port, 'localhost');
       console.log("Visit https://localhost:" + port);
    }
