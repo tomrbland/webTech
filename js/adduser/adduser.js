@@ -12,7 +12,8 @@ function adduser(){
    redirect();
 
    function redirect() {
+      var url = get("currenturl");
       console.log("Redirect");
-      window.location="/index.html";
+      window.location=url;
    }
 }
