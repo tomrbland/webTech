@@ -12,24 +12,25 @@ else {
 
 function addReviews() {
    console.log("reviews.js: addReviews - event on load. REQUIRES global resortName");
-
-   queryDBAndOnResultReturn(constructReviews);
+   queryDBAndOnResultReturn();
 }
 
-function queryDBAndOnResultReturn(callbackFunct) {
+function queryDBAndOnResultReturn() {
    var xhr = new XMLHttpRequest();
    xhr.open("GET", "js/db/reviewQueryTest.js", true);
 
-   xhr.onreadystatechange = function() {
-      if ((xhr.readyState === requestFinished) && (xhr.status === successfulRequest)) {
-         console.log("reviews.js: Response OK from js/db/reviewQueryTest.js.");
-         console.log("reviews.js - responseText: " + xhr.responseText);
-
-         var queryResults = xhr.responseText;
-         callbackFunct(queryResults);
-      }
-   };
+   xhr.onreadystatechange = stateChanged;
    xhr.send();
+}
+
+function stateChanged(){
+   if ((this.readyState === requestFinished) && (this.status === successfulRequest)) {
+      console.log("reviews.js: Response OK from js/db/reviewQueryTest.js.");
+      console.log("reviews.js - responseText: " + this.responseText);
+
+      var queryResults = this.responseText;
+      constructReviews(queryResults);
+   }
 }
 
 function constructReviews(queryResults) {
