@@ -109,6 +109,7 @@
       console.log("\nreply - Reponse: " + response);
 
       console.log("reply - Rows directly returned from query: " + rows);
+      console.log("reply - Rows after being stringified: " + JSON.stringify(rows));
       console.log("reply - Rows parsed below: " );
 
       //http://stackoverflow.com/questions/5533192/how-to-get-object-length
@@ -116,16 +117,6 @@
       for (var i = 0; i < Object.keys(rows).length; i++) {
          console.log("Row " + i + ": " + rows[i].text);
       }
-
-/*
-      var rowString = JSON.stringify(rows);
-      console.log("reply - Rows after being stringified: " + rowString);
-
-      var parsedRow = JSON.parse(rowString);
-      console.log("reply - rows after parsing: " + parsedRow);
-
-      console.log("reply - rows[0] after parsing: " + parsedRow[0]);
-*/
       /*
       var typeHeader = { 'Content-Type': "text/plain" };
       response.writeHead(OK, typeHeader);
