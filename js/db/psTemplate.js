@@ -8,7 +8,7 @@
    queryDB();
 
    function queryDB() {
-      SQL.verbose();           //remember to change path if coping and pasting to server
+      SQL.verbose();           //remember to change path to js/db/test.db if coping and pasting to server
       var db = new SQL.Database("test.db");
 
       var response = "********* Server response would go here *********";
@@ -19,9 +19,6 @@
 
    function query(db, response) {
       console.log("query - Has the response has been passed to query :" + response);
-      //OLD: var ps = db.get("SELECT text, count(*) AS count FROM Review", reply.bind(null, responseGoesHere));
-
-      //var errorFunctWithBoundArgs = errorFunct.bind(null, null, "Response goes here");
 
       //When preparing was successful, the first and only argument to the callback is null,
       //otherwise it is the error object. When bind parameters are supplied, they are bound
@@ -54,7 +51,7 @@
 
       if (error) {
          console.log("Error preparing SQL statement: " + error);
-         throw error;
+         throw error; //I think this is the way to do it? Need to confirm.
       }
       else {
          console.log("errorHandlePrepare - Statement object " + this);
@@ -110,7 +107,7 @@
 
       console.log("reply - Rows directly returned from query: " + rows);
       console.log("reply - Rows after being stringified: " + JSON.stringify(rows));
-      console.log("reply - Rows parsed below: " );
+      console.log("reply - Rows after being parse: " );
 
       //http://stackoverflow.com/questions/5533192/how-to-get-object-length
       //COMPATIBILITY ISSUES WITH Object.keys()

@@ -8,10 +8,10 @@
    queryDB();
 
    function queryDB() {
-      SQL.verbose();           //remember to change path if coping and pasting to server
-      var db = new SQL.Database("test.db");
+      SQL.verbose();
+      var db = new SQL.Database("js/db/test.db");
 
-      var queryWithBoundArgs = query.bind(null, db, "Response goes here")
+      var queryWithBoundArgs = query.bind(null, db, response)
       db.serialize(queryWithBoundArgs);
    }
 
