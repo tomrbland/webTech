@@ -107,7 +107,7 @@
 
       console.log("reply - Rows directly returned from query: " + rows);
       console.log("reply - Rows after being stringified: " + JSON.stringify(rows));
-      console.log("reply - Rows after being parse: " );
+      console.log("reply - Rows after being parsed: " );
 
       //http://stackoverflow.com/questions/5533192/how-to-get-object-length
       //COMPATIBILITY ISSUES WITH Object.keys()

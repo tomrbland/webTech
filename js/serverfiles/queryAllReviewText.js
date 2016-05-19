@@ -27,7 +27,7 @@
    function query(db, response) {
       console.log("query - Has the response has been passed to query :" + response);
 
-      var ps = db.prepare("SELECT text FROM Review;", errorHandlePrepare);
+      var ps = db.prepare("SELECT username, text FROM Review JOIN Person ON Review.personid = Person.id;", errorHandlePrepare);
 
       ps.run(/*if user input for ?, put as 1st arg",*/errorHandleRun);
 
@@ -78,12 +78,12 @@
 
       console.log("reply - Rows directly returned from query: " + rows);
       console.log("reply - Rows after being stringified: " + JSON.stringify(rows));
-      console.log("reply - Rows after being parse: " );
+      console.log("reply - Rows after being parsed: " );
 
       //http://stackoverflow.com/questions/5533192/how-to-get-object-length
       //COMPATIBILITY ISSUES WITH Object.keys()
       for (var i = 0; i < Object.keys(rows).length; i++) {
-         console.log("reply - Row " + i + ": " + rows[i].text);
+         console.log("reply - Row " + i + ": " + rows[i].username + ": " + rows[i].text);
       }
 
       var typeHeader = { 'Content-Type': "text/plain" };
