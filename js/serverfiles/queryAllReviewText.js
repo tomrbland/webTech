@@ -15,6 +15,9 @@
 
    /**
     * Opens connection to Database.
+    *
+    * https://github.com/mapbox/node-sqlite3/wiki
+    *
     * Puts the execution mode into serialized. This means that at
     * most one statement object can execute a query at a time.
     * Other statements wait in a queue until the previous statements
@@ -33,15 +36,24 @@
       db.serialize(query.bind(null, db, response));
    }
 
+   /**
+    * Pepares statement to get the review text.
+    */
    function query(db, response) {
       console.log("query - Has the response has been passed to query :" + response);
 
+      //Database#prepare(sql, [param, ...], [callback])
+      //When preparing was successful, the first and only argument to the callback is null, otherwise it is the error object.
       var ps = db.prepare("SELECT username, text FROM Review JOIN Person ON Review.personid = Person.id;", errorHandlePrepare);
 
+//WHY do we need .run and .all?
+
+      //Statement#run([param, ...], [callback])
       ps.run(/*if user input for ?, put as 1st arg",*/errorHandleRun);
 
-      var replyWithBoundArgs = reply.bind(null, response);
-      ps.all(/*if user input for ?, put as 1st arg",*/replyWithBoundArgs);
+      //Statement#all([param, ...], [callback])
+      //Binds parameters, executes the statement and calls the callback with all result rows.
+      ps.all(/*if user input for ?, put as 1st arg",*/reply.bind(null, response));
 
       ps.finalize();
 
