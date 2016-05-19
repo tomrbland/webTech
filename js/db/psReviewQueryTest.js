@@ -20,7 +20,9 @@
    function query(db, response) {
       //var ps = db.get("SELECT text, count(*) AS count FROM Review", reply.bind(null, responseGoesHere));
 
-      var ps = db.prepare("SELECT text, count(*) AS count FROM Review", errorFunct);
+      var errorFunctWithBoundArgs = errorFunct.bind(null, null, "Response goes here")
+
+      var ps = db.prepare("SELECT text, count(*) AS count FROM Review", errorFunctWithBoundArgs);
                                        //[] to make last arg for error callbackFunct, see: https://github.com/mapbox/node-sqlite3/wiki/API
       ps.run(/*user input for 1st arg",*/[], errorFunct)
 
@@ -29,6 +31,21 @@
       ps.finalize();
       db.close();
    }
+
+   // Am I handling this correctly?
+   function errorFunct(error, response) {
+      console.log("1st arg in errorFunct (null means successful execution): " + error);
+      console.log("2nd arg in errorFunct: " + response);
+
+      if (error) {
+         console.log("Error: " + error);
+         throw error;
+      }
+      else {
+         console.log("this? " + this);
+      }
+   }
+
 
    function reply(response, err, row){
       console.log("responseGoesHere: " + response);
@@ -41,12 +58,4 @@
       response.writeHead(OK, typeHeader);
       response.write(returnData);
       response.end(); */
-   }
-
-   // Am I handling this correctly?
-   function errorFunct(e) {
-      if (e) {
-         console.log("Error: " + e);
-         throw e;
-      }
    }
