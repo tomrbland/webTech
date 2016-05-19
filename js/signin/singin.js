@@ -1,13 +1,13 @@
 "use strict";
 
 if (addEventListener) {
-   addEventListener("load", adduser);
+   addEventListener("load", signin);
 }
 else {
-   attachEvent("onload", adduser);
+   attachEvent("onload", signin);
 }
 
-function adduser(){
+function signin(){
    //Do server comms
    redirect();
 
