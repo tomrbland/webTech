@@ -51,61 +51,61 @@ function size(){
       var photos = document.querySelector("#photos");
       var weather = document.querySelector("#weather");
       var map = document.querySelector("#map");
-      var reviews = document.querySelector("#reviews");
-      var parent = reviews.parentNode;
+      var reviewsContainer = document.querySelector("#reviewsContainer");
+      var parent = reviewsContainer.parentNode;
 
       parent.removeChild(photos);
       parent.removeChild(weather);
       parent.removeChild(map);
-      parent.removeChild(reviews);
+      parent.removeChild(reviewsContainer);
 
       if(window.innerWidth > 768){
-         console.log("stylewithjs.js: Div order reviews, photos");
+         console.log("stylewithjs.js: Div order reviewsContainer, photos");
          parent.appendChild(map);
          parent.appendChild(weather);
-         parent.appendChild(reviews);
+         parent.appendChild(reviewsContainer);
          parent.appendChild(photos);
 
          photos.style.float = "right";
          weather.style.float = "right";
          map.style.float = "left";
-         reviews.style.float = "left";
+         reviewsContainer.style.float = "left";
 
          photos.style.clear = "right";
          weather.style.clear = "right";
          map.style.clear = "left";
-         reviews.style.clear = "left";
+         reviewsContainer.style.clear = "left";
 
          photos.style.width = "35%";
          weather.style.width = "35%";
          map.style.width = "65%";
-         reviews.style.width = "65%";
+         reviewsContainer.style.width = "65%";
 
-         reviews.style.overflowY = "scroll";
+         reviewsContainer.style.overflowY = "scroll";
       }
       else{
-         console.log("stylewithjs.js: Div order photos, reviews");
+         console.log("stylewithjs.js: Div order photos, reviewsContainer");
          parent.appendChild(weather);
          parent.appendChild(map);
          parent.appendChild(photos);
-         parent.appendChild(reviews);
+         parent.appendChild(reviewsContainer);
 
          photos.style.float = "none";
          weather.style.float = "none";
          map.style.float = "none";
-         reviews.style.float = "none";
+         reviewsContainer.style.float = "none";
 
          photos.style.clear = "both";
          weather.style.clear = "both";
          map.style.clear = "both";
-         reviews.style.clear = "both";
+         reviewsContainer.style.clear = "both";
 
          photos.style.width = "100%";
          weather.style.width = "100%";
          map.style.width = "100%";
-         reviews.style.width = "100%";
+         reviewsContainer.style.width = "100%";
 
-         reviews.style.overflowY = "initial";
+         reviewsContainer.style.overflowY = "initial";
       }
    }
 }

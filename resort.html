@@ -25,6 +25,8 @@
    <script type="text/javascript" src="js/pagelayout/resortheader.js"></script>
    <script type="text/javascript" src="js/pagelayout/navigation.js"></script>
    <script type="text/javascript" src="js/pagelayout/stylewithjs.js"></script>
+   <script type="text/javascript" src="js/pagelayout/addreviewbutton.js"></script>
+
    <script src="https://rawgithub.com/darkskyapp/skycons/master/skycons.js"></script>
    <script type="text/javascript" src="js/weather/weather.js"></script>
    <script type="text/javascript" src="js/reviews/reviews.js"></script>
@@ -42,12 +44,25 @@
       <div id="responsive">
          <div id="map"></div>
          <div id="weather"></div>
-         <div id="reviews"></div>
+         <div id="reviewsContainer">
+            <button id="addReviewButton">Add Review</button>
+            <div id="reviews"></div>
+         </div>
          <div id="photos">
             <img src="images/img0.jpg" id="img"/>
             <div id="left_arrow"></div>
             <div id="right_arrow"></div>
          </div>
+      </div>
+   </div>
+   <div id="dim">
+      <div id ="writeReview">
+         <div id="closeButton" class="closeWriteReview">X</div>
+         <form id="reviewWriter" action="index.html" method="get">
+            <p><input id = "fullWidthInput" type="text" name="title" value="" placeholder="Title" required/></p>
+            <p><textarea id = "fullWidthInput" name="text" rows="8" cols="40" placeholder="Review Content" required></textarea></p>
+            <p><input id = "halfWidthInput" type="submit" value="Submit"/></p>
+         </form>
       </div>
    </div>
    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.23&amp;key=AIzaSyCF0h_aHXgcRongPhkPI7dV2vvYSOWPV80"></script>
