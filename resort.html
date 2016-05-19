@@ -57,8 +57,12 @@
    </div>
    <div id="dim">
       <div id ="writeReview">
-         <div id="closeButton">X</div>
-         review writing
+         <div id="closeButton" class="closeWriteReview">X</div>
+         <form id="reviewWriter" action="index.html" method="get">
+            <p><input id = "fullWidthInput" type="text" name="title" value="" placeholder="Title" required/></p>
+            <p><textarea id = "fullWidthInput" name="text" rows="8" cols="40" placeholder="Review Content" required></textarea></p>
+            <p><input id = "halfWidthInput" type="submit" value="Submit"/></p>
+         </form>
       </div>
    </div>
    <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.23&amp;key=AIzaSyCF0h_aHXgcRongPhkPI7dV2vvYSOWPV80"></script>
