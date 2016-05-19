@@ -5,7 +5,8 @@
 
 //Imports
    var HTTP = require('http');
-   var HANDLER = require('./handle.js');
+   var REDIRECT = require('./redirect.js');
+   //var HANDLER = require('./handle.js');
 
 //Exports
    module.exports = {
@@ -19,7 +20,7 @@
 
    // Provide a service to localhost only.
    function _start(port) {
-      var service = HTTP.createServer(HANDLER.handle);
+      var service = HTTP.createServer(REDIRECT.handle);
       service.listen(port, 'localhost');
       console.log("Visit http://localhost:" + port);
    }
