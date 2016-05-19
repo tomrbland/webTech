@@ -1,3 +1,4 @@
+.DS_Store
 js/serverfiles/cert
 js/serverfiles/key
 js/serverfiles/cert.pem
