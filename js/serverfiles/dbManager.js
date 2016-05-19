@@ -17,3 +17,16 @@
          QUERYDB.getAllReviewText(response);
       }
    }
+
+   /*
+      function work(func) {
+          alert("I am calling the callback!");
+          func();
+      }
+
+      function callback() {
+         alert("I am in the callback!");
+      }
+
+      work(callback);
+      */
