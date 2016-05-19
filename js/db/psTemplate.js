@@ -13,12 +13,12 @@
 
       var response = "********* Server response would go here *********";
 
-      var queryWithBoundArgs = query.bind(null, db, response)
+      var queryWithBoundArgs = query.bind(null, db, response);
       db.serialize(queryWithBoundArgs);
    }
 
    function query(db, response) {
-      console.log("Has the response has been passed to query :" + response);
+      console.log("query - Has the response has been passed to query :" + response);
       //OLD: var ps = db.get("SELECT text, count(*) AS count FROM Review", reply.bind(null, responseGoesHere));
 
       //var errorFunctWithBoundArgs = errorFunct.bind(null, null, "Response goes here");
@@ -26,32 +26,42 @@
       //When preparing was successful, the first and only argument to the callback is null,
       //otherwise it is the error object. When bind parameters are supplied, they are bound
       //to the prepared statement before calling the callback.
-      var ps = db.prepare("SELECT text, count(*) AS count FROM Review", errorHandlePrepare);
+      var ps = db.prepare("SELECT text FROM Review;", errorHandlePrepare);
 
-      ps.run(/*if user input for ?, put as 1st arg",*/ errorHandleRun);
+      ps.run(/*if user input for ?, put as 1st arg",*/errorHandleRun);
 
-      //OLD: ps.each(ps, reply.bind(null, response));
+      //The signature of the callback is function(err, rows) {}. If the result set is empty,
+      //the second parameter is an empty array, otherwise it contains an object for each result
+      //row which in turn contains the values of that row. Like with Statement#run, the statement
+      //will not be finalized after executing this function.
 
+      //Note that it first retrieves all result rows and stores them in memory. For queries that
+      //have potentially large result sets, use the Database#each function to retrieve all rows or
+      //Database#prepare followed by multiple Statement#get calls to retrieve a previously unknown amount of rows.
+
+      var replyWithBoundArgs = reply.bind(null, response);
+
+      ps.all(/*if user input for ?, put as 1st arg",*/replyWithBoundArgs);
       ps.finalize();
+
       db.close();
    }
 
    //If an error occurred, the first (and only) parameter will be an error object containing the error message.
    //If execution was successful, the first parameter is null.
    function errorHandlePrepare(error) {
-      console.log("errorHandlePrepare - 1st arg (null means successful preparation): " + error);
+      console.log("\nerrorHandlePrepare - 1st arg (null means successful preparation): " + error);
 
       if (error) {
          console.log("Error preparing SQL statement: " + error);
          throw error;
       }
       else {
-         console.log("errorHandlePrepare - statement object " + this);
+         console.log("errorHandlePrepare - Statement object " + this);
          var statementString = JSON.stringify(this);
-         console.log("errorHandlePrepare - statement object after stringify" + statementString);
+         console.log("errorHandlePrepare - Statement object after stringify" + statementString);
       }
    }
-
 
    //Binds parameters and executes the statement. The function returns the Statement object to allow for
    //function chaining.
@@ -65,12 +75,11 @@
    //If an error occurred, the first (and only) parameter will be an error object containing the error message.
    //If execution was successful, the first parameter is null.
    function errorHandleRun(error) {
-      console.log("errorHandleRun - 1st arg (null means successful preparation): " + error);
-      //console.log("errorHandleRun - 2nd arg " + response);
+      console.log("\nerrorHandleRun - 1st arg (null means successful preparation): " + error);
 
       if (error) {
          console.log("Error running SQL statement: " + error);
-         throw error;
+         throw error; //I think this is the way to do it? Need to confirm.
       }
       else {
          /*
@@ -84,34 +93,39 @@
          sets these two values; all other query methods such as .all() or .get() don't retrieve
          these values.
          */
-         console.log("errorHandleRun - statement object " + this);
+         console.log("errorHandleRun - Statement object " + this);
          var statementString = JSON.stringify(this);
-         console.log("errorHandleRun - statement object after stringify" + statementString);
+         console.log("errorHandleRun - Statement object after stringify" + statementString);
 
          var parsedStatementObject = JSON.parse(statementString);
 
-         //If the prepared statement that was run didn't INSERT or DELETE and is
-         //just a SELECT
          if ((parsedStatementObject.lastID === 0) && (parsedStatementObject.changes === 0)) {
             console.log("errorHandleRun - No INSERT or DELETE. This is a SELECT query.");
-
-
          }
-
-
-      //   this.all(reply.bind(null, response))
       }
    }
 
+   function reply(response, err, rows) {
+      console.log("\nreply - Reponse: " + response);
 
+      console.log("reply - Rows directly returned from query: " + rows);
+      console.log("reply - Rows parsed below: " );
 
+      //http://stackoverflow.com/questions/5533192/how-to-get-object-length
+      //COMPATIBILITY ISSUES WITH Object.keys()
+      for (var i = 0; i < Object.keys(rows).length; i++) {
+         console.log("Row " + i + ": " + rows[i].text);
+      }
 
-   function reply(response, err, row){
-      console.log("responseGoesHere: " + response);
-      console.log("row directly returned from query: " + row);
+/*
+      var rowString = JSON.stringify(rows);
+      console.log("reply - Rows after being stringified: " + rowString);
 
-      var returnData = JSON.stringify(row);
-      console.log("row after being stringified: " + returnData);
+      var parsedRow = JSON.parse(rowString);
+      console.log("reply - rows after parsing: " + parsedRow);
+
+      console.log("reply - rows[0] after parsing: " + parsedRow[0]);
+*/
       /*
       var typeHeader = { 'Content-Type': "text/plain" };
       response.writeHead(OK, typeHeader);
