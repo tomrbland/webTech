@@ -4,7 +4,8 @@
    var UTIL = require('./utilities.js');
    var URL_UTIL = require('./urlUtils.js');
    var REPLIER = require('./reply.js');
-   var QUERYDB = require('./queryAllReviewText.js');
+   //var QUERYDB = require('./queryAllReviewText.js');
+   var DBMANAGER = require('./dbManager.js');
 
    //Exports
    module.exports = {
@@ -41,11 +42,11 @@
       //If a browser accepts XHTML, change type to XHTML
       if (type == "text/html") type = URL_UTIL.negotiate(request.headers.accept);
 
-      //console.log("reponse before last conditional: " + response);
-      if (url == "/js/db/reviewquerytest.js") {
-         console.log("URL going into getAllReviewText() " + url);
-         console.log("response before going into getAllReviewText()" + response);
-         QUERYDB.getAllReviewText(response);
+      if (url.includes("/js/db/")) {
+         console.log("~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~ URL DOES INCLUDE /js/db/ ~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~");
+         console.log("URL going into dbManager " + url);
+         console.log("response before going into dbManager" + response);
+         DBMANAGER.route(url, response);
       }
       else {
          console.log("URL going to reply.js: " + url);
