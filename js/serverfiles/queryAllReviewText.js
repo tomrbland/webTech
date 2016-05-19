@@ -49,7 +49,7 @@
 //WHY do we need .run and .all?
 
       //Statement#run([param, ...], [callback])
-      ps.run(/*if user input for ?, put as 1st arg",*/errorHandleRun);
+      //ps.run(/*if user input for ?, put as 1st arg",*/errorHandleRun);
 
       //Statement#all([param, ...], [callback])
       //Binds parameters, executes the statement and calls the callback with all result rows.
