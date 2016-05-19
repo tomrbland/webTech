@@ -11,6 +11,7 @@
    };
 
    function _route(url, repsonse) {
+      //should create a directory of empty files for db requests.
       if (url == "/js/db/reviewquerytest.js") {
          console.log("URL going into getAllReviewText() " + url);
          console.log("response before going into getAllReviewText()" + response);
