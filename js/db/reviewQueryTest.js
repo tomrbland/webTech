@@ -7,19 +7,28 @@
 
    queryDB();
 
+   /**
+    * Connects to db. Makes connection serial.
+    */
    function queryDB() {
       SQL.verbose();
       var db = new SQL.Database("js/db/test.db");
 
-      var queryWithBoundArgs = query.bind(null, db, response)
-      db.serialize(queryWithBoundArgs);
+      db.serialize(query.bind(null, db, response));
    }
 
+   /**
+    * Prepares the statement. And attaches the reply handler.
+    * Closes connection to the db.
+    */
    function query(db, responseGoesHere) {
       var ps = db.get("SELECT text, count(*) AS count FROM Review", reply.bind(null, responseGoesHere));
       db.close();
    }
 
+   /**
+    * Simply stringifys returnded data.
+    */
    function reply(responseGoesHere, err, row){
       console.log("responseGoesHere: " + responseGoesHere);
       console.log("row directly returned from query: " + row);
