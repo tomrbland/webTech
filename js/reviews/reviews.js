@@ -41,8 +41,6 @@ function constructReviews(queryResults) {
       console.log("reviews.js - Row " + i + ": " + parsedResults[k].username + ": " + parsedResults[k].text);
    }
 
-   //parsedResult = parsedResult.text;
-
    for(var i = 0; i < k; i++){
       var review = document.createElement("div");
       review.className = "review";

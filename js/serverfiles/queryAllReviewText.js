@@ -17,7 +17,7 @@
       console.log("Entered _getAllReviewText");
       console.log("response in _getAllReviewText: " + response);
 
-      SQL.verbose();           //remember to change path if coping and pasting to server
+      SQL.verbose();           
       var db = new SQL.Database("js/db/test.db");
 
       var queryWithBoundArgs = query.bind(null, db, response);
