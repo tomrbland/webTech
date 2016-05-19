@@ -47,7 +47,7 @@
        * When preparing was successful, the first and only argument
        * to the callback is null, otherwise it is the error object.
        */
-      var ps = db.prepare("SELECT username, text FROM Review JOIN Person ON Review.personid = Person.id;", errorHandlePrepare);
+      var ps = db.prepare("SELECT username, title, text FROM Review JOIN Person ON Review.personid = Person.id;", errorHandlePrepare);
 
 //WHY do we need .run and .all both execute the statement?
       //Statement#run([param, ...], [callback])
@@ -117,7 +117,7 @@
       //http://stackoverflow.com/questions/5533192/how-to-get-object-length
       //COMPATIBILITY ISSUES WITH Object.keys()
       for (var i = 0; i < Object.keys(rows).length; i++) {
-         console.log("reply - Row " + i + ": " + rows[i].username + ": " + rows[i].text);
+         console.log("reply - Row " + i + ": " + rows[i].username + ": " + rows[i].title + ": " + rows[i].text);
       }
 
       var typeHeader = { 'Content-Type': "text/plain" };

@@ -39,7 +39,7 @@ function constructReviews(queryResults) {
    console.log("reviews.js - parsedResults: " + parsedResults);
 
    for (var k = 0; k < Object.keys(parsedResults).length; k++) {
-      console.log("reviews.js - Row " + i + ": " + parsedResults[k].username + ": " + parsedResults[k].text);
+      console.log("reviews.js - Row " + i + ": " + parsedResults[k].username + ": " + parsedResults[k].title + ": " + parsedResults[k].text);
    }
 
    for(var i = 0; i < k; i++){
@@ -47,7 +47,7 @@ function constructReviews(queryResults) {
       review.className = "review";
 
       var h3 = document.createElement("h3");
-      h3.innerHTML = i + 1 + ". A Review for " + resortName;
+      h3.innerHTML = parsedResults[i].title;
 
       var p = document.createElement("p");
       p.innerHTML = parsedResults[i].username + ": " + parsedResults[i].text;
