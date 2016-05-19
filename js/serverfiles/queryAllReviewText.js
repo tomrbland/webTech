@@ -13,15 +13,24 @@
    //Code
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
 
+   /**
+    * Opens connection to Database.
+    * Puts the execution mode into serialized. This means that at
+    * most one statement object can execute a query at a time.
+    * Other statements wait in a queue until the previous statements
+    * executed.
+    * If a callback is provided, it will be called immediately. All
+    * database queries scheduled in that callback will be serialized.
+    * After the function returns, the database is set back to its
+    * original mode again.
+    */
    function _getAllReviewText(response) {
       console.log("Entered _getAllReviewText");
       console.log("response in _getAllReviewText: " + response);
 
-      SQL.verbose();           
+      SQL.verbose();
       var db = new SQL.Database("js/db/test.db");
-
-      var queryWithBoundArgs = query.bind(null, db, response);
-      db.serialize(queryWithBoundArgs);
+      db.serialize(query.bind(null, db, response));
    }
 
    function query(db, response) {
