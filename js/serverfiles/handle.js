@@ -46,6 +46,7 @@
          console.log("~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~ URL DOES INCLUDE /js/db/ ~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~");
          console.log("URL going into dbManager " + url);
          console.log("response before going into dbManager" + response);
+
          DBMANAGER.route(url, response);
       }
       else {

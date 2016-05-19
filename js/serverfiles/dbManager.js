@@ -10,24 +10,13 @@
       }
    };
 
-   function _route(url, repsonse) {
-      //should create a directory of empty files for db requests.
-      if (url == "/js/db/reviewquerytest.js") {
-         console.log("URL going into getAllReviewText() " + url);
-         console.log("response before going into getAllReviewText()" + response);
-         QUERYDB.getAllReviewText(response);
+   function _route(url, response) {
+      switch (url) {
+         case "/js/db/reviewquerytest.js":
+            console.log("URL going into getAllReviewText() " + url);
+            console.log("response before going into getAllReviewText()" + response);
+            QUERYDB.getAllReviewText(response);
+         break;
+         default: console.log("Error in routing.");
       }
    }
-
-   /*
-      function work(func) {
-          alert("I am calling the callback!");
-          func();
-      }
-
-      function callback() {
-         alert("I am in the callback!");
-      }
-
-      work(callback);
-      */
