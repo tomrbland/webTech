@@ -47,10 +47,10 @@ function constructReviews(queryResults) {
       review.className = "review";
 
       var h3 = document.createElement("h3");
-      h3.innerHTML = parsedResults[i].title;
+      h3.innerHTML = "\"" + parsedResults[i].title + "\"" + " - " + parsedResults[i].username;
 
       var p = document.createElement("p");
-      p.innerHTML = parsedResults[i].username + ": " + parsedResults[i].text;
+      p.innerHTML = parsedResults[i].text;
 
       review.appendChild(h3);
       review.appendChild(p);
