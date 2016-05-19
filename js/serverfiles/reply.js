@@ -1,7 +1,9 @@
-//Imports
+   "use strict";
+
+   //Imports
    var FS = require('fs');
 
-//Exports
+   //Exports
    module.exports = {
       reply: function(response, url, type){
          _reply(response, url, type);
@@ -12,7 +14,7 @@
       }
    };
 
-//Code
+   //Code
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
 
    function _reply(response, url, type) {

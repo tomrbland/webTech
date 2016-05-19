@@ -1,14 +1,16 @@
-//Imports
+   "use strict";
+
+   //Imports
    var SQL = require("sqlite3");
 
-//Exports
+   //Exports
    module.exports = {
       getAllReviewText: function(response){
          _getAllReviewText(response);
       }
    };
 
-//Code
+   //Code
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
 
    function _getAllReviewText(response) {
@@ -23,9 +25,9 @@
    }
 
    function query(db, response) {
-        //only gets 1st row, needs changing
-        var ps = db.get("SELECT * FROM Review", reply.bind(null, response));
-        db.close();
+      //only gets 1st row, needs changing
+      var ps = db.get("SELECT * FROM Review", reply.bind(null, response));
+      db.close();
    }
 
    function reply(response, err, row){

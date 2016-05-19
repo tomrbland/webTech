@@ -1,17 +1,19 @@
-//Imports
+   "use strict";
+
+   //Imports
    var UTIL = require('./utilities.js');
    var URL_UTIL = require('./urlUtils.js');
    var REPLIER = require('./reply.js');
    var QUERYDB = require('./queryAllReviewText.js');
 
-//Exports
+   //Exports
    module.exports = {
       handle: function(request, response){
          _handle(request, response);
       }
    };
 
-//Code
+   //Code
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
 
    function _handle(request, response) {

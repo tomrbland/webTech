@@ -1,10 +1,12 @@
-/*
- * Generic untility functions
- */
+   "use strict";
 
-//Imports
+   /*
+    * Generic untility functions
+    */
 
-//Exports
+   //Imports
+
+   //Exports
    module.exports = {
       // Check whether a string starts with a prefix
       starts: function (s, x) {
@@ -21,4 +23,4 @@
       }
    };
 
-//Code
+   //Code

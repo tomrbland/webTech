@@ -14,7 +14,7 @@ else {
 function addReviews() {
    console.log("reviews.js: addReviews - event on load. REQUIRES global resortName");
 
-   var reviewText = queryDBAndOnResultReturn(constructReviews);
+   queryDBAndOnResultReturn(constructReviews);
 }
 
 function queryDBAndOnResultReturn(callbackFunct) {
@@ -34,7 +34,11 @@ function queryDBAndOnResultReturn(callbackFunct) {
 }
 
 function constructReviews(queryResult) {
-   console.log("queryResult: " + queryResult);
+   console.log("queryResult before JSON parsing: " + queryResult);
+   var parsedResult = JSON.parse(queryResult);
+   console.log("parsedResult :" + parsedResult);
+   parsedResult = parsedResult.text;
+   console.log("parsedResult text :" + parsedResult);
 
    for(var i = 0; i < numOfReviews; i++){
       var review = document.createElement("div");
@@ -44,7 +48,7 @@ function constructReviews(queryResult) {
       h3.innerHTML = i + 1 + ". A Review for " + resortName;
 
       var p = document.createElement("p");
-      p.innerHTML = queryResult;
+      p.innerHTML = parsedResult;
 
       review.appendChild(h3);
       review.appendChild(p);

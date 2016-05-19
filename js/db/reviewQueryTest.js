@@ -1,37 +1,34 @@
-"use strict";
+   "use strict";
 
-if (addEventListener) {
-   addEventListener("load", queryDB);
-}
-else {
-   attachEvent("onload", queryDB);
-}
+   //Imports
+   var SQL = require("sqlite3");
 
-function queryDB() {
-   var sql = require("sqlite3");
-   sql.verbose();
-   var db = new sql.Database("test.db");
-   db.serialize(query);
-}
+   //Exports: N/A
 
-function query() {
-  db.each("SELECT * FROM Review", function(err, row) {
-    console.log(row);
-  });
-  db.close();
-}
+   queryDB();
 
-/*
-var fileSystem = require("fs");
-fileSystem.writeFile("weatherdata.json", jsonWeatherData, function(err) {
-   if(err) {
-      return console.log(err);
+   function queryDB() {
+      SQL.verbose();           //remember to change path if coping and pasting to server
+      var db = new SQL.Database("test.db");
+
+      var queryWithBoundArgs = query.bind(null, db, "Response goes here")
+      db.serialize(queryWithBoundArgs);
    }
-console.log("The file was saved!"); });
-*/
 
-function err(e) {
-   if (e) {
-      throw e;
+   function query(db, responseGoesHere) {
+      var ps = db.get("SELECT text, count(*) AS count FROM Review", reply.bind(null, responseGoesHere));
+      db.close();
    }
-}
+
+   function reply(responseGoesHere, err, row){
+      console.log("responseGoesHere: " + responseGoesHere);
+      console.log("row directly returned from query: " + row);
+
+      var returnData = JSON.stringify(row);
+      console.log("row after being stringified: " + returnData);
+      /*
+      var typeHeader = { 'Content-Type': "text/plain" };
+      response.writeHead(OK, typeHeader);
+      response.write(returnData);
+      response.end(); */
+   }
