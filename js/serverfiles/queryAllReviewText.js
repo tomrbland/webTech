@@ -42,24 +42,33 @@
    function query(db, response) {
       console.log("query - Has the response has been passed to query :" + response);
 
-      //Database#prepare(sql, [param, ...], [callback])
-      //When preparing was successful, the first and only argument to the callback is null, otherwise it is the error object.
+      /**
+       * Database#prepare(sql, [param, ...], [callback])
+       * When preparing was successful, the first and only argument
+       * to the callback is null, otherwise it is the error object.
+       */
       var ps = db.prepare("SELECT username, text FROM Review JOIN Person ON Review.personid = Person.id;", errorHandlePrepare);
 
-//WHY do we need .run and .all?
-
+//WHY do we need .run and .all both execute the statement?
       //Statement#run([param, ...], [callback])
       //ps.run(/*if user input for ?, put as 1st arg",*/errorHandleRun);
 
-      //Statement#all([param, ...], [callback])
-      //Binds parameters, executes the statement and calls the callback with all result rows.
+      /**
+       * Statement#all([param, ...], [callback])
+       * Binds parameters, executes the statement and calls the callback with all result rows.
+       */
       ps.all(/*if user input for ?, put as 1st arg",*/reply.bind(null, response));
 
+      //Close Statement
       ps.finalize();
 
+      //Close db connection
       db.close();
    }
 
+   /**
+    * For catching errors when preparing statment
+    */
    function errorHandlePrepare(error) {
       console.log("\nerrorHandlePrepare - 1st arg (null means successful preparation): " + error);
 
@@ -74,6 +83,7 @@
       }
    }
 
+/*
    function errorHandleRun(error) {
       console.log("\nerrorHandleRun - 1st arg (null means successful preparation): " + error);
 
@@ -93,7 +103,10 @@
          }
       }
    }
-
+*/
+   /**
+    * Reply from query
+    */
    function reply(response, err, rows) {
       console.log("\nreply - Reponse: " + response);
 
