@@ -1,166 +1,127 @@
-//Imports
+   "use strict";
+
+   //Imports
    var SQL = require("sqlite3");
 
-//Exports
+   //Exports
    module.exports = {
       getAllReviewText: function(response){
          _getAllReviewText(response);
       }
    };
 
-//Code
+   //Code
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
 
+   /**
+    * Opens connection to Database.
+    *
+    * https://github.com/mapbox/node-sqlite3/wiki
+    *
+    * Puts the execution mode into serialized. This means that at
+    * most one statement object can execute a query at a time.
+    * Other statements wait in a queue until the previous statements
+    * executed.
+    * If a callback is provided, it will be called immediately. All
+    * database queries scheduled in that callback will be serialized.
+    * After the function returns, the database is set back to its
+    * original mode again.
+    */
    function _getAllReviewText(response) {
       console.log("Entered _getAllReviewText");
       console.log("response in _getAllReviewText: " + response);
 
       SQL.verbose();
       var db = new SQL.Database("js/db/test.db");
-
-      var queryBind = query.bind(null, db, response)
-      db.serialize(queryBind);
+      db.serialize(query.bind(null, db, response));
    }
 
+   /**
+    * Pepares statement to get the review text.
+    */
    function query(db, response) {
-        //only gets 1st row, needs changing
-        var ps = db.get("SELECT * FROM Review", reply.bind(null, response));
-        db.close();
+      console.log("query - Has the response has been passed to query :" + response);
+
+      /**
+       * Database#prepare(sql, [param, ...], [callback])
+       * When preparing was successful, the first and only argument
+       * to the callback is null, otherwise it is the error object.
+       */
+      var ps = db.prepare("SELECT username, text FROM Review JOIN Person ON Review.personid = Person.id;", errorHandlePrepare);
+
+//WHY do we need .run and .all both execute the statement?
+      //Statement#run([param, ...], [callback])
+      //ps.run(/*if user input for ?, put as 1st arg",*/errorHandleRun);
+
+      /**
+       * Statement#all([param, ...], [callback])
+       * Binds parameters, executes the statement and calls the callback with all result rows.
+       */
+      ps.all(/*if user input for ?, put as 1st arg",*/reply.bind(null, response));
+
+      //Close Statement
+      ps.finalize();
+
+      //Close db connection
+      db.close();
    }
 
-   function reply(response, err, row){
-     console.log("row directly returned from query: " + row);
+   /**
+    * For catching errors when preparing statment
+    */
+   function errorHandlePrepare(error) {
+      console.log("\nerrorHandlePrepare - 1st arg (null means successful preparation): " + error);
 
-     var returnData = JSON.stringify(row);
-     console.log("row after being stringified: " + returnData);
-
-     var typeHeader = { 'Content-Type': "text/plain" };
-     response.writeHead(OK, typeHeader);
-     response.write(returnData);
-     response.end();
-  }
+      if (error) {
+         console.log("Error preparing SQL statement: " + error);
+         throw error; //I think this is the way to do it? Need to confirm.
+      }
+      else {
+         console.log("errorHandlePrepare - Statement object " + this);
+         var statementString = JSON.stringify(this);
+         console.log("errorHandlePrepare - Statement object after stringify" + statementString);
+      }
+   }
 
 /*
-   function query(one, two, three, four, queryInput, response, db) {
-      console.log("1: " + one);
-      console.log("2: " + two);
-      console.log("3: " + three);
-      console.log("4: " + four);
-      console.log("queryInput: " + queryInput);
-      console.log("reponse: " + response);
+   function errorHandleRun(error) {
+      console.log("\nerrorHandleRun - 1st arg (null means successful preparation): " + error);
 
-      var ps = db.prepare("SELECT * FROM Review WHERE id = ?", errorFunct);
-      ps.all(queryInput, show);
-      ps.finalize();
-      db.close();
+      if (error) {
+         console.log("Error running SQL statement: " + error);
+         throw error; //I think this is the way to do it? Need to confirm.
+      }
+      else {
+         console.log("errorHandleRun - Statement object " + this);
+         var statementString = JSON.stringify(this);
+         console.log("errorHandleRun - Statement object after stringify" + statementString);
+
+         var parsedStatementObject = JSON.parse(statementString);
+
+         if ((parsedStatementObject.lastID === 0) && (parsedStatementObject.changes === 0)) {
+            console.log("errorHandleRun - No INSERT or DELETE. This is a SELECT query.");
+         }
+      }
+   }
+*/
+   /**
+    * Reply from query
+    */
+   function reply(response, err, rows) {
+      console.log("\nreply - Reponse: " + response);
+
+      console.log("reply - Rows directly returned from query: " + rows);
+      console.log("reply - Rows after being stringified: " + JSON.stringify(rows));
+      console.log("reply - Rows after being parsed: " );
+
+      //http://stackoverflow.com/questions/5533192/how-to-get-object-length
+      //COMPATIBILITY ISSUES WITH Object.keys()
+      for (var i = 0; i < Object.keys(rows).length; i++) {
+         console.log("reply - Row " + i + ": " + rows[i].username + ": " + rows[i].text);
+      }
 
       var typeHeader = { 'Content-Type': "text/plain" };
       response.writeHead(OK, typeHeader);
-
-      response.write("************************ HI THERE CLIENT SIDE! ************************");
+      response.write(JSON.stringify(rows));
       response.end();
-      console.log("reponse after writing: " + response);
    }
-
-   function errorFunct(err) {
-      // to do
-   }
-
-   function show(err, row) {
-      if (err) throw err;
-      console.log("rows " + row);
-   }
-
-   function err(e) {
-      if (e) {
-         throw e;
-      }
-   }
-
-
-      function query(queryInput, db, r) {
-         console.log(queryInput);
-         var ps = db.prepare("SELECT * FROM Review WHERE id = ?", errorFunct);
-         //ps.all works with first arg as "1"
-         //scope issue with queryInput? it's either [] or undefined here console.log(queryInput);
-         console.log("response: " + r);
-
-         ps.all(queryInput, show);
-         ps.finalize();
-         db.close();
-
-         r.write(data);
-         r.end();
-      }
-
-      function errorFunct(err) {
-         // to do
-      }
-      function show(err, rows) {
-         if (err) throw err;
-         console.log("rows " + rows);
-
-         data = rows;
-      }
-
-      function err(e) {
-         if (e) {
-            throw e;
-         }
-      }
-   } */
-
-
-   /*
-         request.on('data', add);
-         request.on('end', end);
-
-         var body = "";
-         function add(chunk) {
-            body = body + chunk.toString();
-         }
-
-         function end() {
-            var QS = require("querystring");
-            console.log(body);
-            var params = QS.parse(body);
-
-            console.log("arg received from form: " + params.reviewTextID);
-            var queryInput = params.reviewTextID;
-
-            SQL.verbose();
-            var db = new SQL.Database("js/db/test.db");
-            var queryx = query.bind(null, queryInput, db)
-            db.serialize(queryx);
-
-            REPLIER.reply(response, url, type);
-         }
-
-         function query(queryInput, db) {
-            console.log(queryInput);
-            var ps = db.prepare("SELECT * FROM Review WHERE id = ?", errorFunct);
-            //ps.all works with first arg as "1"
-            //scope issue with queryInput? it's either [] or undefined here console.log(queryInput);
-            ps.all(queryInput, show);
-            ps.finalize();
-            db.close();
-         }
-
-         function errorFunct(err) {
-            // to do
-         }
-
-         function show(err, rows) {
-            if (err) throw err;
-            console.log(rows);
-         }
-
-         function err(e) {
-            if (e) {
-               throw e;
-            }
-         }
-         */
-         /*
-
-         */

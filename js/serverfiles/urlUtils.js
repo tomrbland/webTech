@@ -1,13 +1,15 @@
-/*
- * Utilities for parsing a URL
- * This file contains unit tests
- */
+   "use strict";
 
-//Imports
+   /*
+    * Utilities for parsing a URL
+    * This file contains unit tests
+    */
+
+   //Imports
    var FS = require('fs');
    var UTIL = require('./utilities.js');
 
-//Exports
+   //Exports
    module.exports = {
       valid: function (url) {
          return _valid(url);
@@ -38,12 +40,12 @@
       }
    };
 
-//Code
+   //Code
    var banned = defineBanned();
    var types = defineTypes();
 
    //TEST
-      test();
+   test();
 
    function _valid(url) {
       if (! UTIL.starts(url, "/")) return false;

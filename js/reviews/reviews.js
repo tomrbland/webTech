@@ -1,7 +1,6 @@
 "use strict";
 
 var requestFinished = 4, successfulRequest = 200;
-var numOfReviews = 10;
 var loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 
 if (addEventListener) {
@@ -13,30 +12,37 @@ else {
 
 function addReviews() {
    console.log("reviews.js: addReviews - event on load. REQUIRES global resortName");
-
-   var reviewText = queryDBAndOnResultReturn(constructReviews);
+   queryDBAndOnResultReturn();
 }
 
-function queryDBAndOnResultReturn(callbackFunct) {
+function queryDBAndOnResultReturn() {
    var xhr = new XMLHttpRequest();
-   xhr.open("GET", "js/db/reviewQuery.js", true);
+   xhr.open("GET", "js/db/reviewQueryTest.js", true);
 
-   xhr.onreadystatechange = function() {
-      if ((xhr.readyState === requestFinished) && (xhr.status === successfulRequest)) {
-         console.log("reviews.js: Response OK from js/db/reviewQuery.js.");
-         console.log("responseText: " + xhr.responseText);
-
-         var queryResult = xhr.responseText;
-         callbackFunct(queryResult);
-      }
-   };
+   xhr.onreadystatechange = stateChanged;
    xhr.send();
 }
 
-function constructReviews(queryResult) {
-   console.log("queryResult: " + queryResult);
+function stateChanged(){
+   if ((this.readyState === requestFinished) && (this.status === successfulRequest)) {
+      console.log("reviews.js: Response OK from js/db/reviewQueryTest.js.");
+      console.log("reviews.js - responseText: " + this.responseText);
 
-   for(var i = 0; i < numOfReviews; i++){
+      var queryResults = this.responseText;
+      constructReviews(queryResults);
+   }
+}
+
+function constructReviews(queryResults) {
+   console.log("reviews.js - queryResults before JSON parsing: " + queryResults);
+   var parsedResults = JSON.parse(queryResults);
+   console.log("reviews.js - parsedResults: " + parsedResults);
+
+   for (var k = 0; k < Object.keys(parsedResults).length; k++) {
+      console.log("reviews.js - Row " + i + ": " + parsedResults[k].username + ": " + parsedResults[k].text);
+   }
+
+   for(var i = 0; i < k; i++){
       var review = document.createElement("div");
       review.className = "review";
 
@@ -44,7 +50,7 @@ function constructReviews(queryResult) {
       h3.innerHTML = i + 1 + ". A Review for " + resortName;
 
       var p = document.createElement("p");
-      p.innerHTML = queryResult;
+      p.innerHTML = parsedResults[i].username + ": " + parsedResults[i].text;
 
       review.appendChild(h3);
       review.appendChild(p);
