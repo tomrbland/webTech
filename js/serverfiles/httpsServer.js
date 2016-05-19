@@ -1,6 +1,6 @@
 "use strict";
 /**
- * cert and key generated with "openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365"
+ * cert and key generated with "openssl req -x509 -sha512 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365"
  */
 
 //Imports
@@ -22,7 +22,7 @@
       var credentials = {
           key: FS.readFileSync('./js/serverfiles/key.pem'),
           cert: FS.readFileSync('./js/serverfiles/cert.pem'),
-          passphrase: 'knickers'
+          passphrase: 'verysecurepassword'
       }
 
       var service = HTTP.createServer(credentials, HANDLER.handle);
