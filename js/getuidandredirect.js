@@ -8,25 +8,46 @@ else {
 }
 
 function loaded(){
-   //server: write uid like this: document.querySelector("#uid").innerHTML = uidFrmServer;
+   var redirectLocation = "/index.html";
    getStatus();
+   getuid();
+   getusername();
+   if(redirectLocation === null) redirectLocation = "/index.html?error=ServerError";
+   redirect(redirectLocation);
 
    function getStatus(){
       var status = document.querySelector("#status").innerHTML;
-      if(status === "200"); //change display mode of fail and redirect back to where camefrom.
-      else{
-         getuid();
-         redirect();
+      console.log("Status: ", status);
+      if(status === "200"){
+         console.log("Status was 200");
+         redirectLocation = sessionStorage.getItem("currenturl");
       }
+      else error("fail");
    }
 
    function getuid(){
       var uid = document.querySelector("#uid").innerHTML;
+      if(uid === "$$") error("ServerError");
       sessionStorage.setItem("uid", uid);
    }
 
-   function redirect() {
-      var url = sessionStorage.getItem("currenturl");
-      window.location=url;
+   function getusername(){
+      var username = document.querySelector("#username").innerHTML;
+      if(username === "$$") error("ServerError");
+      sessionStorage.setItem("username", username);
+   }
+
+   function redirect(url) {
+      window.location.href=url;
+   }
+
+   function error(s){
+      console.log("ERROR: ", s);
+
+      var redirectingMessage = document.querySelector("#Success");
+      var failMessage = document.querySelector("#Fail");
+      redirectingMessage.style.display = "none";
+      failMessage.style.display = "block";
+      redirectLocation = sessionStorage.getItem("formsubmittedfrom")+"?error="+s;
    }
 }
