@@ -307,6 +307,10 @@ header {
    box-shadow: 2px 2px 5px grey;
 }
 
+#uid{
+   display: none;
+}
+
 /* unvisited link */
 a:link {
    color: black;
