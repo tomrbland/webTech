@@ -61,9 +61,11 @@
    <div id="dim">
       <div id ="writeReview">
          <div id="closeButton" class="closeWriteReview">X</div>
-         <form id="reviewWriter" action="index.html" method="get">
+         <form id="reviewWriter" action="/reviewsubmitted.html" method="POST" name="newReview">
             <p><input id = "fullWidthInput" type="text" name="title" value="" placeholder="Title" required/></p>
             <p><textarea id = "fullWidthInput" name="text" rows="8" cols="40" placeholder="Review Content" required></textarea></p>
+            <input id = "formusername" type="hidden" name="username" value="" required/>
+            <input id = "formuid" type="hidden" name="uid" value="" required/>
             <p><input id = "halfWidthInput" type="submit" value="Submit"/></p>
          </form>
       </div>

@@ -5,8 +5,11 @@ addEventListener("load", connectButton);
 function connectButton(){
    var button = document.querySelector("#addReviewButton");
    var close = document.querySelector(".closeWriteReview");
+   var uid = sessionStorage.getItem("uid");
+   var username = sessionStorage.getItem("username");
    button.addEventListener("click", amILoggedIn);
    close.addEventListener("click", closeAddReview);
+   completeForm();
 
    function closeAddReview(){
       var button = document.querySelector("#dim");
@@ -14,16 +17,17 @@ function connectButton(){
    }
 
    function amILoggedIn(){
-      var uid = sessionStorage.getItem("uid");
-      var username = sessionStorage.getItem("username");
+
+      /*// Uncomment to bypass login check
+      var reviewWriter = document.querySelector("#dim");
+      reviewWriter.style.display = "block";*/
+
       var xhr = new XMLHttpRequest();
       var data = "uid="+uid+"&username="+username;
 
       xhr.open("POST", "js/db/amILoggedIn", true);
       xhr.onreadystatechange = gotReply;
       xhr.send(data);
-
-      return false;
    }
 
    function gotReply(){
@@ -36,5 +40,12 @@ function connectButton(){
             window.location.href="/login.html";
          }
       }
+   }
+
+   function completeForm(){
+      var formUID = document.querySelector("#formuid");
+      var formUsername = document.querySelector("#formusername");
+      formUID.value = uid;
+      formUsername.value = username;
    }
 }
