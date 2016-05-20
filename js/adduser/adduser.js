@@ -8,12 +8,11 @@ else {
 }
 
 function adduser(){
-   //Do server comms
+   //Do server comms (get it to give the session UID to store in sessionStorage)
    redirect();
 
    function redirect() {
       var url = sessionStorage.getItem("currenturl");
-      console.log("Redirect");
       window.location=url;
    }
 }

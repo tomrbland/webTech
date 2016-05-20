@@ -8,7 +8,7 @@ else {
 }
 
 function login(){
-   //Do server comms
+   //Do server comms (get it to give the session UID to store in sessionStorage)
    redirect();
 
    function redirect() {
