@@ -9,8 +9,16 @@ else {
 
 function loaded(){
    //server: write uid like this: document.querySelector("#uid").innerHTML = uidFrmServer;
-   getuid();
-   redirect();
+   getStatus();
+
+   function getStatus(){
+      var status = document.querySelector("#status").innerHTML;
+      if(status === "200"); //change display mode of fail and redirect back to where camefrom.
+      else{
+         getuid();
+         redirect();
+      }
+   }
 
    function getuid(){
       var uid = document.querySelector("#uid").innerHTML;
