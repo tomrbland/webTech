@@ -10,8 +10,7 @@ else {
 function loaded(){
    var redirectLocation = "/index.html";
    getStatus();
-   getuid();
-   getusername();
+
    if(redirectLocation === null) redirectLocation = "/index.html?error=ServerError";
    redirect(redirectLocation);
 
@@ -25,19 +24,11 @@ function loaded(){
       else error("fail");
    }
 
-   function getuid(){
-      var uid = document.querySelector("#uid").innerHTML;
-      if(uid === "$$") error("ServerError");
-      sessionStorage.setItem("uid", uid);
-   }
-
-   function getusername(){
-      var username = document.querySelector("#username").innerHTML;
-      if(username === "$$") error("ServerError");
-      sessionStorage.setItem("username", username);
-   }
-
    function redirect(url) {
+      setTimeout(dotheredirect.bind(null, url),2000);
+   }
+
+   function dotheredirect(url) {
       window.location.href=url;
    }
 
