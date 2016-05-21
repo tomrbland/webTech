@@ -5,7 +5,7 @@
 
 //Imports
    var HTTP = require('https');
-   var HANDLER = require('./handle.js');
+   var URL_VALIDATION = require('./urlValidation.js');
    var FS = require('fs');
 
 //Exports
@@ -25,7 +25,7 @@
           passphrase: 'verysecurepassword'
       }
 
-      var service = HTTP.createServer(credentials, HANDLER.handle);
+      var service = HTTP.createServer(credentials, URL_VALIDATION.validate);
       service.listen(port, 'localhost');
       console.log("Visit https://localhost:" + port);
    }
