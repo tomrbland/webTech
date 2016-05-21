@@ -2,8 +2,8 @@
 
    //Imports
    var ACTION_ROUTER = require("./actionRouter")
-   var REPLIER = require("./reply.js");
    var DB_MANAGER = require("./dbManager.js");
+   var REPLIER = require("./reply.js");
 
    //Exports
    module.exports = {
