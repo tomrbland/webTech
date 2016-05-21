@@ -41,5 +41,28 @@
       //If a browser accepts XHTML, change type to XHTML
       if (type == "text/html") type = URL_UTIL.negotiate(request.headers.accept);
 
+      console.log("URL before going into handler: " + url);
+      console.log("Request before going into handler: " + request);
+
       HANDLER.handleURL(response, url, type);
    }
+
+   /*
+
+   var body = "";
+   request.on("data", add);
+   request.on("end", end)
+
+   function add(chunk) {
+      body = body + chunk.toString();
+   }
+
+   function end(response, url, type) {
+
+   //   var userInputParams = QUERY_STRING.parse(body);
+   //   console.log("handle.js - userInputParams: " + userInputParams);
+   //   console.log("handle.js - userInputParams.username: " + userInputParams.username);
+   //   console.log("handle.js - userInputParams.emailaddress: " + userInputParams.emailaddress);
+   //   console.log("handle.js - userInputParams.password: " + userInputParams.password);
+   }
+   */

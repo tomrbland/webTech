@@ -14,9 +14,10 @@
 
    function _handleURL(response, url, type) {
       switch (url) {
-         case "action.html":
+         case "/action.html":
             ACTION_ROUTER.route(response, url, type);
          break;
+         // the reviewsQuery should be performed via an action but will leave it as it is for now.
          case "/js/serverfiles/reviewsquery.js":
             DB_MANAGER.route(url, response);
          break;

@@ -11,6 +11,7 @@
       }
    };
 
-   function route() {
-      
+   function _route(response, url, type) {
+      console.log("URL in actionRouter: " + url);
+      console.log();
    }

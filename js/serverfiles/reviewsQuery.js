@@ -28,8 +28,8 @@
     * original mode again.
     */
    function _reviewsQuery(response) {
-      console.log("Entered _getAllReviewText");
-      console.log("response in _getAllReviewText: " + response);
+   //   console.log("Entered _getAllReviewText");
+   //   console.log("response in _getAllReviewText: " + response);
 
       SQL.verbose();
       var db = new SQL.Database("js/db/test.db");
@@ -40,7 +40,7 @@
     * Pepares statement to get the review text.
     */
    function query(db, response) {
-      console.log("query - Has the response has been passed to query :" + response);
+   //   console.log("query - Has the response has been passed to query :" + response);
 
       /**
        * Database#prepare(sql, [param, ...], [callback])
@@ -70,16 +70,16 @@
     * For catching errors when preparing statment
     */
    function errorHandlePrepare(error) {
-      console.log("\nerrorHandlePrepare - 1st arg (null means successful preparation): " + error);
+   //   console.log("\nerrorHandlePrepare - 1st arg (null means successful preparation): " + error);
 
       if (error) {
-         console.log("Error preparing SQL statement: " + error);
+      //   console.log("Error preparing SQL statement: " + error);
          throw error; //I think this is the way to do it? Need to confirm.
       }
       else {
-         console.log("errorHandlePrepare - Statement object " + this);
+      //   console.log("errorHandlePrepare - Statement object " + this);
          var statementString = JSON.stringify(this);
-         console.log("errorHandlePrepare - Statement object after stringify" + statementString);
+      //   console.log("errorHandlePrepare - Statement object after stringify" + statementString);
       }
    }
 
@@ -108,16 +108,16 @@
     * Reply from query
     */
    function reply(response, err, rows) {
-      console.log("\nreply - Reponse: " + response);
+   //   console.log("\nreply - Reponse: " + response);
 
-      console.log("reply - Rows directly returned from query: " + rows);
-      console.log("reply - Rows after being stringified: " + JSON.stringify(rows));
-      console.log("reply - Rows after being parsed: " );
+   //   console.log("reply - Rows directly returned from query: " + rows);
+   //   console.log("reply - Rows after being stringified: " + JSON.stringify(rows));
+   //   console.log("reply - Rows after being parsed: " );
 
       //http://stackoverflow.com/questions/5533192/how-to-get-object-length
       //COMPATIBILITY ISSUES WITH Object.keys()
       for (var i = 0; i < Object.keys(rows).length; i++) {
-         console.log("reply - Row " + i + ": " + rows[i].username + ": " + rows[i].title + ": " + rows[i].text);
+      //   console.log("reply - Row " + i + ": " + rows[i].username + ": " + rows[i].title + ": " + rows[i].text);
       }
 
       var typeHeader = { 'Content-Type': "text/plain" };
