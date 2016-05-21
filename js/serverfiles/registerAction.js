@@ -24,11 +24,11 @@
 
       fileContent = fileContent.toString();
 
-      var fc = fileContent.replace('<div class="hidden" id="status">$</div>', '<div class="hidden" id="status">200</div>');
-      var fc1 = fc.replace('<div class="hidden" id="uid">$</div>', '<div class="hidden" id="uid">1</div>');
-      var fc2 = fc1.replace('<div class="hidden" id="username">$</div>', '<div class="hidden" id="username">' + userInputParams.username + '</div>');
+      fileContent = fileContent.replace('<div class="hidden" id="status">$</div>', '<div class="hidden" id="status">200</div>');
+      fileContent = fileContent.replace('<div class="hidden" id="uid">$</div>', '<div class="hidden" id="uid">1</div>');
+      fileContent = fileContent.replace('<div class="hidden" id="username">$</div>', '<div class="hidden" id="username">' + userInputParams.username + '</div>');
 
-      console.log("AFTER replace:\n" + fc2);
+      console.log("AFTER replace:\n" + fileContent);
 /*
       var splitFileContent = fileContent.split("$");
       console.log("After split: " + split);
@@ -40,13 +40,6 @@
 
 
 
-      response.write(fc2);
+      response.write(fileContent);
       response.end();
    }
-
-   /*
-   <div class="hidden" id="status">$</div>
-   <div class="hidden" id="uid">$</div>
-   <div class="hidden" id="username">$</div>
-
-*/

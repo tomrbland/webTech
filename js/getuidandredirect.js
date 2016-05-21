@@ -27,13 +27,13 @@ function loaded(){
 
    function getuid(){
       var uid = document.querySelector("#uid").innerHTML;
-      if(uid === "$$") error("ServerError");
+      if(uid === "$") error("ServerError");
       sessionStorage.setItem("uid", uid);
    }
 
    function getusername(){
       var username = document.querySelector("#username").innerHTML;
-      if(username === "$$") error("ServerError");
+      if(username === "$") error("ServerError");
       sessionStorage.setItem("username", username);
    }
 
