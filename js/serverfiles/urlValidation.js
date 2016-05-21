@@ -52,34 +52,8 @@
       }
 
       function end() {
+         console.log("urlValidation.js - URL before entering handler: " + url);
          var userInputParams = QUERY_STRING.parse(body);
-         console.log("handle.js - userInputParams: " + JSON.stringify(userInputParams));
-         console.log("handle.js - userInputParams.username: " + userInputParams.username);
-         console.log("handle.js - userInputParams.emailaddress: " + userInputParams.emailaddress);
-         console.log("handle.js - userInputParams.password: " + userInputParams.password);
-         console.log("URL before going into handler: " + url);
-         console.log("~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/");
-      //   console.log(request);
-         HANDLER.handleURL(response, url, type);
+         HANDLER.handleURL(response, url, type, userInputParams);
       }
    }
-
-   /*
-   var body = "";
-   request.on("data", add);
-   request.on("end", end)
-
-   function add(chunk) {
-      body = body + chunk.toString();
-   }
-
-   function end(response, url, type) {
-
-   //   var userInputParams = QUERY_STRING.parse(body);
-   //   console.log("handle.js - userInputParams: " + userInputParams);
-   //   console.log("handle.js - userInputParams.username: " + userInputParams.username);
-   //   console.log("handle.js - userInputParams.emailaddress: " + userInputParams.emailaddress);
-   //   console.log("handle.js - userInputParams.password: " + userInputParams.password);
-      HANDLER.handleURL(response, url, type);
-   }
-   */

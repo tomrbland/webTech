@@ -7,15 +7,15 @@
 
    //Exports
    module.exports = {
-      handleURL: function(response, url, type){
-         _handleURL(response, url, type);
+      handleURL: function(response, url, type, userInputParams){
+         _handleURL(response, url, type, userInputParams);
       }
    };
 
-   function _handleURL(response, url, type) {
+   function _handleURL(response, url, type, userInputParams) {
       switch (url) {
          case "/action.html":
-            ACTION_ROUTER.route(response, url, type);
+            ACTION_ROUTER.route(response, url, type, userInputParams);
          break;
          // the reviewsQuery should be performed via an action but will leave it as it is for now.
          case "/js/serverfiles/reviewsquery.js":

@@ -6,12 +6,23 @@
 
    //Exports
    module.exports = {
-      route: function(response, url, type){
-         _route(response, url, type);
+      route: function(response, url, type, userInputParams){
+         _route(response, url, type, userInputParams);
       }
    };
 
-   function _route(response, url, type) {
-      console.log("URL in actionRouter: " + url);
-      console.log();
+   function _route(response, url, type, userInputParams) {
+      console.log("actionRouter.js - userInputParams: " + JSON.stringify(userInputParams));
+      switch(userInputParams.actionType) {
+         case "register":
+            console.log("actionRouter.js - actionType: register ");
+         //   register();
+         break;
+      // default: ......... break;
+      }
    }
+   /*
+   function register() {
+
+   }
+   */
