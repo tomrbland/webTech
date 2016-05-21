@@ -1,9 +1,9 @@
    "use strict";
 
    //Imports
-   var UTIL = require('./utilities.js');
-   var URL_UTIL = require('./urlUtils.js');
-   var REPLIER = require('./reply.js');
+   var UTIL = require("./utilities.js");
+   var URL_UTIL = require("./urlUtils.js");
+   var REPLIER = require("./reply.js");
    var HANDLER = require("./handler.js");
 
    //Exports
@@ -41,5 +41,5 @@
       //If a browser accepts XHTML, change type to XHTML
       if (type == "text/html") type = URL_UTIL.negotiate(request.headers.accept);
 
-      HANDLER.route(response, url, type);
+      HANDLER.handleURL(response, url, type);
    }

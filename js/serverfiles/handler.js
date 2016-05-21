@@ -1,23 +1,21 @@
    "use strict";
 
    //Imports
-   var REPLIER = require('./reply.js');
-   var DB_MANAGER = require('./dbManager.js');
+   var ACTION_ROUTER = require("./actionRouter")
+   var REPLIER = require("./reply.js");
+   var DB_MANAGER = require("./dbManager.js");
 
    //Exports
    module.exports = {
-      route: function(response, url, type){
-         _route(response, url, type);
+      handleURL: function(response, url, type){
+         _handleURL(response, url, type);
       }
    };
 
-   //Code
-   var OK = 200, NotFound = 404, BadType = 415, Error = 500;
-
-   function _route(response, url, type) {
+   function _handleURL(response, url, type) {
       switch (url) {
          case "action.html":
-            console.log("action.html");
+            ACTION_ROUTER.route(response, url, type);
          break;
          case "/js/db/reviewquerytest.js":
             DB_MANAGER.route(url, response);

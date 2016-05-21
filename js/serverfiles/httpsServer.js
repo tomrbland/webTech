@@ -4,9 +4,9 @@
  */
 
 //Imports
-   var HTTP = require('https');
-   var URL_VALIDATION = require('./urlValidation.js');
-   var FS = require('fs');
+   var HTTP = require("https");
+   var URL_VALIDATION = require("./urlValidation.js");
+   var FS = require("fs");
 
 //Exports
    module.exports = {
@@ -20,12 +20,12 @@
 
    function _start(port) {
       var credentials = {
-          key: FS.readFileSync('./js/serverfiles/key.pem'),
-          cert: FS.readFileSync('./js/serverfiles/cert.pem'),
-          passphrase: 'verysecurepassword'
+          key: FS.readFileSync("./js/serverfiles/key.pem"),
+          cert: FS.readFileSync("./js/serverfiles/cert.pem"),
+          passphrase: "verysecurepassword"
       }
 
       var service = HTTP.createServer(credentials, URL_VALIDATION.validate);
-      service.listen(port, 'localhost');
+      service.listen(port, "localhost");
       console.log("Visit https://localhost:" + port);
    }
