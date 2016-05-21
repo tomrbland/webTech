@@ -6,6 +6,8 @@
    var REPLIER = require("./reply.js");
    var HANDLER = require("./handler.js");
 
+   var QUERY_STRING = require("querystring");
+
    //Exports
    module.exports = {
       validate: function(request, response){
@@ -41,14 +43,28 @@
       //If a browser accepts XHTML, change type to XHTML
       if (type == "text/html") type = URL_UTIL.negotiate(request.headers.accept);
 
-      console.log("URL before going into handler: " + url);
-      console.log("Request before going into handler: " + request);
+      var body = "";
+      request.on("data", add);
+      request.on("end", end);
 
-      HANDLER.handleURL(response, url, type);
+      function add(chunk) {
+         body = body + chunk.toString();
+      }
+
+      function end() {
+         var userInputParams = QUERY_STRING.parse(body);
+         console.log("handle.js - userInputParams: " + JSON.stringify(userInputParams));
+         console.log("handle.js - userInputParams.username: " + userInputParams.username);
+         console.log("handle.js - userInputParams.emailaddress: " + userInputParams.emailaddress);
+         console.log("handle.js - userInputParams.password: " + userInputParams.password);
+         console.log("URL before going into handler: " + url);
+         console.log("~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/~*/");
+      //   console.log(request);
+         HANDLER.handleURL(response, url, type);
+      }
    }
 
    /*
-
    var body = "";
    request.on("data", add);
    request.on("end", end)
@@ -64,5 +80,6 @@
    //   console.log("handle.js - userInputParams.username: " + userInputParams.username);
    //   console.log("handle.js - userInputParams.emailaddress: " + userInputParams.emailaddress);
    //   console.log("handle.js - userInputParams.password: " + userInputParams.password);
+      HANDLER.handleURL(response, url, type);
    }
    */
