@@ -1,8 +1,8 @@
    "use strict";
 
    //Imports
-   var FS = require('fs');
-
+   var FS = require("fs");
+   
    //Exports
    module.exports = {
       reply: function(response, url, type){
