@@ -44,7 +44,7 @@
    var banned = defineBanned();
    var types = defineTypes();
 
-   //TEST
+   //RUNS THE UNIT TESTS FOR THIS FILE
    test();
 
    function _valid(url) {

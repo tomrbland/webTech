@@ -5,6 +5,9 @@
    But it is worth keeping, in case you need to start again
 
    http://blog.modulus.io/nodejs-and-sqlite
+
+
+   firstName, surname, username, email, password
    */
 
    "use strict";
@@ -22,8 +25,11 @@
       db.run(
          "CREATE TABLE Person (" +
             "id INTEGER PRIMARY KEY, " +
+            "firstName TEXT NOT NULL, " +
+            "surname TEXT NOT NULL, " +
             "username TEXT UNIQUE NOT NULL, " +
-            "email TEXT UNIQUE NOT NULL" +
+            "email TEXT UNIQUE NOT NULL, " +
+            "password TEXT NOT NULL" +
          ");",
       err);
 
@@ -36,11 +42,11 @@
          ");",
       err);
 
-     db.run("INSERT INTO Person (username, email) VALUES ('FatherChristmas', 'mrchristmas@yahoo.com');", err);
-     db.run("INSERT INTO Person (username, email) VALUES ('CandideThovex', 'skistunts777@gmail.com');", err);
-     db.run("INSERT INTO Person (username, email) VALUES ('JamesBond', '007@mi6.co.uk');", err);
-     db.run("INSERT INTO Person (username, email) VALUES ('NoviceSkier', 'beth2517@hotmail.co.uk');", err);
-     db.run("INSERT INTO Person (username, email) VALUES ('BoarderDude', 'chucklovessnowboarding@gmail.com');", err);
+     db.run("INSERT INTO Person (firstName, surname, username, email, password) VALUES ('Santa', 'Clause', 'FatherChristmas', 'mrchristmas@yahoo.com', 'ilovechristmas');", err);
+     db.run("INSERT INTO Person (firstName, surname, username, email, password) VALUES ('Candide', 'Thovex', 'CandideThovex', 'skistunts777@gmail.com', 'adrenaline');", err);
+     db.run("INSERT INTO Person (firstName, surname, username, email, password) VALUES ('James', 'Bond', 'JamesBond', '007@mi6.co.uk', '007');", err);
+     db.run("INSERT INTO Person (firstName, surname, username, email, password) VALUES ('Beth', 'Smith', 'NoviceSkier', 'beth2517@hotmail.co.uk', 'skiii');", err);
+     db.run("INSERT INTO Person (firstName, surname, username, email, password) VALUES ('Chuck', 'Dennis', 'BoarderDude', 'chucklovessnowboarding@gmail.com', 'password');", err);
 
      db.run("INSERT INTO Review (personid, title, text) VALUES (1, 'We all had a merry time.', 'Excellent resort. The reindeers also liked it.');", err);
      db.run("INSERT INTO Review (personid, title, text) VALUES (2, 'A good location for my stunts.', 'I wasn''t really paying attention to the resort - I was too busy jumping over helicopters!');", err);
