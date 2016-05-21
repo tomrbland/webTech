@@ -32,7 +32,7 @@
    //   console.log("response in _getAllReviewText: " + response);
 
       SQL.verbose();
-      var db = new SQL.Database("js/db/test.db");
+      var db = new SQL.Database("js/db/resortReport.db");
       db.serialize(query.bind(null, db, response));
    }
 

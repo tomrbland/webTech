@@ -1,9 +1,7 @@
    "use strict";
 
    //Imports
-   var REPLIER = require('./reply.js');
-   var DB_MANAGER = require('./dbManager.js');
-   var REGISTER_ACTION = require('./registerAction.js');
+   var REGISTER = require('./registerAction.js');
 
    //Exports
    module.exports = {
@@ -14,11 +12,9 @@
 
    function _route(response, url, userInputParams) {
       console.log("actionRouter.js - userInputParams: " + JSON.stringify(userInputParams));
+
       switch(userInputParams.actionType) {
-         case "register":
-            console.log("actionRouter.js - actionType: register ");
-            REGISTER_ACTION.register(response, url, userInputParams);
-         break;
+         case "register": REGISTER.executeAction(response, url, userInputParams); break;
       // default: ......... break;
       }
    }

@@ -43,9 +43,10 @@
       //If a browser accepts XHTML, change type to XHTML
       if (type == "text/html") type = URL_UTIL.negotiate(request.headers.accept);
 
-      var body = "";
       request.on("data", add);
       request.on("end", end);
+
+      var body = "";
 
       function add(chunk) {
          body = body + chunk.toString();
