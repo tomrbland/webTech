@@ -17,7 +17,7 @@
          case "action.html":
             ACTION_ROUTER.route(response, url, type);
          break;
-         case "/js/db/reviewquerytest.js":
+         case "/js/serverfiles/reviewsquery.js":
             DB_MANAGER.route(url, response);
          break;
          default: REPLIER.reply(response, url, type);

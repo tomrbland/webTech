@@ -5,8 +5,8 @@
 
    //Exports
    module.exports = {
-      getAllReviewText: function(response){
-         _getAllReviewText(response);
+      reviewsQuery: function(response){
+         _reviewsQuery(response);
       }
    };
 
@@ -27,7 +27,7 @@
     * After the function returns, the database is set back to its
     * original mode again.
     */
-   function _getAllReviewText(response) {
+   function _reviewsQuery(response) {
       console.log("Entered _getAllReviewText");
       console.log("response in _getAllReviewText: " + response);
 
