@@ -1,5 +1,6 @@
    //Imports
    var SQL = require("sqlite3");
+   var events = require('events');
 
    //Exports
    module.exports = {
@@ -8,37 +9,60 @@
       }
    };
 
-   var insertResult = "beginning";
+   var insertRes = 0;
 
    //RUNS THE UNIT TESTS FOR THIS FILE
    test();
 
+   var eventEmitter = new events.EventEmitter();
    inserttt();
 
-   function insertUser(userInput) {
-      var insertResult = inserttt(userInput)
 
+   eventEmitter.on("SQL Error", sqlError);
+
+   function sqlError() {
+      console.log("hi error");
+   }
+
+   function insertUser(userInput) {
+   //   var insertResult = inserttt(userInput)
    }
 
    function inserttt(userInput) {
       SQL.verbose();
       var db = new SQL.Database("../db/resortReport.db");
-      db.serialize(insert.bind(null, db, userInput));
+      //db.serialize(insert.bind(null, db, userInput));
+      console.log("insertRes b4 insert: " + insertRes);
+      insert(db, userInput, insertRes);
    }
 
-   function insert(db, userInput) {
+   function insert(db, userInput, insertRes) {
       /**
       * Database#prepare(sql, [param, ...], [callback])
       * When preparing was successful, the first and only argument
       * to the callback is null, otherwise it is the error object.
       */
-      var ps = db.prepare("INSERT INTO Persons (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", errorHandle);
+      //console.log("before error ps: " + JSON.stringify(db));
 
+      var ps = db.prepare("INSERT INTO Persons (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", function errorHandle(error) {
+         if (error) {
+            console.log(error);
+            insertRes = 2;
+            eventEmitter.emit("SQL Error");
+         }
+      });
+
+      console.log(insertRes);
+
+
+
+   //   console.log("ps" + JSON.stringify(ps));
+   //   console.log("after error ps: " + JSON.stringify(db));
       //Statement#run([param, ...], [callback])
       //ps.run(userInput.firstName, userInput.surname, userInput.username, userInput.email, userInput.password, errorHandle);
       ps.run("s", "a", "JamesBond", "007@mi6.co.uk", '007', errorHandle);
 
-
+   //   console.log("after error run: " + JSON.stringify(db));
 
       //Close Statement
       ps.finalize();
@@ -49,9 +73,13 @@
 
    function errorHandle(error) {
       if (error) {
-         insertResult = insertResult.concat(" error1");
-         console.log(insertResult);
+         console.log(error);
       }
+   }
+
+   function returnF(thing) {
+      insertRes = thing;
+      return insertRes;
    }
 
    /**
