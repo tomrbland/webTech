@@ -19,7 +19,6 @@
    //Private variables
    var eventEmitter = new EVENTS.EventEmitter();
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
-   var ps;
 
    _executeAction("response", "url", obj);
 
@@ -35,17 +34,18 @@
    function attemptUserRegistration(userInput) {
       SQL.verbose();
       var db = new SQL.Database("../db/resortReport.db");
+
       //By default, statements run in parallel. If I only serialize the ps is this even doing anything?
       db.serialize(prepareNewUserInsertion.bind(null, userInput, db));
    }
 
    function prepareNewUserInsertion(userInput, db) {
       console.log("Prepared statement");
-      ps = db.prepare("INSERT INTO Person (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", errorHandle.bind(null, "Prepared statement", userInput, db));
-      eventEmitter.on("Success: Prepared statement", runStatement.bind(null, userInput, db));
+      var ps = db.prepare("INSERT INTO Person (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", errorHandle.bind(null, "Prepared statement", userInput, db));
+      eventEmitter.on("Success: Prepared statement", runStatement.bind(null, userInput, db, ps));
    }
 
-   function runStatement(userInput, db) {
+   function runStatement(userInput, db, ps) {
       console.log("Run statement");
       ps.run(userInput.firstName, userInput.surname, userInput.username, userInput.email, userInput.password, errorHandle.bind(null, "Run statement", userInput, db));
       eventEmitter.on("Success: Run statement", finalizeStatement.bind(null, userInput, db));
@@ -82,7 +82,7 @@
       //   console.log("inside conditional no error, error " + error);
       //   console.log("inside conditional no error, string " + string);
 
-         eventEmitter.emit("Success: ".concat(string), userInput);
+         eventEmitter.emit("Success: ".concat(string));
    //      console.log("String in errorHandle for else: " + string);
       }
    }

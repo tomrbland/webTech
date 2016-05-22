@@ -14,7 +14,6 @@
    //Private variables
    var eventEmitter = new EVENTS.EventEmitter();
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
-   var ps;
 
    function _executeAction(response, url, userInput) {
       console.log("registerAction.js - entered.");
@@ -34,17 +33,17 @@
 
    function prepareNewUserInsertion(userInput, db) {
       console.log("Prepared statement");
-      ps = db.prepare("INSERT INTO Person (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", errorHandle.bind(null, "Prepared statement", userInput, db));
-      eventEmitter.on("Success: Prepared statement", runStatement.bind(null, userInput, db));
+      var ps = db.prepare("INSERT INTO Person (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", errorHandle.bind(null, "Prepared statement", userInput, db));
+      eventEmitter.on("Success: Prepared statement", runStatement.bind(null, userInput, db, ps));
    }
 
-   function runStatement(userInput, db) {
+   function runStatement(userInput, db, ps) {
       console.log("Run statement");
       ps.run(userInput.firstName, userInput.surname, userInput.username, userInput.email, userInput.password, errorHandle.bind(null, "Run statement", userInput, db));
-      eventEmitter.on("Success: Run statement", finalizeStatement.bind(null, userInput, db));
+      eventEmitter.on("Success: Run statement", finalizeStatement.bind(null, userInput, db, ps));
    }
 
-   function finalizeStatement(userInput, db) {
+   function finalizeStatement(userInput, db, ps) {
       console.log("Finalize");
       ps.finalize(errorHandle.bind(null, "Finalize", userInput, db));
       eventEmitter.on("Success: Finalize", closeDB.bind(null, userInput, db));
