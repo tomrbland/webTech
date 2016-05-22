@@ -10,6 +10,8 @@
       }
    };
 
+   //"./js/db/resortReport.db"
+
    //Private variables
    var eventEmitter = new EVENTS.EventEmitter();
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
@@ -120,7 +122,7 @@
       response.writeHead(OK, typeHeader);
 
       fileContent = fileContent.toString();
-      fileContent = fileContent.replace('<div class="hidden" id="status">$</div>', '<div class="hidden" id="status">FAILURE</div>');
+      fileContent = fileContent.replace('<div class="hidden" id="status">$</div>', '<div class="hidden" id="status">500</div>');
       fileContent = fileContent.replace('<div class="hidden" id="uid">$</div>', '<div class="hidden" id="uid">1</div>');
       fileContent = fileContent.replace('<div class="hidden" id="username">$</div>', '<div class="hidden" id="username">' + userInput.username + '</div>');
 
