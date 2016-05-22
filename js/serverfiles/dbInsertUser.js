@@ -14,47 +14,96 @@
    test();
 
    var eventEmitter = new events.EventEmitter();
-   var ps;
+   var ps, db;
 
    insertUser();
 
+   var r = end;
+   console.log(r);
+
+   function end() {
+      return "end";
+   }
+
+   eventEmitter.on("SQL Error", errorEvent);
+   eventEmitter.on("ps", runQuery);
+   eventEmitter.on("run", finish);
+   eventEmitter.on("finish", close);
+   eventEmitter.on("close", end);
+
+   function errorEvent() {
+      console.log("ERROR");
+   }
+
    function insertUser(userInput) {
-      insert();
-      eventEmitter.on("SQL Error", test);
-
-      function test() {
-         console.log("ERROR");
-         return "error"
-      }
+      go();
    }
 
-   function insert(userInput) {
+   function go(userInput) {
       SQL.verbose();
-      var db = new SQL.Database("../db/resortReport.db");
-      //db.serialize(insert.bind(null, db, userInput));
-      ps = db.prepare("INSERT INTO Persons (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", errorHandle.bind("Prepared statement: success"));
-      eventEmitter.on("Prepared statement: success", run);
+      db = new SQL.Database("../db/resortReport.db");
+      db.serialize(insert.bind(null, db, userInput));
    }
 
-   function run() {
+   function insert(db, userInput) {
+      ps = db.prepare("INSERT INTO Person (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", function errorHandle(error, string) {
+         if (error) {
+            console.log(error);
+            eventEmitter.emit("SQL Error");
+         }
+         else {
+            eventEmitter.emit("ps");
+         }
+      });
+   }
+
+   function runQuery() {
       console.log("run");
-      ps.run("s", "a", "JamesBond", "007@mi6.co.uk", '007', errorHandle.bind("Run: success"));
-      eventEmitter.on("Run: success", finish.bind(null, ps));
+      ps.run("s", "a", "JamejhjhhsBondasd", "007@mi6asdaaaas11sd.co.uk", '007', function errorHandle(error, string) {
+         if (error) {
+            console.log(error);
+            eventEmitter.emit("SQL Error");
+         }
+         else {
+            eventEmitter.emit("run");
+         }
+      });
    }
 
-   function finish(ps) {
+   function finish() {
       console.log("finish");
-      ps.finalize();
-      db.close();
+      ps.finalize(function errorHandle(error, string) {
+         if (error) {
+            console.log(error);
+            eventEmitter.emit("SQL Error");
+         }
+         else {
+            eventEmitter.emit("finish");
+         }
+      });
+   }
+
+   function close() {
+      db.close(function errorHandle(error, string) {
+         if (error) {
+            console.log(error);
+            eventEmitter.emit("SQL Error");
+         }
+         else {
+            eventEmitter.emit("close");
+         }
+      });
    }
 
    function errorHandle(error, string) {
       if (error) {
          console.log(error);
          eventEmitter.emit("SQL Error");
+      //   console.log("String in errorHandle for error: " + string);
       }
       else {
          eventEmitter.emit(string);
+   //      console.log("String in errorHandle for else: " + string);
       }
    }
 
