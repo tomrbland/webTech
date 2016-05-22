@@ -58,7 +58,7 @@
    //   console.log("outside conditional, error: " + error);
    //   console.log("outside conditional, string: " + string);
       if (error) {
-      //   console.log(error);
+         console.log(string + " : " + error);
       //   console.log("inside conditional ERROR, error " + error);
       //   console.log("inside conditional ERROR, string " + string);
 
@@ -66,6 +66,8 @@
       //   console.log("String in errorHandle for error: " + string);
       }
       else {
+
+         console.log(string + " : " + "success");
       //   console.log("inside conditional no error, error " + error);
       //   console.log("inside conditional no error, string " + string);
 
@@ -80,24 +82,23 @@
    }
 
    function successStatusReply(response, url, userInput) {
-      console.log(response);
-      console.log(url);
-      console.log(userInput);
-   }
-
-   function failureStatusReply(response, url, userInput) {
-      var file = "." + url;
-      FS.readFile(file, failure.bind(null, response, userInput));
-   }
-
-   function successReply(response, url, userInput) {
+      console.log("successStatusReply");
+   //   console.log(response);
+   //   console.log(url);
+   //   console.log(userInput);
       var file = "." + url;
       FS.readFile(file, success.bind(null, response, userInput));
    }
 
+   function failureStatusReply(response, url, userInput) {
+      console.log("failureStatusReply");
+
+      var file = "." + url;
+      FS.readFile(file, failure.bind(null, response, userInput));
+   }
+
    // Deliver the file that has been read in to the browser.
    function success(response, userInput, err, fileContent) {
-      console.log("SUCCESS");
       var typeHeader = { 'Content-Type': "text/html" };
       response.writeHead(OK, typeHeader);
 
@@ -114,7 +115,6 @@
 
    // Deliver the file that has been read in to the browser.
    function failure(response, userInput, err, fileContent) {
-      console.log("SUCCESS");
       var typeHeader = { 'Content-Type': "text/html" };
       response.writeHead(OK, typeHeader);
 
