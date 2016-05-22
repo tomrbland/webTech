@@ -1,6 +1,5 @@
    //Imports
    var EVENTS = require("events");
-   var SQL = require("sqlite3");
 
    //Exports
    module.exports = {
@@ -25,6 +24,7 @@
    }
 
    function attemptUserRegistration(userInput) {
+      var SQL = require("sqlite3");
       SQL.verbose();
       var db = new SQL.Database("./js/db/resortReport.db");
       //By default, statements run in parallel. If I only serialize the ps is this even doing anything?
@@ -115,8 +115,10 @@
 
       console.log("AFTER replace:\n" + fileContent);
 
-      response.write(fileContent);
-      response.end();
+      response.write(fileContent, function rEnd() {
+         response.end();
+      });
+
    }
 
    // Deliver the file that has been read in to the browser.
@@ -131,6 +133,7 @@
 
       console.log("AFTER replace:\n" + fileContent);
 
-      response.write(fileContent);
-      response.end();
+      response.write(fileContent, function rEnd() {
+         response.end();
+      });
    }
