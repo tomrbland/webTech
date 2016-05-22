@@ -9,82 +9,54 @@
       }
    };
 
-   var insertRes = 0;
 
    //RUNS THE UNIT TESTS FOR THIS FILE
    test();
 
    var eventEmitter = new events.EventEmitter();
-   inserttt();
+   var ps;
 
-
-   eventEmitter.on("SQL Error", sqlError);
-
-   function sqlError() {
-      console.log("hi error");
-   }
+   insertUser();
 
    function insertUser(userInput) {
-   //   var insertResult = inserttt(userInput)
-   }
+      insert();
+      eventEmitter.on("SQL Error", test);
 
-   function inserttt(userInput) {
-      SQL.verbose();
-      var db = new SQL.Database("../db/resortReport.db");
-      //db.serialize(insert.bind(null, db, userInput));
-      console.log("insertRes b4 insert: " + insertRes);
-      insert(db, userInput, insertRes);
-   }
-
-   function insert(db, userInput, insertRes) {
-      /**
-      * Database#prepare(sql, [param, ...], [callback])
-      * When preparing was successful, the first and only argument
-      * to the callback is null, otherwise it is the error object.
-      */
-      //console.log("before error ps: " + JSON.stringify(db));
-
-      var ps = db.prepare("INSERT INTO Persons (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", function errorHandle(error) {
-         if (error) {
-            console.log(error);
-            insertRes = 2;
-            eventEmitter.emit("SQL Error");
-         }
-      });
-
-      console.log(insertRes);
-
-
-
-   //   console.log("ps" + JSON.stringify(ps));
-   //   console.log("after error ps: " + JSON.stringify(db));
-      //Statement#run([param, ...], [callback])
-      //ps.run(userInput.firstName, userInput.surname, userInput.username, userInput.email, userInput.password, errorHandle);
-      ps.run("s", "a", "JamesBond", "007@mi6.co.uk", '007', errorHandle);
-
-   //   console.log("after error run: " + JSON.stringify(db));
-
-      //Close Statement
-      ps.finalize();
-
-      //Close db connection
-      db.close();
-   }
-
-   function errorHandle(error) {
-      if (error) {
-         console.log(error);
+      function test() {
+         console.log("ERROR");
+         return "error"
       }
    }
 
-   function returnF(thing) {
-      insertRes = thing;
-      return insertRes;
+   function insert(userInput) {
+      SQL.verbose();
+      var db = new SQL.Database("../db/resortReport.db");
+      //db.serialize(insert.bind(null, db, userInput));
+      ps = db.prepare("INSERT INTO Persons (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", errorHandle.bind("Prepared statement: success"));
+      eventEmitter.on("Prepared statement: success", run);
    }
 
-   /**
-    * For catching errors when preparing statment
-    */
+   function run() {
+      console.log("run");
+      ps.run("s", "a", "JamesBond", "007@mi6.co.uk", '007', errorHandle.bind("Run: success"));
+      eventEmitter.on("Run: success", finish.bind(null, ps));
+   }
+
+   function finish(ps) {
+      console.log("finish");
+      ps.finalize();
+      db.close();
+   }
+
+   function errorHandle(error, string) {
+      if (error) {
+         console.log(error);
+         eventEmitter.emit("SQL Error");
+      }
+      else {
+         eventEmitter.emit(string);
+      }
+   }
 
 
 /*
