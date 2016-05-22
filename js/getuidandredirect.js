@@ -1,9 +1,9 @@
    "use strict";
 
    //if (addEventListener) {
-      //document.addEventListener("load", loaded);
+   //   document.addEventListener("load", loaded);
 
-      addEventListener("load", rz);
+      addEventListener("load", test);
 
    //}
    //else {
@@ -12,7 +12,7 @@
 
    //loaded();
 
-   function rz() {
+   function test() {
       console.log("entered r ************************************************************************************************************************************************************************************************************************************************************************************************************************************************");
       window.location.href="https://localhost:8443/";
    }
@@ -69,4 +69,5 @@
          failMessage.style.display = "block";
          redirectLocation = sessionStorage.getItem("formsubmittedfrom")+"?error="+s;
       }
-   } */
+   }
+   */
