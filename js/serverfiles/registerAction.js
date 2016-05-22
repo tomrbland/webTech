@@ -11,50 +11,51 @@
    //"./js/db/resortReport.db"
 
    //Private variables
-   var eventEmitter = new EVENTS.EventEmitter();
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
 
    function _executeAction(response, url, userInput) {
       console.log("registerAction.js - entered.");
 
-      attemptUserRegistration(userInput);
+      var eventEmitter = new EVENTS.EventEmitter();
+
+      attemptUserRegistration(userInput, eventEmitter);
 
       eventEmitter.on("Success: DB closed", successStatusReply.bind(null, response, url, userInput));
       eventEmitter.on("Error", failureStatusReply.bind(null, response, url, userInput));
    }
 
-   function attemptUserRegistration(userInput) {
+   function attemptUserRegistration(userInput, eventEmitter) {
       var SQL = require("sqlite3");
       SQL.verbose();
       var db = new SQL.Database("./js/db/resortReport.db");
       //By default, statements run in parallel. If I only serialize the ps is this even doing anything?
-      db.serialize(prepareNewUserInsertion.bind(null, userInput, db));
+      db.serialize(prepareNewUserInsertion.bind(null, userInput, db, eventEmitter));
    }
 
-   function prepareNewUserInsertion(userInput, db) {
+   function prepareNewUserInsertion(userInput, db, eventEmitter) {
       console.log("Prepared statement");
-      var ps = db.prepare("INSERT INTO Person (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", errorHandle.bind(null, "Prepared statement", userInput, db));
-      eventEmitter.on("Success: Prepared statement", runStatement.bind(null, userInput, db, ps));
+      var ps = db.prepare("INSERT INTO Person (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", errorHandle.bind(null, "Prepared statement", userInput, db, eventEmitter));
+      eventEmitter.on("Success: Prepared statement", runStatement.bind(null, userInput, db, ps, eventEmitter));
    }
 
-   function runStatement(userInput, db, ps) {
+   function runStatement(userInput, db, ps, eventEmitter) {
       console.log("Run statement");
-      ps.run(userInput.firstName, userInput.surname, userInput.username, userInput.email, userInput.password, errorHandle.bind(null, "Run statement", userInput, db));
-      eventEmitter.on("Success: Run statement", finalizeStatement.bind(null, userInput, db, ps));
+      ps.run(userInput.firstName, userInput.surname, userInput.username, userInput.email, userInput.password, errorHandle.bind(null, "Run statement", userInput, db, eventEmitter));
+      eventEmitter.on("Success: Run statement", finalizeStatement.bind(null, userInput, db, ps, eventEmitter));
    }
 
-   function finalizeStatement(userInput, db, ps) {
+   function finalizeStatement(userInput, db, ps, eventEmitter) {
       console.log("Finalize");
-      ps.finalize(errorHandle.bind(null, "Finalize", userInput, db));
-      eventEmitter.on("Success: Finalize", closeDB.bind(null, userInput, db));
+      ps.finalize(errorHandle.bind(null, "Finalize", userInput, db, eventEmitter));
+      eventEmitter.on("Success: Finalize", closeDB.bind(null, userInput, db, eventEmitter));
    }
 
-   function closeDB(userInput, db) {
+   function closeDB(userInput, db, eventEmitter) {
       console.log("DB closed");
-      db.close(errorHandle.bind(null, "DB closed", userInput, db));
+      db.close(errorHandle.bind(null, "DB closed", userInput, db, eventEmitter));
    }
 
-   function errorHandle(string, userInput, db, error) {
+   function errorHandle(string, userInput, db, eventEmitter, error) {
       console.log("outside conditional, error: " + JSON.stringify(error));
       console.log("outside conditional, string: " + JSON.stringify(string));
       console.log("outside conditional, userInput: " + JSON.stringify(userInput));
