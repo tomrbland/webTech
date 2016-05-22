@@ -19,6 +19,7 @@
    //Private variables
    var eventEmitter = new EVENTS.EventEmitter();
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
+   var ps;
 
    _executeAction("response", "url", obj);
 
@@ -40,7 +41,7 @@
 
    function prepareNewUserInsertion(userInput, db) {
       console.log("Prepared statement");
-      var ps = db.prepare("INSERT INTO Person (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", errorHandle.bind(null, "Prepared statement", userInput, db));
+      ps = db.prepare("INSERT INTO Person (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", errorHandle.bind(null, "Prepared statement", userInput, db));
       eventEmitter.on("Success: Prepared statement", runStatement.bind(null, userInput, db));
    }
 
