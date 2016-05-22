@@ -29,14 +29,14 @@
 
    function attemptUserRegistration(userInput) {
       SQL.verbose();
-      var db = new SQL.Database("../db/resortReport.db");
+      db = new SQL.Database("../db/resortReport.db");
       //By default, statements run in parallel. If I only serialize the ps is this even doing anything?
       db.serialize(prepareNewUserInsertion.bind(null, db, userInput));
    }
 
    function prepareNewUserInsertion(db, userInput) {
       console.log("Prepared statement");
-      var ps = db.prepare("INSERT INTO Person (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", errorHandle.bind(null, "Prepared statement"));
+      ps = db.prepare("INSERT INTO Person (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", errorHandle.bind(null, "Prepared statement"));
    }
 
    function runStatement(userInput) {
