@@ -1,14 +1,15 @@
-"use strict";
+   "use strict";
 
-/**
- * Stores URL of where a form was submitted.
- * Used to redirect back to where the user came from.
- * requires sessionstorage.js
- */
+   /**
+    * Stores URL of where a form was submitted.
+    * Used to redirect back to where the user came from.
+    * requires sessionstorage.js
+    */
 
-storeurl();
+   storeurl();
 
-function storeurl(){
-   var url = window.location.href;
-   sessionStorage.setItem("formsubmittedfrom", url);
-}
+   function storeurl(){
+      var url = window.location.href;
+      sessionStorage.setItem("formsubmittedfrom", url);
+      console.log("formsubmittedfrom url stored: " + url);
+   }

@@ -1,7 +1,10 @@
    "use strict";
 
    //if (addEventListener) {
-      document.addEventListener("load", loaded);
+      //document.addEventListener("load", loaded);
+
+      addEventListener("load", rz);
+
    //}
    //else {
    //   attachEvent("onload", loaded);
@@ -9,6 +12,11 @@
 
    //loaded();
 
+   function rz() {
+      console.log("entered r ************************************************************************************************************************************************************************************************************************************************************************************************************************************************");
+      window.location.href="https://localhost:8443/";
+   }
+/*
    function loaded(){
       console.log("getuidandredirect.js - loaded.");
       var redirectLocation = "/index.html";
@@ -61,4 +69,4 @@
          failMessage.style.display = "block";
          redirectLocation = sessionStorage.getItem("formsubmittedfrom")+"?error="+s;
       }
-   }
+   } */

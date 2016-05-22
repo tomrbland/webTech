@@ -1,7 +1,6 @@
    //Imports
    var EVENTS = require("events");
    var SQL = require("sqlite3");
-   var FS = require("fs");
 
    //Exports
    module.exports = {
@@ -86,7 +85,10 @@
       console.log(response + "\n");
       console.log(url + "\n");
       console.log(JSON.stringify(userInput) + "\n");
+
       var file = "." + url;
+      //Needed to do this to avoid Error: write after end
+      var FS = require("fs");
       FS.readFile(file, success.bind(null, response, userInput));
    }
 
@@ -97,6 +99,8 @@
       console.log(JSON.stringify(userInput) + "\n");
 
       var file = "." + url;
+      //Needed to do this to avoid Error: write after end
+      var FS = require("fs");
       FS.readFile(file, failure.bind(null, response, userInput));
    }
 
