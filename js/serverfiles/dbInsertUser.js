@@ -46,15 +46,7 @@
    }
 
    function insert(db, userInput) {
-      ps = db.prepare("INSERT INTO Person (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", function errorHandle(error, string) {
-         if (error) {
-            console.log(error);
-            eventEmitter.emit("SQL Error");
-         }
-         else {
-            eventEmitter.emit("ps");
-         }
-      });
+      ps = db.prepare("INSERT INTO Person (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", errorHandle.bind(null, "ps"));
    }
 
    function runQuery() {
@@ -95,13 +87,21 @@
       });
    }
 
-   function errorHandle(error, string) {
+   function errorHandle(string, error) {
+      console.log("outside conditional, error: " + error);
+      console.log("outside conditional, string: " + string);
       if (error) {
          console.log(error);
+         console.log("inside conditional ERROR, error " + error);
+         console.log("inside conditional ERROR, string " + string);
+
          eventEmitter.emit("SQL Error");
       //   console.log("String in errorHandle for error: " + string);
       }
       else {
+         console.log("inside conditional no error, error " + error);
+         console.log("inside conditional no error, string " + string);
+
          eventEmitter.emit(string);
    //      console.log("String in errorHandle for else: " + string);
       }
