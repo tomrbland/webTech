@@ -11,9 +11,9 @@
    };
 
    function _route(response, url, userInput) {
-      console.log("actionRouter.js - userInputParams: " + JSON.stringify(userInput));
+      console.log("actionRouter.js - userInput: " + JSON.stringify(userInput));
 
-      switch(userInputParams.actionType) {
+      switch(userInput.actionType) {
          case "register": REGISTER.executeAction(response, url, userInput); break;
       // default: ......... break;
       }

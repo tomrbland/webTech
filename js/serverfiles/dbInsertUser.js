@@ -10,141 +10,96 @@
    };
 
 
-   //RUNS THE UNIT TESTS FOR THIS FILE
-   test();
+
+   var obj = new Object();
+   obj.firstName = "test";
+   obj.surname = "me";
+   obj.username = "mea";
+   obj.email = "mea@as.com";
+   obj.password = "12312";
+
+   console.log(JSON.stringify(obj));
 
    var eventEmitter = new events.EventEmitter();
-   var ps, db;
-
-   insertUser();
-
-   var r = end;
-   console.log(r);
-
-   function end() {
-      return "end";
-   }
-
-   eventEmitter.on("SQL Error", errorEvent);
-   eventEmitter.on("ps", runQuery);
-   eventEmitter.on("run", finish);
-   eventEmitter.on("finish", close);
-   eventEmitter.on("close", end);
-
-   function errorEvent() {
-      console.log("ERROR");
-   }
+   insertUser(obj);
 
    function insertUser(userInput) {
-      go();
+      console.log("initial userInput: " + userInput);
+      _executeAction("Response", "URL", userInput);
    }
 
-   function go(userInput) {
+   function _executeAction(response, url, userInput) {
+      console.log("_executeAction.js - entered.");
+      console.log("exe ui: " + userInput);
+
+      attemptUserRegistration(userInput);
+
+      eventEmitter.on("Error", failureStatusReply.bind(null, response, url, userInput));
+      eventEmitter.on("Success: Prepared statement", runStatement.bind(null, userInput));
+      eventEmitter.on("Success: Run statement", finalizeStatement);
+      eventEmitter.on("Success: Finalize", closeDB);
+      eventEmitter.on("Success: DB closed", successStatusReply.bind(null, response, url, userInput));
+   }
+
+   function errorEvent(error) {
+      console.log("ERROR EVENT: ");
+      console.log(error);
+   }
+
+   function attemptUserRegistration(userInput) {
       SQL.verbose();
-      db = new SQL.Database("../db/resortReport.db");
-      db.serialize(insert.bind(null, db, userInput));
+      var db = new SQL.Database("../db/resortReport.db");
+      //By default, statements run in parallel. If I only serialize the ps is this even doing anything?
+      db.serialize(prepareNewUserInsertion.bind(null, db, userInput));
    }
 
-   function insert(db, userInput) {
-      ps = db.prepare("INSERT INTO Person (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", errorHandle.bind(null, "ps"));
+   function prepareNewUserInsertion(db, userInput) {
+      console.log("prepare ui: " + userInput);
+      console.log("Prepared statement");
+      var ps = db.prepare("INSERT INTO Person (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", errorHandle.bind(null, "Prepared statement"));
    }
 
-   function runQuery() {
-      console.log("run");
-      ps.run("s", "a", "JamejhjhhsBondasd", "007@mi6asdaaaas11sd.co.uk", '007', function errorHandle(error, string) {
-         if (error) {
-            console.log(error);
-            eventEmitter.emit("SQL Error");
-         }
-         else {
-            eventEmitter.emit("run");
-         }
-      });
+   function runStatement(userInput) {
+      console.log("Run statement");
+      console.log("run ui: " + userInput);
+      ps.run(userInput.firstName, userInput.surname, userInput.username, userInput.email, userInput.password, errorHandle.bind(null, "Run statement"));
    }
 
-   function finish() {
-      console.log("finish");
-      ps.finalize(function errorHandle(error, string) {
-         if (error) {
-            console.log(error);
-            eventEmitter.emit("SQL Error");
-         }
-         else {
-            eventEmitter.emit("finish");
-         }
-      });
+   function finalizeStatement(db, userInput) {
+      console.log("Finalize");
+      ps.finalize(errorHandle.bind(null, "Finalize"));
    }
 
-   function close() {
-      db.close(function errorHandle(error, string) {
-         if (error) {
-            console.log(error);
-            eventEmitter.emit("SQL Error");
-         }
-         else {
-            eventEmitter.emit("close");
-         }
-      });
+   function closeDB(db, userInput) {
+      db.close(errorHandle.bind(null, "DB closed"));
    }
 
    function errorHandle(string, error) {
-      console.log("outside conditional, error: " + error);
-      console.log("outside conditional, string: " + string);
+   //   console.log("outside conditional, error: " + error);
+   //   console.log("outside conditional, string: " + string);
       if (error) {
-         console.log(error);
-         console.log("inside conditional ERROR, error " + error);
-         console.log("inside conditional ERROR, string " + string);
+      //   console.log(error);
+      //   console.log("inside conditional ERROR, error " + error);
+      //   console.log("inside conditional ERROR, string " + string);
 
-         eventEmitter.emit("SQL Error");
+         eventEmitter.emit("Error", error);
       //   console.log("String in errorHandle for error: " + string);
       }
       else {
-         console.log("inside conditional no error, error " + error);
-         console.log("inside conditional no error, string " + string);
+      //   console.log("inside conditional no error, error " + error);
+      //   console.log("inside conditional no error, string " + string);
 
-         eventEmitter.emit(string);
+         eventEmitter.emit("Success: ".concat(string));
    //      console.log("String in errorHandle for else: " + string);
       }
    }
 
-
-/*
-   function errorHandleRun(error) {
-      console.log("\nerrorHandleRun - 1st arg (null means successful preparation): " + error);
-
-      if (error) {
-         console.log("Error running SQL statement: " + error);
-         throw error; //I think this is the way to do it? Need to confirm.
-      }
-      else {
-         console.log("errorHandleRun - Statement object " + this);
-         var statementString = JSON.stringify(this);
-         console.log("errorHandleRun - Statement object after stringify" + statementString);
-
-         var parsedStatementObject = JSON.parse(statementString);
-
-         if ((parsedStatementObject.lastID === 0) && (parsedStatementObject.changes === 0)) {
-            console.log("errorHandleRun - No INSERT or DELETE. This is a SELECT query.");
-         }
-      }
+   function successStatusReply(response, url, userInput) {
+      console.log(response);
+      console.log(url);
+      console.log(userInput);
    }
-*/
 
-   /**
-    * Reply from query
-
-   function reply(response, err, rows) {
-      for (var i = 0; i < Object.keys(rows).length; i++) {
-      //   console.log("reply - Row " + i + ": " + rows[i].username + ": " + rows[i].title + ": " + rows[i].text);
-      }
-
-      var typeHeader = { 'Content-Type': "text/plain" };
-      response.writeHead(OK, typeHeader);
-      response.write(JSON.stringify(rows));
-      response.end();
-   }
-   */
-
-   function test() {
-      //TO DO.
+   function failureStatusReply(response, url, userInput) {
+      console.log("failure Status");
    }
