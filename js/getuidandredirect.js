@@ -3,7 +3,7 @@
    //if (addEventListener) {
    //   document.addEventListener("load", loaded);
 
-      addEventListener("load", test);
+      addEventListener("load", loaded);
 
    //}
    //else {
@@ -16,7 +16,7 @@
       console.log("entered r ************************************************************************************************************************************************************************************************************************************************************************************************************************************************");
       window.location.href="https://localhost:8443/";
    }
-/*
+
    function loaded(){
       console.log("getuidandredirect.js - loaded.");
       var redirectLocation = "/index.html";
@@ -70,4 +70,4 @@
          redirectLocation = sessionStorage.getItem("formsubmittedfrom")+"?error="+s;
       }
    }
-   */
+   
