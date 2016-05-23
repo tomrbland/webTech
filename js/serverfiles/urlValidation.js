@@ -18,7 +18,12 @@
    //Code
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
 
-   function _validate(request, response) {
+   function _validate(db, request, response) {
+      var util = require("util");
+      console.log("validate.js - db: " + util.inspect(db, {showHidden: false, depth: null}));
+      console.log("validate.js - request: " + util.inspect(request, {showHidden: false, depth: null}));
+      console.log("validate.js - response: " + util.inspect(response, {showHidden: false, depth: null}));
+
       // console.log(request);
       // e.g. /index.html
       var url = request.url;

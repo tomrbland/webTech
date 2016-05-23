@@ -4,37 +4,17 @@
  */
 
 //Imports
+   var FS = require("fs");
+   var SQL = require("sqlite3");
    var HTTP = require("https");
    var URL_VALIDATION = require("./urlValidation.js");
-   var FS = require("fs");
 
 //Exports
    module.exports = {
       start: function(port){
          _start(port);
-      },
-
-      service: function(){
-         _service();
-      },
-
-      shutDown: function(){
-         _shutDown(service, myCallback);
       }
    };
-
-   /*
-   //Exports
-   module.exports = {
-      reply: function(response, url, type){
-         _reply(response, url, type);
-      },
-
-      fail: function(response, code, text){
-         _fail(response, code, text);
-      }
-   };
-   */
 
 //Code
    //start(8443);
@@ -46,54 +26,40 @@
           passphrase: "verysecurepassword"
       }
 
-      var service = HTTP.createServer(credentials, URL_VALIDATION.validate);
+      SQL.verbose();
+      var db = new SQL.Database("./js/db/resortReport.db");
+
+      var service = HTTP.createServer(credentials, URL_VALIDATION.validate.bind(null, db));
 
       service.listen(port, "localhost");
       console.log("Visit https://localhost:" + port);
 
-      function _service() {
-         return service;
-      }
+      //Listens for the kill command
+      process.on("SIGTERM", closeDBAndShutDownService.bind(null, db, service));
+      //Listens for the Ctrl-C command
+      process.on("SIGINT", closeDBAndShutDownService.bind(null, db, service));
    }
 
-   HTTPS_SERVER.shutdown(HTTPS_SERVER.service(), db.close())
-
-
-   function _shutDown(service, funct) {
-      funct();
-      console.log("\nServer connection closed.");
-      service.close(function exitProcess() {
-         process.exit();
-      });
+   function closeDBAndShutDownService(db, service) {
+      /*
+      console.log("db: " + JSON.stringify(db));
+      var util = require("util");
+      console.log("service: " + util.inspect(service, {showHidden: false, depth: null}));
+      */
+      db.close();
+      console.log("\nDatabase connection closed.");
+      console.log("Server connection closed.");
+      service.close(exitProcess);
    }
 
-   //Listens for the kill command
-   process.on("SIGTERM", _shutDown);
+   function exitProcess() {
+      process.exit();
+   }
 
-   //Listens for the Ctrl-C command
-   process.on("SIGINT", _shutDown);
-/*
-   function shutDown() {
-      //close db
-      console.log("\nServer connection closed.");
-      service.close(function exitProcess() {
-         process.exit();
-      });
-   } */
 
-// WHY ISNT THIS WORKING
-// !!!!
-/*
-   service.on('close', function() {
-     console.log(' Stopping ...');
-  });
+   /*
+      //in handler
 
-   process.on('SIGINT', function() {
-      process.exit(2);
-      service.close();
-  });
-
-  process.on('exit', function () {
-   // process.emit('cleanup');
-   console.log("hi");
-}); */
+      function closeDBAndShutDownService() {
+         HTTPS_SERVER.shutdown(HTTPS_SERVER.service(), db.close());
+      } */
