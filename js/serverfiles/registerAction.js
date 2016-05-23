@@ -41,6 +41,7 @@
    function runStatement(userInput, db, ps, eventEmitter) {
       console.log("Run statement");
       ps.run(userInput.firstName, userInput.surname, userInput.username, userInput.email, userInput.password, errorHandle.bind(null, "Run statement", userInput, db, eventEmitter));
+      console.log("ps.this: " + JSON.stringify(ps.this));
       eventEmitter.on("Success: Run statement", finalizeStatement.bind(null, userInput, db, ps, eventEmitter));
    }
 

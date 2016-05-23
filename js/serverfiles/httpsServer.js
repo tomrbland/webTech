@@ -26,6 +26,21 @@
       }
 
       var service = HTTP.createServer(credentials, URL_VALIDATION.validate);
+
+      service.on('close', function() {
+        console.log(' Stopping ...');
+     });
+
+      process.on('SIGINT', function() {
+         process.exit(2);
+         service.close();
+     });
+
+     process.on('exit', function () {
+      // process.emit('cleanup');
+      console.log("hi");
+     });
+
       service.listen(port, "localhost");
       console.log("Visit https://localhost:" + port);
    }
