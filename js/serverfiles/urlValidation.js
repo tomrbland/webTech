@@ -3,7 +3,7 @@
    //Imports
    var UTIL = require("./utilities.js");
    var URL_UTIL = require("./urlUtils.js");
-   var REPLIER = require("./reply.js");
+   var REPLIER = require("./standardReply.js");
    var HANDLER = require("./handler.js");
 
    var QUERY_STRING = require("querystring");
@@ -17,23 +17,20 @@
 
    //Code
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
-//this works? yep ???
-//dunoo
-///what
+
    function _validate(db, request, response) {
+      /*
       var util = require("util");
       console.log("validate.js - db: " + util.inspect(db, {showHidden: false, depth: null}));
       console.log("validate.js - request: " + util.inspect(request, {showHidden: false, depth: null}));
       console.log("validate.js - response: " + util.inspect(response, {showHidden: false, depth: null}));
+      */
 
-      // console.log(request);
-      // e.g. /index.html
       var url = request.url;
 
       // Turns /resort.html?resort=Les+Arcs%2C+Bourg-Saint-Maurice%2C+France into /resort.html
       url = URL_UTIL.removeQuery(url);
 
-      // Makes it lower case
       url = UTIL.lower(url);
 
       // Makes localhost:8080 default to index.html
@@ -43,7 +40,6 @@
       if (! URL_UTIL.safe(url)) return REPLIER.fail(response, NotFound, "Unsafe URL");
       if (! URL_UTIL.shouldOpen(url)) return REPLIER.fail(response, NotFound, "URL has been banned");
 
-      // Finds type of file, e.g. if it's a .png
       var type = URL_UTIL.findType(url);
       if (type == null) return REPLIER.fail(response, BadType, "File type unsupported");
 
@@ -62,6 +58,6 @@
       function end() {
          console.log("urlValidation.js - URL before entering handler: " + url);
          var userInput = QUERY_STRING.parse(body);
-         HANDLER.handleURL(response, url, type, userInput);
+         HANDLER.handleURL(response, url, type, userInput, db);
       }
    }
