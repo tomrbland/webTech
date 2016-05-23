@@ -53,7 +53,7 @@
    }
 
    function exitProcess() {
-      process.exit();
+      process.exit(2);
    }
 
 

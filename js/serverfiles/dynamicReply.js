@@ -23,7 +23,7 @@
    }
 
    function reviewsQuery(response, url, db, eventEmitter) {
-      var ps = db.prepare("SELECT username, title, text FROM Review JOIN Person ON Review.personid = Person.id;", errorHandle.bind(null, "Prepared statement", eventEmitter));
+      var ps = db.prepare("SELECT firstName, surname, title, text FROM Review JOIN Person ON Review.personid = Person.id;", errorHandle.bind(null, "Prepared statement", eventEmitter));
       eventEmitter.on("Success: Prepared statement", getAllResults.bind(null, response, url, ps));
    }
 
@@ -60,8 +60,8 @@
          console.log("setReply() - error");
 
          console.log("Error: " + error);
-         failureReply(response, url, rows);
       //   eventEmitter.emit("Error");
+         failureReply(response, url);
       }
       else {
          console.log("setReply() - success");
@@ -72,27 +72,25 @@
    }
 
    function failureReply(response, url) {
-      console.log("failureReply()");
-
       var file = "." + url;
-      FS.readFile(file, failure.bind(null, response, url));
-   }
-
-   function successReply(response, url, rows) {
-      console.log("successReply()");
-      console.log("reply - Rows after being stringified: " + JSON.stringify(rows));
-      console.log("reply - Rows after being parsed: " );
-
-      for (var i = 0; i < Object.keys(rows).length; i++) {
-         console.log("reply - Row " + i + ": " + rows[i].username + ": " + rows[i].title + ": " + rows[i].text);
-      }
-
-      var file = "." + url;
-      FS.readFile(file, success.bind(null, response, url, rows));
+      FS.readFile(file, failure.bind(null, response));
    }
 
    // Deliver the file that has been read in to the browser.
-   function success(response, url, rows, error, fileContent) {
+   function failure(response, error, fileContent) {
+      var textTypeHeader = { "Content-Type": "text/plain" };
+      response.writeHead(NotFound, "File not found");
+      response.write(fileContent, "utf8");
+      response.end();
+   }
+
+   function successReply(response, url, rows) {
+      var file = "." + url;
+      FS.readFile(file, success.bind(null, response, rows));
+   }
+
+   // Deliver the file that has been read in to the browser.
+   function success(response, rows, error, fileContent) {
 /*
       var util = require("util");
       console.log("sucess - response: " + util.inspect(db, {showHidden: false, depth: null}));
@@ -102,72 +100,21 @@
 */
       console.log("success - Rows after being stringified: " + JSON.stringify(rows));
 
-      var typeHeader = { 'Content-Type': "text/html" };
+      var typeHeader = { "Content-Type": "text/html" };
       response.writeHead(OK, typeHeader);
 
-      fileContent = fileContent.toString();
-      /*
-      <div id="reviews"></div>
-      var review = document.createElement("div");
-      review.className = "review";
-
-      var h3 = document.createElement("h3");
-      h3.innerHTML = "\"" + parsedResults[i].title + "\"" + " - " + parsedResults[i].username;
-
-      var p = document.createElement("p");
-      p.innerHTML = parsedResults[i].text;
-      */
       var fillWithData = "";
-
-      console.log("\n test concat: " + fillWithData.concat("<div class= &quot;review&quot;><h3>" + rows[0].title + " - " + rows[0].username + "</h3><p>" + rows[0].text + "</p></h3></div"));
       for (var i = 0; i < Object.keys(rows).length; i++) {  //Use first and last names instead!
-         fillWithData = fillWithData.concat("<div class='review'><h3>" + rows[i].title + " - " + rows[i].username + "</h3><p>" + rows[i].text + "</p></h3></div>");
+         fillWithData = fillWithData.concat('<div class="review"><h3>' + '&quot;' + rows[i].title + '&quot;' + ' - ' + rows[i].firstName + ' ' + rows[i].surname + '</h3><p>' + rows[i].text + '</p></h3></div>');
       //   fillWithData.concat("</h3><p>" + rows[i].text + "</p></h3></div");
-         console.log("fillWithData: " + fillWithData);
       }
 
-      console.log("fillWithData: " + fillWithData);
-
+      fileContent = fileContent.toString();
       fileContent = fileContent.replace('<div id="reviews"></div>', '<div id="reviews">' + fillWithData + '</div>');
 
+      console.log("fillWithData: " + fillWithData);
       console.log("AFTER replace:\n" + fileContent);
 
       response.write(fileContent);
       response.end();
    }
-
-   // Deliver the file that has been read in to the browser.
-   function failure(response, url, error, fileContent) {
-      var typeHeader = { 'Content-Type': "text/html" };
-      response.writeHead(OK, typeHeader);
-
-      fileContent = fileContent.toString();
-      fileContent = fileContent.replace('<div class="hidden" id="status">$</div>', '<div class="hidden" id="status">200</div>');
-      fileContent = fileContent.replace('<div class="hidden" id="uid">$</div>', '<div class="hidden" id="uid">1</div>');
-      fileContent = fileContent.replace('<div class="hidden" id="username">$</div>', '<div class="hidden" id="username">' + userInput.username + '</div>');
-
-      console.log("AFTER replace:\n" + fileContent);
-
-      response.write(fileContent);
-      response.end();
-   }
-
-
-/*
-   // Deliver the file that has been read in to the browser.
-   function deliver(response, type, err, fileContent) {
-      if (err) return _fail(response, NotFound, "File not found");
-      var typeHeader = { 'Content-Type': type };
-      response.writeHead(OK, typeHeader);
-      response.write(fileContent);
-      response.end();
-   }
-
-   // Give a minimal failure response to the browser
-   function _fail(response, code, text) {
-      var textTypeHeader = { 'Content-Type': 'text/plain' };
-      response.writeHead(code, textTypeHeader);
-      response.write(text, 'utf8');
-      response.end();
-   }
-*/

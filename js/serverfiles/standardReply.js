@@ -32,9 +32,9 @@
    }
 
    // Give a minimal failure response to the browser
-   function _fail(response, code, text) {
+   function _fail(response, code, fileContent) {
       var textTypeHeader = { 'Content-Type': 'text/plain' };
       response.writeHead(code, textTypeHeader);
-      response.write(text, 'utf8');
+      response.write(fileContent, 'utf8');
       response.end();
    }
