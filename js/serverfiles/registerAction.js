@@ -86,10 +86,23 @@
       console.log(url + "\n");
       console.log(JSON.stringify(userInput) + "\n");
 
+      const crypto = require('crypto');
+      crypto.randomBytes(256, checkValidityOfCrytoRandomBytes);
+
       var file = "." + url;
       //Needed to do this to avoid Error: write after end
       var FS = require("fs");
       FS.readFile(file, success.bind(null, response, userInput));
+   }
+
+   function checkValidityOfCrytoRandomBytes(error, buffer) {
+      if (err) {
+         console.log("Error generating the crypto-secure random bytes.");
+         eventEmitter.emit("Error", error);
+      }
+      else {
+         console.log(buffer.length + "bytes of random data: " + buffer.toString('hex'));
+      }
    }
 
    function failureStatusReply(response, url, userInput) {
@@ -116,10 +129,8 @@
 
       console.log("AFTER replace:\n" + fileContent);
 
-      response.write(fileContent, function rEnd() {
-         response.end();
-      });
-
+      response.write(fileContent);
+      response.end();
    }
 
    // Deliver the file that has been read in to the browser.
@@ -129,12 +140,11 @@
 
       fileContent = fileContent.toString();
       fileContent = fileContent.replace('<div class="hidden" id="status">$</div>', '<div class="hidden" id="status">500</div>');
-      fileContent = fileContent.replace('<div class="hidden" id="uid">$</div>', '<div class="hidden" id="uid">1</div>');
-      fileContent = fileContent.replace('<div class="hidden" id="username">$</div>', '<div class="hidden" id="username">' + userInput.username + '</div>');
+      fileContent = fileContent.replace('<div class="hidden" id="uid">$</div>', '<div class="hidden" id="uid"></div>');
+      fileContent = fileContent.replace('<div class="hidden" id="username">$</div>', '<div class="hidden" id="username"></div>');
 
       console.log("AFTER replace:\n" + fileContent);
 
-      response.write(fileContent, function rEnd() {
-         response.end();
-      });
+      response.write(fileContent);
+      response.end();
    }
