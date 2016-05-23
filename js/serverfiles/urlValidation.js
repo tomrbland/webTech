@@ -40,7 +40,7 @@
       var type = URL_UTIL.findType(url);
       if (type == null) return REPLIER.fail(response, BadType, "File type unsupported");
 
-      //If a browser accepts XHTML, change type to XHTML
+      // If a browser accepts XHTML, change type to XHTML
       if (type == "text/html") type = URL_UTIL.negotiate(request.headers.accept);
 
       request.on("data", add);
