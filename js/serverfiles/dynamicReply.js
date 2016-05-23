@@ -6,39 +6,35 @@
 
    //Exports
    module.exports = {
-      reviewsQueryThenReply: function(response, db){
-         _reviewsQueryThenReply(response, db);
+      reviewsQueryThenReply: function(response, url, db){
+         _reviewsQueryThenReply(response, url, db);
       }
    };
 
    //Code
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
 
-   function _reviewsQueryThenReply(response, db) {
+   function _reviewsQueryThenReply(response, url, db) {
       var eventEmitter = new EVENTS_IN_DYNAMIC_REPLY.EventEmitter();
-      db.serialize(reviewsQuery.bind(null, response, db));
+      db.serialize(reviewsQuery.bind(null, response, url, db, eventEmitter));
 
-   //   eventEmitter.on("Error", failureReply.bind(null, response, url, userInput));
+      eventEmitter.on("Error", failureReply.bind(null, response, url));
    //   eventEmitter.on("Success", failureReply.bind(null, response, url, userInput));
    }
 
-   function reviewsQuery(response, db) {
-      var ps = db.prepare("SELECT username, title, text FROM Review JOIN Person ON Review.personid = Person.id;", errorHandle.bind(null, "Prepared statement", userInput, db, eventEmitter));
-      eventEmitter.on("Success: Prepared statement", getAllResults.bind(null, userInput, db, ps, eventEmitter));
+   function reviewsQuery(response, url, db, eventEmitter) {
+      var ps = db.prepare("SELECT username, title, text FROM Review JOIN Person ON Review.personid = Person.id;", errorHandle.bind(null, "Prepared statement", eventEmitter));
+      eventEmitter.on("Success: Prepared statement", getAllResults.bind(null, response, url, ps));
    }
 
-   function getAllResults() {
-      ps.all(setReply.bind(null, response));
+   function getAllResults(response, url, ps) {
+      ps.all(setReply.bind(null, response, url));
       ps.finalize();
    }
 
-
-
-   function errorHandle(string, userInput, db, eventEmitter, error) {
+   function errorHandle(string, eventEmitter, error) {
    //   console.log("outside conditional, error: " + JSON.stringify(error));
    //   console.log("outside conditional, string: " + JSON.stringify(string));
-   //   console.log("outside conditional, userInput: " + JSON.stringify(userInput));
-   //   console.log("outside conditional, db: " + JSON.stringify(db));
 
       if (error) {
          console.log(string + " : " + error);
@@ -54,35 +50,35 @@
       //   console.log("inside conditional no error, error " + error);
       //   console.log("inside conditional no error, string " + string);
 
-         eventEmitter.emit("Success: ".concat(string), userInput);
+         eventEmitter.emit("Success: ".concat(string));
    //      console.log("String in errorHandle for else: " + string);
       }
    }
 
-   function setReply(response, error, rows) {
+   function setReply(response, url, error, rows) {
       if (error) {
          console.log("setReply() - error");
 
          console.log("Error: " + error);
-         successReply(response, rows);
+         failureReply(response, url, rows);
       //   eventEmitter.emit("Error");
       }
       else {
          console.log("setReply() - success");
 
          //eventEmitter.emit("Success");
-         successReply(response, rows);
+         successReply(response, url, rows);
       }
    }
 
-   function failureReply() {
+   function failureReply(response, url) {
       console.log("failureReply()");
 
       var file = "." + url;
-      FS.readFile(file, deliver.bind(null, response, type));
+      FS.readFile(file, failure.bind(null, response, url));
    }
 
-   function successReply(response, rows) {
+   function successReply(response, url, rows) {
       console.log("successReply()");
       console.log("reply - Rows after being stringified: " + JSON.stringify(rows));
       console.log("reply - Rows after being parsed: " );
@@ -92,11 +88,41 @@
       }
 
       var file = "." + url;
-      FS.readFile(file, success.bind(null, response, rows));
+      FS.readFile(file, success.bind(null, response, url, rows));
    }
 
    // Deliver the file that has been read in to the browser.
-   function success(response, userInput, err, fileContent) {
+   function success(response, url, rows, error, fileContent) {
+/*
+      var util = require("util");
+      console.log("sucess - response: " + util.inspect(db, {showHidden: false, depth: null}));
+      console.log("sucess - url: " + util.inspect(request, {showHidden: false, depth: null}));
+      console.log("sucess - error: " + util.inspect(response, {showHidden: false, depth: null}));
+      console.log("sucess - fileContent: " + util.inspect(response, {showHidden: false, depth: null}));
+*/
+
+      var typeHeader = { 'Content-Type': "text/html" };
+      response.writeHead(OK, typeHeader);
+
+      fileContent = fileContent.toString();
+
+      var replace = "";
+      for (var i = 0; i < Object.keys(rows).length; i++) {
+         replace.concat()
+      }
+/*
+      fileContent = fileContent.replace('<div class="hidden" id="status">$</div>', '<div class="hidden" id="status">200</div>');
+      fileContent = fileContent.replace('<div class="hidden" id="uid">$</div>', '<div class="hidden" id="uid">1</div>');
+      fileContent = fileContent.replace('<div class="hidden" id="username">$</div>', '<div class="hidden" id="username">' + userInput.username + '</div>');
+*/
+      console.log("AFTER replace:\n" + fileContent);
+
+      response.write(fileContent);
+      response.end();
+   }
+
+   // Deliver the file that has been read in to the browser.
+   function failure(response, url, error, fileContent) {
       var typeHeader = { 'Content-Type': "text/html" };
       response.writeHead(OK, typeHeader);
 
@@ -112,7 +138,7 @@
    }
 
 
-
+/*
    // Deliver the file that has been read in to the browser.
    function deliver(response, type, err, fileContent) {
       if (err) return _fail(response, NotFound, "File not found");
@@ -129,3 +155,4 @@
       response.write(text, 'utf8');
       response.end();
    }
+*/

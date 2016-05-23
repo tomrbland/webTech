@@ -17,7 +17,7 @@
          case "/action.html": ACTION_ROUTER.route(response, url, userInput); break;
 
          // the reviewsQuery should be performed via an action but will leave it as it is for now.
-         case "/resort.html": DYNAMIC_REPLIER.reviewsQueryThenReply(response, db); break;
+         case "/resort.html": DYNAMIC_REPLIER.reviewsQueryThenReply(response, url, db); break;
 
          default: STANDARD_REPLIER.reply(response, url, type); break;
       }
