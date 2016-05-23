@@ -16,7 +16,7 @@ function addReviews() {
 
    function queryDBAndOnResultReturn() {
       var xhr = new XMLHttpRequest();
-      xhr.open("GET", "js/db/reviewQueryTest.js", true);
+      xhr.open("GET", "js/serverfiles/reviewsQuery.js", true);
 
       xhr.onreadystatechange = stateChanged;
       xhr.send();
@@ -24,7 +24,7 @@ function addReviews() {
 
    function stateChanged(){
       if ((this.readyState === requestFinished) && (this.status === successfulRequest)) {
-         console.log("reviews.js: Response OK from js/db/reviewQueryTest.js.");
+         console.log("reviews.js: Response OK from js/serverfiles/reviewsQuery.js.");
          console.log("reviews.js - responseText: " + this.responseText);
 
          var queryResults = this.responseText;

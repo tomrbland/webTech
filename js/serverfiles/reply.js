@@ -1,7 +1,7 @@
    "use strict";
 
    //Imports
-   var FS = require('fs');
+   var FS = require("fs");
 
    //Exports
    module.exports = {
@@ -23,11 +23,11 @@
    }
 
    // Deliver the file that has been read in to the browser.
-   function deliver(response, type, err, content) {
+   function deliver(response, type, err, fileContent) {
       if (err) return _fail(response, NotFound, "File not found");
       var typeHeader = { 'Content-Type': type };
       response.writeHead(OK, typeHeader);
-      response.write(content);
+      response.write(fileContent);
       response.end();
    }
 

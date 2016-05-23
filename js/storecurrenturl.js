@@ -1,14 +1,15 @@
-"use strict";
+   "use strict";
 
-/**
- * Stores current URL.
- * Used to redirect back to where the user came from.
- * requires sessionstorage.js
- */
+   /**
+    * Stores current URL.
+    * Used to redirect back to where the user came from.
+    * requires sessionstorage.js
+    */
 
-storeurl();
+   storeurl();
 
-function storeurl(){
-   var url = window.location.href;
-   sessionStorage.setItem("currenturl", url);
-}
+   function storeurl(){
+      var url = window.location.href;
+      sessionStorage.setItem("currenturl", url);
+      console.log("url stored: " + url);
+   }
