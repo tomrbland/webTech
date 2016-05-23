@@ -13,9 +13,24 @@
    module.exports = {
       start: function(port){
          _start(port);
+      },
+
+      service: function(){
+          _start.service();
       }
    };
 
+/*
+   module.exports = {
+      reply: function(response, url, type){
+         _reply(response, url, type);
+      },
+
+      fail: function(response, code, text){
+         _fail(response, code, text);
+      }
+   };
+*/
 //Code
    //start(8443);
 
@@ -35,31 +50,14 @@
       console.log("Visit https://localhost:" + port);
 
       //Listens for the kill command
-      process.on("SIGTERM", closeDBAndShutDownService.bind(null, db, service));
+      process.on("SIGTERM", shutDown);
       //Listens for the Ctrl-C command
-      process.on("SIGINT", closeDBAndShutDownService.bind(null, db, service));
+      process.on("SIGINT", shutDown);
+
+      function shutDown() {
+         db.close();
+         console.log("\nDatabase connection closed.");
+         console.log("Server connection closed.");
+         process.exit();
+      }
    }
-
-   function closeDBAndShutDownService(db, service) {
-      /*
-      console.log("db: " + JSON.stringify(db));
-      var util = require("util");
-      console.log("service: " + util.inspect(service, {showHidden: false, depth: null}));
-      */
-      db.close();
-      console.log("\nDatabase connection closed.");
-      console.log("Server connection closed.");
-      service.close(exitProcess);
-   }
-
-   function exitProcess() {
-      process.exit(2);
-   }
-
-
-   /*
-      //in handler
-
-      function closeDBAndShutDownService() {
-         HTTPS_SERVER.shutdown(HTTPS_SERVER.service(), db.close());
-      } */

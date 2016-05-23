@@ -12,7 +12,7 @@
    module.exports = {
       validate: function(db, request, response){
          _validate(db, request, response);
-      }
+      },
    };
 
    //Code
