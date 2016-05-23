@@ -100,21 +100,36 @@
       console.log("sucess - error: " + util.inspect(response, {showHidden: false, depth: null}));
       console.log("sucess - fileContent: " + util.inspect(response, {showHidden: false, depth: null}));
 */
+      console.log("success - Rows after being stringified: " + JSON.stringify(rows));
 
       var typeHeader = { 'Content-Type': "text/html" };
       response.writeHead(OK, typeHeader);
 
       fileContent = fileContent.toString();
+      /*
+      <div id="reviews"></div>
+      var review = document.createElement("div");
+      review.className = "review";
 
-      var replace = "";
-      for (var i = 0; i < Object.keys(rows).length; i++) {
-         replace.concat()
+      var h3 = document.createElement("h3");
+      h3.innerHTML = "\"" + parsedResults[i].title + "\"" + " - " + parsedResults[i].username;
+
+      var p = document.createElement("p");
+      p.innerHTML = parsedResults[i].text;
+      */
+      var fillWithData = "";
+
+      console.log("\n test concat: " + fillWithData.concat("<div class= &quot;review&quot;><h3>" + rows[0].title + " - " + rows[0].username + "</h3><p>" + rows[0].text + "</p></h3></div"));
+      for (var i = 0; i < Object.keys(rows).length; i++) {  //Use first and last names instead!
+         fillWithData = fillWithData.concat("<div class='review'><h3>" + rows[i].title + " - " + rows[i].username + "</h3><p>" + rows[i].text + "</p></h3></div>");
+      //   fillWithData.concat("</h3><p>" + rows[i].text + "</p></h3></div");
+         console.log("fillWithData: " + fillWithData);
       }
-/*
-      fileContent = fileContent.replace('<div class="hidden" id="status">$</div>', '<div class="hidden" id="status">200</div>');
-      fileContent = fileContent.replace('<div class="hidden" id="uid">$</div>', '<div class="hidden" id="uid">1</div>');
-      fileContent = fileContent.replace('<div class="hidden" id="username">$</div>', '<div class="hidden" id="username">' + userInput.username + '</div>');
-*/
+
+      console.log("fillWithData: " + fillWithData);
+
+      fileContent = fileContent.replace('<div id="reviews"></div>', '<div id="reviews">' + fillWithData + '</div>');
+
       console.log("AFTER replace:\n" + fileContent);
 
       response.write(fileContent);
