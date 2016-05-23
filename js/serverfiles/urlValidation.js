@@ -10,8 +10,8 @@
 
    //Exports
    module.exports = {
-      validate: function(request, response){
-         _validate(request, response);
+      validate: function(db, request, response){
+         _validate(db, request, response);
       }
    };
 
