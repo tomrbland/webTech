@@ -1,5 +1,5 @@
    //Imports
-   var EVENTS = require("events");
+   var EVENTS_IN_REGISTER_ACTION = require("events");
    var SQL = require("sqlite3");
 
 
@@ -18,7 +18,7 @@
    function _executeAction(response, url, userInput) {
       console.log("registerAction.js - entered.");
 
-      var eventEmitter = new EVENTS.EventEmitter();
+      var eventEmitter = new EVENTS_IN_REGISTER_ACTION.EventEmitter();
 
       attemptUserRegistration(userInput, eventEmitter);
 

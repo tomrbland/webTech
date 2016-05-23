@@ -1,6 +1,8 @@
    "use strict";
 
    //Imports
+   var EVENTS_IN_DYNAMIC_REPLY = require("events");
+   var FS = require("fs");
 
    //Exports
    module.exports = {
@@ -13,93 +15,117 @@
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
 
    function _reviewsQueryThenReply(response, db) {
-      reviewsQuery(db, reply)
+      var eventEmitter = new EVENTS_IN_DYNAMIC_REPLY.EventEmitter();
+      db.serialize(reviewsQuery.bind(null, response, db));
+
+   //   eventEmitter.on("Error", failureReply.bind(null, response, url, userInput));
+   //   eventEmitter.on("Success", failureReply.bind(null, response, url, userInput));
    }
 
-   function reviewsQuery(db) {
-      db.serialize(query.bind(null, db, response));
-      var ps = db.prepare("SELECT username, title, text FROM Review JOIN Person ON Review.personid = Person.id;", errorHandlePrepare);
+   function reviewsQuery(response, db) {
+      var ps = db.prepare("SELECT username, title, text FROM Review JOIN Person ON Review.personid = Person.id;", errorHandle.bind(null, "Prepared statement", userInput, db, eventEmitter));
+      eventEmitter.on("Success: Prepared statement", getAllResults.bind(null, userInput, db, ps, eventEmitter));
    }
 
-
-}
-
-   function query(db, response) {
-
-      var ps = db.prepare("SELECT username, title, text FROM Review JOIN Person ON Review.personid = Person.id;", errorHandlePrepare);
-
-   //WHY do we need .run and .all both execute the statement?
-      //Statement#run([param, ...], [callback])
-      //ps.run(/*if user input for ?, put as 1st arg",*/errorHandleRun);
-
-      /**
-       * Statement#all([param, ...], [callback])
-       * Binds parameters, executes the statement and calls the callback with all result rows.
-       */
-      ps.all(/*if user input for ?, put as 1st arg",*/reply.bind(null, response));
-
-      //Close Statement
+   function getAllResults() {
+      ps.all(setReply.bind(null, response));
       ps.finalize();
-
-
    }
 
-   /**
-   * For catching errors when preparing statment
-   */
-   function errorHandlePrepare(error) {
-   //   console.log("\nerrorHandlePrepare - 1st arg (null means successful preparation): " + error);
+
+
+   function errorHandle(string, userInput, db, eventEmitter, error) {
+   //   console.log("outside conditional, error: " + JSON.stringify(error));
+   //   console.log("outside conditional, string: " + JSON.stringify(string));
+   //   console.log("outside conditional, userInput: " + JSON.stringify(userInput));
+   //   console.log("outside conditional, db: " + JSON.stringify(db));
 
       if (error) {
-      //   console.log("Error preparing SQL statement: " + error);
-         throw error; //I think this is the way to do it? Need to confirm.
+         console.log(string + " : " + error);
+      //   console.log("inside conditional ERROR, error " + error);
+      //   console.log("inside conditional ERROR, string " + string);
+
+         eventEmitter.emit("Error", error);
+      //   console.log("String in errorHandle for error: " + string);
       }
       else {
-      //   console.log("errorHandlePrepare - Statement object " + this);
-         var statementString = JSON.stringify(this);
-      //   console.log("errorHandlePrepare - Statement object after stringify" + statementString);
+
+         console.log(string + " : " + "success");
+      //   console.log("inside conditional no error, error " + error);
+      //   console.log("inside conditional no error, string " + string);
+
+         eventEmitter.emit("Success: ".concat(string), userInput);
+   //      console.log("String in errorHandle for else: " + string);
       }
    }
 
-   /*
-   function errorHandleRun(error) {
-      console.log("\nerrorHandleRun - 1st arg (null means successful preparation): " + error);
-
+   function setReply(response, error, rows) {
       if (error) {
-         console.log("Error running SQL statement: " + error);
-         throw error; //I think this is the way to do it? Need to confirm.
+         console.log("setReply() - error");
+
+         console.log("Error: " + error);
+         successReply(response, rows);
+      //   eventEmitter.emit("Error");
       }
       else {
-         console.log("errorHandleRun - Statement object " + this);
-         var statementString = JSON.stringify(this);
-         console.log("errorHandleRun - Statement object after stringify" + statementString);
+         console.log("setReply() - success");
 
-         var parsedStatementObject = JSON.parse(statementString);
-
-         if ((parsedStatementObject.lastID === 0) && (parsedStatementObject.changes === 0)) {
-            console.log("errorHandleRun - No INSERT or DELETE. This is a SELECT query.");
-         }
+         //eventEmitter.emit("Success");
+         successReply(response, rows);
       }
    }
-   */
-   /**
-   * Reply from query
-   */
-   function reply(response, err, rows) {
-   //   console.log("\nreply - Reponse: " + response);
 
-   //   console.log("reply - Rows directly returned from query: " + rows);
-   //   console.log("reply - Rows after being stringified: " + JSON.stringify(rows));
-   //   console.log("reply - Rows after being parsed: " );
+   function failureReply() {
+      console.log("failureReply()");
 
-      //http://stackoverflow.com/questions/5533192/how-to-get-object-length
-      //COMPATIBILITY ISSUES WITH Object.keys()
+      var file = "." + url;
+      FS.readFile(file, deliver.bind(null, response, type));
+   }
+
+   function successReply(response, rows) {
+      console.log("successReply()");
+      console.log("reply - Rows after being stringified: " + JSON.stringify(rows));
+      console.log("reply - Rows after being parsed: " );
+
       for (var i = 0; i < Object.keys(rows).length; i++) {
-      //   console.log("reply - Row " + i + ": " + rows[i].username + ": " + rows[i].title + ": " + rows[i].text);
+         console.log("reply - Row " + i + ": " + rows[i].username + ": " + rows[i].title + ": " + rows[i].text);
       }
 
-      var typeHeader = { 'Content-Type': "text/plain" };
+      var file = "." + url;
+      FS.readFile(file, success.bind(null, response, rows));
+   }
+
+   // Deliver the file that has been read in to the browser.
+   function success(response, userInput, err, fileContent) {
+      var typeHeader = { 'Content-Type': "text/html" };
       response.writeHead(OK, typeHeader);
-      response.write(JSON.stringify(rows));
+
+      fileContent = fileContent.toString();
+      fileContent = fileContent.replace('<div class="hidden" id="status">$</div>', '<div class="hidden" id="status">200</div>');
+      fileContent = fileContent.replace('<div class="hidden" id="uid">$</div>', '<div class="hidden" id="uid">1</div>');
+      fileContent = fileContent.replace('<div class="hidden" id="username">$</div>', '<div class="hidden" id="username">' + userInput.username + '</div>');
+
+      console.log("AFTER replace:\n" + fileContent);
+
+      response.write(fileContent);
+      response.end();
+   }
+
+
+
+   // Deliver the file that has been read in to the browser.
+   function deliver(response, type, err, fileContent) {
+      if (err) return _fail(response, NotFound, "File not found");
+      var typeHeader = { 'Content-Type': type };
+      response.writeHead(OK, typeHeader);
+      response.write(fileContent);
+      response.end();
+   }
+
+   // Give a minimal failure response to the browser
+   function _fail(response, code, text) {
+      var textTypeHeader = { 'Content-Type': 'text/plain' };
+      response.writeHead(code, textTypeHeader);
+      response.write(text, 'utf8');
       response.end();
    }
