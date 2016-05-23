@@ -20,7 +20,7 @@
 
       attemptUserRegistration(userInput, eventEmitter);
 
-      eventEmitter.on("Success: DB closed", successStatusReply.bind(null, response, url, userInput));
+      eventEmitter.on("Success: DB closed", successStatusReply.bind(null, response, url, userInput, eventEmitter));
       eventEmitter.on("Error", failureStatusReply.bind(null, response, url, userInput));
    }
 
@@ -80,14 +80,14 @@
       }
    }
 
-   function successStatusReply(response, url, userInput) {
+   function successStatusReply(response, url, userInput, eventEmitter) {
       console.log("successStatusReply: \n");
       console.log(response + "\n");
       console.log(url + "\n");
       console.log(JSON.stringify(userInput) + "\n");
 
       const crypto = require('crypto');
-      crypto.randomBytes(256, checkValidityOfCrytoRandomBytes);
+      crypto.randomBytes(256, checkValidityOfCrytoRandomBytes.bind(null, eventEmitter));
 
       var file = "." + url;
       //Needed to do this to avoid Error: write after end
@@ -95,8 +95,12 @@
       FS.readFile(file, success.bind(null, response, userInput));
    }
 
-   function checkValidityOfCrytoRandomBytes(error, buffer) {
-      if (err) {
+   function checkValidityOfCrytoRandomBytes(eventEmitter, error, buffer) {
+   //   console.log("eventEmitter in crypto: " + JSON.stringify(eventEmitter));
+   //   console.log("error in crypto: " + error);
+   //   console.log("buffer in crypto: " + buffer);
+
+      if (error) {
          console.log("Error generating the crypto-secure random bytes.");
          eventEmitter.emit("Error", error);
       }
