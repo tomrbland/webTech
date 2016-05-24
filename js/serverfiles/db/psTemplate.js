@@ -8,8 +8,8 @@
    queryDB();
 
    function queryDB() {
-      SQL.verbose();           //remember to change path to js/db/test.db if coping and pasting to server
-      var db = new SQL.Database("test.db");
+      SQL.verbose();           //remember to change path if coping and pasting to server
+      var db = new SQL.Database("resortReport.db");
 
       var response = "********* Server response would go here *********";
 
@@ -23,9 +23,9 @@
       //When preparing was successful, the first and only argument to the callback is null,
       //otherwise it is the error object. When bind parameters are supplied, they are bound
       //to the prepared statement before calling the callback.
-      var ps = db.prepare("SELECT text FROM Review;", errorHandlePrepare);
+      var ps = db.prepare("INSERT INTO Person (firstName, surname, username, email, password) VALUES ('Santssa', 'Clausssse', 'Fathersaasdsssssasd999asdasChristm21as', 'mrchriasdaasa1sdasasds8dstmas@1yahoo.com', 'ilovecaasdhristmas');", errorHandlePrepare);
 
-      ps.run(/*if user input for ?, put as 1st arg",*/errorHandleRun);
+      ps.run(/*if user input for ?, put as 1st arg",*/errorHandleRun.bind(ps, "wazzup errorhandlerun"));
 
       //The signature of the callback is function(err, rows) {}. If the result set is empty,
       //the second parameter is an empty array, otherwise it contains an object for each result
@@ -71,7 +71,8 @@
 
    //If an error occurred, the first (and only) parameter will be an error object containing the error message.
    //If execution was successful, the first parameter is null.
-   function errorHandleRun(error) {
+   function errorHandleRun(string, error) {
+      console.log(string);
       console.log("\nerrorHandleRun - 1st arg (null means successful preparation): " + error);
 
       if (error) {
@@ -95,6 +96,8 @@
          console.log("errorHandleRun - Statement object after stringify" + statementString);
 
          var parsedStatementObject = JSON.parse(statementString);
+         console.log("parsedStatementObject.lastID: " + parsedStatementObject.lastID);
+
 
          if ((parsedStatementObject.lastID === 0) && (parsedStatementObject.changes === 0)) {
             console.log("errorHandleRun - No INSERT or DELETE. This is a SELECT query.");

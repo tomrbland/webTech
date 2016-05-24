@@ -4,14 +4,19 @@
  */
 
 //Imports
+   var FS = require("fs");
+   var SQL = require("sqlite3");
    var HTTP = require("https");
    var URL_VALIDATION = require("./urlValidation.js");
-   var FS = require("fs");
 
 //Exports
    module.exports = {
       start: function(port){
          _start(port);
+      },
+
+      service: function(){
+          _start.service();
       }
    };
 
@@ -25,7 +30,23 @@
           passphrase: "verysecurepassword"
       }
 
-      var service = HTTP.createServer(credentials, URL_VALIDATION.validate);
+      SQL.verbose();
+      var db = new SQL.Database("./js/serverfiles/db/resortReport.db");
+
+      var service = HTTP.createServer(credentials, URL_VALIDATION.validate.bind(null, db));
+
       service.listen(port, "localhost");
       console.log("Visit https://localhost:" + port);
+
+      //Listens for the kill command
+      process.on("SIGTERM", shutDown);
+      //Listens for the Ctrl-C command
+      process.on("SIGINT", shutDown);
+
+      function shutDown() {
+         db.close();
+         console.log("\nDatabase connection closed.");
+         console.log("Server connection closed.");
+         process.exit();
+      }
    }
