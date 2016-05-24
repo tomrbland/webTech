@@ -29,7 +29,7 @@
 
    function getAllResults(response, url, ps, eventEmitter) {
       ps.all(setReply.bind(null, response, url));
-      ps.finalize(errorHandle.bind(null, "Finalize", eventEmitter));
+      ps.finalize(errorHandle.bind(null, "Finalized", eventEmitter));
    }
 
    function errorHandle(string, eventEmitter, error) {

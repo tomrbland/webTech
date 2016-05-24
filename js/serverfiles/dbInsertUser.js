@@ -33,7 +33,7 @@
 
    function attemptUserRegistration(userInput) {
       SQL.verbose();
-      var db = new SQL.Database("../db/resortReport.db");
+      var db = new SQL.Database("./js/serverfiles/db/resortReport.db");
 
       //By default, statements run in parallel. If I only serialize the ps is this even doing anything?
       db.serialize(prepareNewUserInsertion.bind(null, userInput, db));

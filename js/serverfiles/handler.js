@@ -7,14 +7,14 @@
 
    //Exports
    module.exports = {
-      handleURL: function(response, url, type, userInput, db){
-         _handleURL(response, url, type, userInput, db);
+      handleURL: function(response, url, type, db, userInput){
+         _handleURL(response, url, type, db, userInput);
       }
    };
 
-   function _handleURL(response, url, type, userInput, db) {
+   function _handleURL(response, url, type, db, userInput) {
       switch (url) {
-         case "/action.html": ACTION_ROUTER.route(response, url, userInput); break;
+         case "/action.html": ACTION_ROUTER.route(response, url, db, userInput); break;
 
          // The reviewsQuery should be performed via an action but will leave it as it is for now.
          case "/resort.html": DYNAMIC_REPLIER.reviewsQueryThenReply(response, url, db); break;

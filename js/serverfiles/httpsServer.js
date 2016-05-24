@@ -20,17 +20,6 @@
       }
    };
 
-/*
-   module.exports = {
-      reply: function(response, url, type){
-         _reply(response, url, type);
-      },
-
-      fail: function(response, code, text){
-         _fail(response, code, text);
-      }
-   };
-*/
 //Code
    //start(8443);
 
@@ -42,7 +31,7 @@
       }
 
       SQL.verbose();
-      var db = new SQL.Database("./js/db/resortReport.db");
+      var db = new SQL.Database("./js/serverfiles/db/resortReport.db");
 
       var service = HTTP.createServer(credentials, URL_VALIDATION.validate.bind(null, db));
 

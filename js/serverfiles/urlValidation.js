@@ -58,6 +58,6 @@
       function end() {
          console.log("urlValidation.js - URL before entering handler: " + url);
          var userInput = QUERY_STRING.parse(body);
-         HANDLER.handleURL(response, url, type, userInput, db);
+         HANDLER.handleURL(response, url, type, db, userInput);
       }
    }

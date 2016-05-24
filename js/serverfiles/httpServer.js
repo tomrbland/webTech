@@ -5,7 +5,7 @@
 
 //Imports
    var HTTP = require("http");
-   var REDIRECTOR = require("./redirector.js");
+   var REDIRECTOR = require("./httpsRedirector.js");
 
 //Exports
    module.exports = {
