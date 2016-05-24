@@ -60,12 +60,14 @@
       ps.finalize(errorHandle.bind(null, "Insert New User - Finalized", eventEmitter, insertedUserID));
    }
 
-   function createUserSessionID(response, url, db, userInput, eventEmitter, insertedUserID) {
-      console.log("\n createUserSessionID: ");
-      console.log("insertedUserID: " + insertedUserID);
+   //-------------------------------- CREATE NEW SESSION ID --------------------------------
+
+   function createUserSessionID(db, eventEmitter, insertedUserID) {
+      console.log("\ncreateUserSessionID: ");
+      console.log("createUserSessionID - insertedUserID: " + insertedUserID);
 
       CRYPTO.randomBytes(256, checkValidityOfCrytoRandomBytes.bind(null, "Crypto-secure session ID creation", eventEmitter));
-      eventEmitter.on("Success: Crypto-secure session ID creation", attemptSessionIDInsertion.bind(null, response, url, db, userInput, eventEmitter, insertedUserID))
+      eventEmitter.on("Success: Crypto-secure session ID creation", attemptSessionIDInsertion.bind(null, db, eventEmitter, insertedUserID))
    }
 
    function checkValidityOfCrytoRandomBytes(message, eventEmitter, error, buffer) {
@@ -116,18 +118,19 @@
 
 
    function errorHandle(message, eventEmitter, id, error) {
+      console.log("\n************///------ Entered errorHandle for: " + message);
       if (error) {
          eventEmitter.emit("Error", error);
       }
       else {
-         if (string === "Insert New User - Run statement") {
+         if (message === "Insert New User - Run statement") {
             console.log("this.lastID: " + this.lastID);
             eventEmitter.emit("Success: ".concat(message), this.lastID);
          }
          //Used for "Insert New User - Finalized" to return the DB id of the inserted person
          //Used for "Insert New Session ID - Finalized" to return the DB id of the new session
-         else if (string.includes("Finalized")) {
-            console.log("Outside run condition for" + message + ": " + id);
+         else if (message.includes("Finalized")) {
+            console.log("Inside conditional for finalized the id is: " + id);
             eventEmitter.emit("Success: ".concat(message), id);
          }
          else {
