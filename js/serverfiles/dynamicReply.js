@@ -23,7 +23,7 @@
    }
 
    function reviewsQuery(response, url, db, eventEmitter) {
-      var ps = db.prepare("SELECT firstName, surname, title, text FROM Review JOIN Person ON Review.personid = Person.id;", errorHandle.bind(null, "Prepared statement", eventEmitter));
+      var ps = db.prepare("SELECT firstName, surname, title, text FROM Review JOIN Person ON Review.personID = Person.id;", errorHandle.bind(null, "Prepared statement", eventEmitter));
       eventEmitter.on("Success: Prepared statement", getAllResults.bind(null, response, url, ps, eventEmitter));
    }
 
@@ -81,7 +81,7 @@
       response.writeHead(OK, typeHeader);
 
       var fillData = "";
-      for (var i = 0; i < Object.keys(rows).length; i++) {  //Use first and last names instead!
+      for (var i = 0; i < Object.keys(rows).length; i++) {  
          fillData = fillData.concat('<div class="review"><h3>' + '&quot;' + rows[i].title + '&quot;' + ' — ' + rows[i].firstName + ' ' + rows[i].surname + '</h3><p>' + rows[i].text + '</p></h3></div>');
       }
 

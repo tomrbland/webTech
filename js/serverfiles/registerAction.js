@@ -1,5 +1,5 @@
    //Imports
-   var EVENTS_IN_REGISTER_ACTION = require("events");
+   var REGISTER_ACTION_EVENT_HANDLING = require("events");
    var FS = require("fs");
 
    //Exports
@@ -15,12 +15,13 @@
    function _executeAction(response, url, db, userInput) {
       console.log("registerAction.js - entered.");
 
-      var eventEmitter = new EVENTS_IN_REGISTER_ACTION.EventEmitter();
+      var eventEmitter = new REGISTER_ACTION_EVENT_HANDLING.EventEmitter();
 
       attemptUserRegistration(db, userInput, eventEmitter);
 
       eventEmitter.on("Success: Finalized", successStatusReply.bind(null, response, url, userInput, eventEmitter));
       eventEmitter.on("Error", failureStatusReply.bind(null, response, url, userInput));
+
    }
 
    function attemptUserRegistration(db, userInput, eventEmitter) {
@@ -29,34 +30,58 @@
 
    function prepareNewUserInsertion(db, userInput, eventEmitter) {
       console.log("Prepared statement");
-      var ps = db.prepare("INSERT INTO Person (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", errorHandle.bind(null, "Prepared statement", db, userInput, eventEmitter));
+      var ps = db.prepare("INSERT INTO Person (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", errorHandle.bind(null, "Prepared statement", db, userInput, eventEmitter, null));
       eventEmitter.on("Success: Prepared statement", runStatement.bind(null, db, ps, userInput, eventEmitter));
    }
 
    function runStatement(db, ps, userInput, eventEmitter) {
       console.log("Run statement");
-      ps.run(userInput.firstName, userInput.surname, userInput.username, userInput.email, userInput.password, errorHandle.bind(null, "Run statement", db, userInput, eventEmitter));
-      console.log("ps.this: " + JSON.stringify(ps.this));
+      ps.run(userInput.firstName, userInput.surname, userInput.username, userInput.email, userInput.password, errorHandle.bind(ps, "Run statement", db, userInput, eventEmitter, null));
       eventEmitter.on("Success: Run statement", finalizeStatement.bind(null, db, ps, userInput, eventEmitter));
+/*
+      function(printID){
+         console.log("*********printID: " + printID);
+      });
+
+      id.bind(null, "test"));
+
+      function id(printID, string){
+         console.log("*********printID: " + printID);
+         console.log(string);
+      }
+   */
    }
 
-   function finalizeStatement(db, ps, userInput, eventEmitter) {
+   function finalizeStatement(db, ps, userInput, eventEmitter, insertedUserID) {
       console.log("Finalized");
-      ps.finalize(errorHandle.bind(null, "Finalized", db, userInput, eventEmitter));
+      console.log(insertedUserID);
+      ps.finalize(errorHandle.bind(null, "Finalized", db, userInput, eventEmitter, insertedUserID));
    }
 
-   function errorHandle(string, db, userInput, eventEmitter, error) {
+   function errorHandle(string, db, userInput, eventEmitter, insertedUserID, error) {
       if (error) {
          eventEmitter.emit("Error", error);
       }
       else {
-         eventEmitter.emit("Success: ".concat(string));
+         if (string === "Run statement") {
+            console.log("this.lastID: " + this.lastID);
+            eventEmitter.emit("Success: ".concat(string), this.lastID);
+         }
+         else if (string === "Finalized") {
+            console.log("Outside run condition... insertedUserID: " + insertedUserID);
+            eventEmitter.emit("Success: ".concat(string), insertedUserID);
+         }
+         else {
+            eventEmitter.emit("Success: ".concat(string));
+         }
       }
    }
 
-   function successStatusReply(response, url, userInput, eventEmitter) {
+   function successStatusReply(response, url, userInput, eventEmitter, insertedUserID) {
+
+      console.log("\nsuccessStatusReply: ");
+      console.log("insertedUserID: " + insertedUserID);
       /*
-      console.log("successStatusReply: \n");
       console.log(response + "\n");
       console.log(url + "\n");
       console.log(JSON.stringify(userInput) + "\n");
