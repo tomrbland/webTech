@@ -34,7 +34,7 @@
 
       db.run(
          "CREATE TABLE Logged_In (" +
-            "sessionID INTEGER NOT NULL, " +
+            "sessionID TEXT NOT NULL, " +
             "personID INTEGER NOT NULL REFERENCES Person (id), " +
             "timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, " +
             "PRIMARY KEY (sessionID, personID, timestamp)" +
