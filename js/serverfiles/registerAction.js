@@ -40,23 +40,11 @@
       console.log("Insert New User - Run statement");
       ps.run(userInput.firstName, userInput.surname, userInput.username, userInput.email, userInput.password, errorHandle.bind(ps, "Insert New User - Run statement", eventEmitter, null));
       eventEmitter.on("Success: Insert New User - Run statement", finalizeNewUserInsertion.bind(null, db, ps, userInput, eventEmitter));
-/*
-      function(printID){
-         console.log("*********printID: " + printID);
-      });
-
-      id.bind(null, "test"));
-
-      function id(printID, string){
-         console.log("*********printID: " + printID);
-         console.log(string);
-      }
-   */
    }
 
    function finalizeNewUserInsertion(db, ps, userInput, eventEmitter, insertedUserID) {
       console.log("Insert New User - Finalized");
-      console.log(insertedUserID);
+      console.log("Insert New User - Finalized. insertedUserID: " + insertedUserID);
       ps.finalize(errorHandle.bind(null, "Insert New User - Finalized", eventEmitter, insertedUserID));
    }
 
@@ -64,7 +52,7 @@
 
    function createUserSessionID(db, eventEmitter, insertedUserID) {
       console.log("\ncreateUserSessionID: ");
-      console.log("createUserSessionID - insertedUserID: " + insertedUserID);
+      console.log("createUserSessionID. insertedUserID: " + insertedUserID);
 
       CRYPTO.randomBytes(256, checkValidityOfCrytoRandomBytes.bind(null, "Crypto-secure session ID creation", eventEmitter));
       eventEmitter.on("Success: Crypto-secure session ID creation", attemptSessionIDInsertion.bind(null, db, eventEmitter, insertedUserID))
@@ -76,7 +64,7 @@
          eventEmitter.emit("Error", error);
       }
       else {
-         console.log(buffer.length + "bytes of random data: " + buffer.toString('hex'));
+         console.log(buffer.length + "bytes of random data: " + buffer.toString("hex"));
          console.log("Success: ".concat(message));
          eventEmitter.emit("Success: ".concat(message), buffer.toString("hex"));
       }
@@ -149,7 +137,6 @@
       FS.readFile(file, failure.bind(null, response, userInput));
    }
 
-   // Deliver the file that has been read in to the browser.
    function failure(response, userInput, err, fileContent) {
       var typeHeader = { 'Content-Type': "text/html" };
       response.writeHead(OK, typeHeader);
@@ -174,7 +161,6 @@
       FS.readFile(file, success.bind(null, response, userInput, sessionID));
    }
 
-   // Deliver the file that has been read in to the browser.
    function success(response, userInput, sessionID, err, fileContent) {
       var typeHeader = { 'Content-Type': "text/html" };
       response.writeHead(OK, typeHeader);
