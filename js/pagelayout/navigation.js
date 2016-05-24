@@ -12,6 +12,7 @@
 
       //Left aligned items
       navBar.appendChild(makeButton("/index.html", "Home", "left"));
+      navBar.appendChild(makeButton("/skifree/index.html", "Skifree!", "left"));
 
       //Right Aligned Items
       if(getUIDandUsername()){
