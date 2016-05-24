@@ -23,7 +23,7 @@
 
       eventEmitter.on("Error", failureStatusReply.bind(null, response, url, userInput));
       eventEmitter.on("Success: Insert New User - Finalized", createUserSessionID.bind(null, db, eventEmitter));
-      eventEmitter.on("Insert New Session ID - Finalized", successStatusReply.bind(null, response, url, userInput));
+      eventEmitter.on("Success: Insert New Session ID - Finalized", successStatusReply.bind(null, response, url, userInput));
    }
 
    function attemptUserRegistration(db, userInput, eventEmitter) {
@@ -95,7 +95,7 @@
    function runSessionIDInsertion(ps, eventEmitter, insertedUserID, sessionID) {
       console.log("Insert New Session ID - Run statement");
       ps.run(sessionID, insertedUserID, errorHandle.bind(null, "Insert New Session ID - Run statement", eventEmitter, null));
-      eventEmitter.on("Success: Insert New Session ID - Run statement", finalizeSessionIDInsertion.bind(null, ps, eventEmitter));
+      eventEmitter.on("Success: Insert New Session ID - Run statement", finalizeSessionIDInsertion.bind(null, ps, eventEmitter, sessionID));
 /*
       function(printID){
          console.log("*********printID: " + printID);
@@ -110,12 +110,10 @@
    */
    }
 
-   function finalizeSessionIDInsertion(ps, eventEmitter) {
+   function finalizeSessionIDInsertion(ps, eventEmitter, sessionID) {
       console.log("Insert New Session ID - Finalized");
       ps.finalize(errorHandle.bind(null, "Insert New Session ID - Finalized", eventEmitter, sessionID));
    }
-
-
 
    function errorHandle(message, eventEmitter, id, error) {
       console.log("\n************///------ Entered errorHandle for: " + message);
@@ -131,9 +129,11 @@
          //Used for "Insert New Session ID - Finalized" to return the DB id of the new session
          else if (message.includes("Finalized")) {
             console.log("Inside conditional for finalized the id is: " + id);
+            console.log("Success: ".concat(message));
             eventEmitter.emit("Success: ".concat(message), id);
          }
          else {
+            console.log("Success: ".concat(message));
             eventEmitter.emit("Success: ".concat(message));
          }
       }
