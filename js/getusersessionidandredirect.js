@@ -20,10 +20,10 @@ function test() {
 function loaded(){
    console.log("getuidandredirect.js - loaded.");
    var redirectLocation = "/index.html";
-   var hasbeenanerror = false;
-   if(!hasbeenanerror) getStatus();
-   if(!hasbeenanerror) getuid();
-   if(!hasbeenanerror) getusername();
+   var hasBeenAnError = false;
+   if(!hasBeenAnError) getStatus();
+   if(!hasBeenAnError) getuid();
+   if(!hasBeenAnError) getusername();
    if (redirectLocation === null) {
       redirectLocation = "/index.html?error=ServerError";
    }
@@ -42,11 +42,11 @@ function loaded(){
    }
 
    function getuid(){
-      var uid = document.querySelector("#uid").innerHTML;
-      if (uid === "$") {
+      var userSessionID = document.querySelector("#userSessionID").innerHTML;
+      if (userSessionID === "$") {
          error("ServerError");
       }
-      sessionStorage.setItem("uid", uid);
+      sessionStorage.setItem("userSessionID", userSessionID);
    }
 
    function getusername(){
@@ -63,7 +63,7 @@ function loaded(){
 
    function error(s){
       console.log("ERROR: ", s);
-      hasbeenanerror = true;
+      hasBeenAnError = true;
       var redirectingMessage = document.querySelector("#Success");
       var failMessage = document.querySelector("#Fail");
       redirectingMessage.style.display = "none";

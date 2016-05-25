@@ -31,6 +31,7 @@
    <div id="nav"></div>
    <div id="centerDiv">
       <form id="content" action="action.html" method="post" name="login">
+         <input type="hidden" name="actionType" value="login" required/>
          <p><input id = "fullWidthInput" type="text" name="username" value="" placeholder="Username" required/></p>
          <p><input id = "fullWidthInput" type="password" name="password" value="" placeholder="Password" required/></p>
          <p><input id = "halfWidthInput" type="submit" value="Login" /></p>

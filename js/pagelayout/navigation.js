@@ -3,7 +3,7 @@
    addEventListener("load", addNavigation);
 
    function addNavigation(){
-      var uid;
+      var userSessionID;
       var username;
 
       //Get the navBar
@@ -15,7 +15,7 @@
       navBar.appendChild(makeButton("/skifree/index.html", "Skifree!", "left"));
 
       //Right Aligned Items
-      if(getUIDandUsername()){
+      if(getUserSessionIDandUsername()){
          console.log("username: ", username);
          navBar.appendChild(makeFakeButton("Logout", "right", logout));
          navBar.appendChild(makeText("Logged in as: "+username, "right"));
@@ -71,16 +71,16 @@
          return div;
       }
 
-      function getUIDandUsername(){
-         uid = sessionStorage.getItem("uid");
+      function getUserSessionIDandUsername(){
+         userSessionID = sessionStorage.getItem("userSessionID");
          username = sessionStorage.getItem("username");
-         if(typeof uid === 'undefined' || typeof username === 'undefined' ||
-            uid === null || username == null) return false;
+         if(typeof userSessionID === 'undefined' || typeof username === 'undefined' ||
+            userSessionID === null || username == null) return false;
          else return true;
       }
 
       function logout(){
-         uid = sessionStorage.removeItem("uid");
+         userSessionID = sessionStorage.removeItem("userSessionID");
          username = sessionStorage.removeItem("username");
       }
 

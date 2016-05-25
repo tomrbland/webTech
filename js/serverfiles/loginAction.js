@@ -1,5 +1,5 @@
    //Imports
-   var REGISTER_ACTION_EVENT_HANDLING = require("events");
+   var LOGIN_ACTION_EVENT_HANDLING = require("events");
    var FS = require("fs");
    var CRYPTO = require("crypto");
 
@@ -15,47 +15,55 @@
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
 
    function _executeAction(response, url, db, userInput) {
-      console.log("registerAction.js - entered.");
+      console.log("loginAction.js - entered.");
 
-      var eventEmitter = new REGISTER_ACTION_EVENT_HANDLING.EventEmitter();
+      var eventEmitter = new LOGIN_ACTION_EVENT_HANDLING.EventEmitter();
 
-      attemptUserRegistration(db, userInput, eventEmitter);
+      attemptUserLogin(db, userInput, eventEmitter);
 
       eventEmitter.on("Error", failureStatusReply.bind(null, response, url));
-      eventEmitter.on("Success: Insert New User - Finalized", createUserSessionID.bind(null, db, eventEmitter));
+      eventEmitter.on("Valid login details", createUserSessionID.bind(null, db, eventEmitter));
       eventEmitter.on("Success: Insert New Session ID - Finalized", successStatusReply.bind(null, response, url, userInput));
    }
 
-   function attemptUserRegistration(db, userInput, eventEmitter) {
-      db.serialize(prepareNewUserInsertion.bind(null, db, userInput, eventEmitter));
+   function attemptUserLogin(db, userInput, eventEmitter) {
+      console.log("attemptUserLogin");
+      db.serialize(prepareLoginQuery.bind(null, db, userInput, eventEmitter));
    }
 
-   function prepareNewUserInsertion(db, userInput, eventEmitter) {
-      console.log("Insert New User - Prepared statement");
-      var ps = db.prepare("INSERT INTO Person (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", errorHandle.bind(null, "Insert New User - Prepared statement", eventEmitter, null));
-      eventEmitter.on("Success: Insert New User - Prepared statement", runNewUserInsertion.bind(null, db, ps, userInput, eventEmitter));
+   function prepareLoginQuery(db, userInput, eventEmitter) {
+      console.log("Login - Prepared statement");
+      var ps = db.prepare("SELECT * FROM PERSON WHERE username = ? AND password = ?;", errorHandle.bind(null, "Login - Prepared statement", eventEmitter, null));
+      eventEmitter.on("Success: Login - Prepared statement", getLoginQueryResults.bind(null, ps, userInput, eventEmitter));
    }
 
-   function runNewUserInsertion(db, ps, userInput, eventEmitter) {
-      console.log("Insert New User - Run statement");
-      ps.run(userInput.firstName, userInput.surname, userInput.username, userInput.email, userInput.password, errorHandle.bind(ps, "Insert New User - Run statement", eventEmitter, userInput));
-      eventEmitter.on("Success: Insert New User - Run statement", finalizeNewUserInsertion.bind(null, db, ps, userInput, eventEmitter));
+   function getLoginQueryResults(ps, userInput, eventEmitter) {
+      console.log("Login - Get statement");
+      ps.get(userInput.username, userInput.password, setReply.bind(null, eventEmitter));
+      ps.finalize(errorHandle.bind(null, "Login - Finalized", eventEmitter));
    }
 
-   function finalizeNewUserInsertion(db, ps, userInput, eventEmitter, insertedUserID) {
-      console.log("Insert New User - Finalized");
-      console.log("Insert New User - Finalized. insertedUserID: " + insertedUserID);
-      ps.finalize(errorHandle.bind(null, "Insert New User - Finalized", eventEmitter, insertedUserID));
+   function setReply(eventEmitter, error, row) {
+      console.log("in setReply");
+      if (row) {
+         console.log("SUCCESS: " + JSON.stringify(row));
+         console.log("SUCCESS: row.id - " + row.id);
+         eventEmitter.emit("Valid login details", row.id)
+      }
+      else {
+         console.log("ERROR: " + error);
+         eventEmitter.emit("Error", error);
+      }
    }
 
    //-------------------------------- CREATE NEW SESSION ID --------------------------------
 
-   function createUserSessionID(db, eventEmitter, insertedUserID) {
+   function createUserSessionID(db, eventEmitter, userID) {
       console.log("\ncreateUserSessionID: ");
-      console.log("createUserSessionID. insertedUserID: " + insertedUserID);
+      console.log("createUserSessionID. userID: " + userID);
 
       CRYPTO.randomBytes(256, checkValidityOfCrytoRandomBytes.bind(null, "Crypto-secure session ID creation", eventEmitter));
-      eventEmitter.on("Success: Crypto-secure session ID creation", attemptSessionIDInsertion.bind(null, db, eventEmitter, insertedUserID))
+      eventEmitter.on("Success: Crypto-secure session ID creation", attemptSessionIDInsertion.bind(null, db, eventEmitter, userID))
    }
 
    function checkValidityOfCrytoRandomBytes(message, eventEmitter, error, buffer) {
@@ -70,19 +78,19 @@
       }
    }
 
-   function attemptSessionIDInsertion(db, eventEmitter, insertedUserID, sessionID) {
-      db.serialize(prepareSessionIDInsertion.bind(null, db, eventEmitter, insertedUserID, sessionID));
+   function attemptSessionIDInsertion(db, eventEmitter, userID, sessionID) {
+      db.serialize(prepareSessionIDInsertion.bind(null, db, eventEmitter, userID, sessionID));
    }
 
-   function prepareSessionIDInsertion(db, eventEmitter, insertedUserID, sessionID) {
+   function prepareSessionIDInsertion(db, eventEmitter, userID, sessionID) {
       console.log("Insert New Session ID - Prepared statement");
       var ps = db.prepare("INSERT INTO Logged_In (sessionID, personID) VALUES (?, ?);", errorHandle.bind(null, "Insert New Session ID - Prepared statement", eventEmitter, null));
-      eventEmitter.on("Success: Insert New Session ID - Prepared statement", runSessionIDInsertion.bind(null, ps, eventEmitter, insertedUserID, sessionID));
+      eventEmitter.on("Success: Insert New Session ID - Prepared statement", runSessionIDInsertion.bind(null, ps, eventEmitter, userID, sessionID));
    }
 
-   function runSessionIDInsertion(ps, eventEmitter, insertedUserID, sessionID) {
+   function runSessionIDInsertion(ps, eventEmitter, userID, sessionID) {
       console.log("Insert New Session ID - Run statement");
-      ps.run(sessionID, insertedUserID, errorHandle.bind(null, "Insert New Session ID - Run statement", eventEmitter, null));
+      ps.run(sessionID, userID, errorHandle.bind(null, "Insert New Session ID - Run statement", eventEmitter, null));
       eventEmitter.on("Success: Insert New Session ID - Run statement", finalizeSessionIDInsertion.bind(null, ps, eventEmitter, sessionID));
    }
 
@@ -91,27 +99,14 @@
       ps.finalize(errorHandle.bind(null, "Insert New Session ID - Finalized", eventEmitter, sessionID));
    }
 
-   function errorHandle(message, eventEmitter, id, error) {
+   function errorHandle(message, eventEmitter, sessionID, error) {
       console.log("\n************///------ Entered errorHandle for: " + message);
       if (error) {
-         eventEmitter.emit("Error", error);
+         eventEmitter.emit("Error");
       }
       else {
-         if (message === "Insert New User - Run statement") {
-            console.log("this.lastID: " + this.lastID);
-            eventEmitter.emit("Success: ".concat(message), this.lastID);
-         }
-         //Used for "Insert New User - Finalized" to return the DB id of the inserted person
-         //Used for "Insert New Session ID - Finalized" to return the DB id of the new session
-         else if (message.includes("Finalized")) {
-            console.log("Inside conditional for finalized the id is: " + id);
-            console.log("Success: ".concat(message));
-            eventEmitter.emit("Success: ".concat(message), id);
-         }
-         else {
-            console.log("Success: ".concat(message));
-            eventEmitter.emit("Success: ".concat(message));
-         }
+         console.log("Success: ".concat(message));
+         eventEmitter.emit("Success: ".concat(message), sessionID);
       }
    }
 
@@ -130,7 +125,7 @@
 
       fileContent = fileContent.toString();
       fileContent = fileContent.replace('<div class="hidden" id="status">$</div>', '<div class="hidden" id="status">500</div>');
-      fileContent = fileContent.replace('<div class="hidden" id="userSessionID">$</div>', '<div class="hidden" id="userSessionID"></div>');
+      fileContent = fileContent.replace('<div class="hidden" id="uid">$</div>', '<div class="hidden" id="uid"></div>');
       fileContent = fileContent.replace('<div class="hidden" id="username">$</div>', '<div class="hidden" id="username"></div>');
 
       console.log("AFTER replace:\n" + fileContent);
