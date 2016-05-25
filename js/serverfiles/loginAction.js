@@ -24,10 +24,6 @@
       eventEmitter.on("Error", failureStatusReply.bind(null, response, url));
       eventEmitter.on("Valid login details", createUserSessionID.bind(null, db, eventEmitter));
       eventEmitter.on("Success: Insert New Session ID - Finalized", successStatusReply.bind(null, response, url, userInput));
-
-
-      //eventEmitter.on("Success: Insert New User - Finalized", createUserSessionID.bind(null, db, eventEmitter));
-      //eventEmitter.on("Success: Insert New Session ID - Finalized", successStatusReply.bind(null, response, url, userInput));
    }
 
    function attemptUserLogin(db, userInput, eventEmitter) {
