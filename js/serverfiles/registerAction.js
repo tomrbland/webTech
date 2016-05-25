@@ -84,18 +84,6 @@
       console.log("Insert New Session ID - Run statement");
       ps.run(sessionID, insertedUserID, errorHandle.bind(null, "Insert New Session ID - Run statement", eventEmitter, null));
       eventEmitter.on("Success: Insert New Session ID - Run statement", finalizeSessionIDInsertion.bind(null, ps, eventEmitter, sessionID));
-/*
-      function(printID){
-         console.log("*********printID: " + printID);
-      });
-
-      id.bind(null, "test"));
-
-      function id(printID, string){
-         console.log("*********printID: " + printID);
-         console.log(string);
-      }
-   */
    }
 
    function finalizeSessionIDInsertion(ps, eventEmitter, sessionID) {

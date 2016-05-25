@@ -14,11 +14,6 @@
    //Code
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
 
-   //does it need the url?
-   //1. search db for username and password,
-   //2. if there return status 200, username and newly created uid
-   //3. if not there return status 500 with blanks
-
    function _executeAction(response, url, db, userInput) {
       console.log("loginAction.js - entered.");
 
@@ -27,7 +22,9 @@
       attemptUserLogin(db, userInput, eventEmitter);
 
       eventEmitter.on("Error", failureStatusReply.bind(null, response, url));
-   //   eventEmitter.on("Valid login details", ailureStatusReply.bind(null, response, url));
+      eventEmitter.on("Valid login details", createUserSessionID.bind(null, db, eventEmitter));
+      eventEmitter.on("Success: Insert New Session ID - Finalized", successStatusReply.bind(null, response, url, userInput));
+
 
       //eventEmitter.on("Success: Insert New User - Finalized", createUserSessionID.bind(null, db, eventEmitter));
       //eventEmitter.on("Success: Insert New Session ID - Finalized", successStatusReply.bind(null, response, url, userInput));
@@ -54,7 +51,8 @@
       console.log("in setReply");
       if (row) {
          console.log("SUCCESS: " + JSON.stringify(row));
-         eventEmitter.emit("Valid login details.")
+         console.log("SUCCESS: row.id - " + row.id);
+         eventEmitter.emit("Valid login details", row.id)
       }
       else {
          console.log("ERROR: " + error);
@@ -74,10 +72,10 @@
    }
 
    //-------------------------------- CREATE NEW SESSION ID --------------------------------
-   /*
-   function createUserSessionID(db, eventEmitter, insertedUserID) {
+
+   function createUserSessionID(db, eventEmitter, userID) {
       console.log("\ncreateUserSessionID: ");
-      console.log("createUserSessionID. insertedUserID: " + insertedUserID);
+      console.log("createUserSessionID. userID: " + userID);
 
       CRYPTO.randomBytes(256, checkValidityOfCrytoRandomBytes.bind(null, "Crypto-secure session ID creation", eventEmitter));
       eventEmitter.on("Success: Crypto-secure session ID creation", attemptSessionIDInsertion.bind(null, db, eventEmitter, insertedUserID))
@@ -109,26 +107,12 @@
       console.log("Insert New Session ID - Run statement");
       ps.run(sessionID, insertedUserID, errorHandle.bind(null, "Insert New Session ID - Run statement", eventEmitter, null));
       eventEmitter.on("Success: Insert New Session ID - Run statement", finalizeSessionIDInsertion.bind(null, ps, eventEmitter, sessionID));
-
-   //   function(printID){
-   //      console.log("*********printID: " + printID);
-   //   });
-
-   //   id.bind(null, "test"));
-
-   //   function id(printID, string){
-   //      console.log("*********printID: " + printID);
-   //      console.log(string);
-   //   }
-
    }
 
    function finalizeSessionIDInsertion(ps, eventEmitter, sessionID) {
       console.log("Insert New Session ID - Finalized");
       ps.finalize(errorHandle.bind(null, "Insert New Session ID - Finalized", eventEmitter, sessionID));
    }
-   */
-
 
    function failureStatusReply(response, url) {
       console.log("failureStatusReply");
