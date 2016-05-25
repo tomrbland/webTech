@@ -42,11 +42,11 @@ function loaded(){
    }
 
    function getuid(){
-      var uid = document.querySelector("#uid").innerHTML;
-      if (uid === "$") {
+      var userSessionID = document.querySelector("#userSessionID").innerHTML;
+      if (userSessionID === "$") {
          error("ServerError");
       }
-      sessionStorage.setItem("uid", uid);
+      sessionStorage.setItem("userSessionID", userSessionID);
    }
 
    function getusername(){

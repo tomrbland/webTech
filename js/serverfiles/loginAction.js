@@ -43,7 +43,7 @@
 
    function getLoginQueryResults(ps, userInput, eventEmitter) {
       console.log("Login - Get statement");
-      ps.get(userInput.username, userInput.password, setReply.bind(null, eventEmitter, null));
+      ps.get(userInput.username, userInput.password, setReply.bind(null, eventEmitter));
       ps.finalize(errorHandle.bind(null, "Login - Finalized", eventEmitter));
    }
 
@@ -153,7 +153,7 @@
 
       fileContent = fileContent.toString();
       fileContent = fileContent.replace('<div class="hidden" id="status">$</div>', '<div class="hidden" id="status">200</div>');
-      fileContent = fileContent.replace('<div class="hidden" id="uid">$</div>', '<div class="hidden" id="uid">' + sessionID + '</div>');
+      fileContent = fileContent.replace('<div class="hidden" id="userSessionID">$</div>', '<div class="hidden" id="userSessionID">' + sessionID + '</div>');
       fileContent = fileContent.replace('<div class="hidden" id="username">$</div>', '<div class="hidden" id="username">' + userInput.username + '</div>');
 
       console.log("AFTER replace:\n" + fileContent);
