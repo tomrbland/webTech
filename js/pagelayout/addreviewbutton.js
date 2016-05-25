@@ -15,29 +15,35 @@
          var button = document.querySelector("#dim");
          button.style.display = "none";
       }
+/*
+      function amILoggedIn(){
+         console.log("amILoggedIn");
 
-      function amILoggedIn() {
-         if (getUserSessionIDandUsername()) {
-            var reviewWriter = document.querySelector("#dim");
-            reviewWriter.style.display = "block";
-         }
-         else {
-            window.location.href="/login.html";
-         }
+         var xhr = new XMLHttpRequest();
+         var data = "userSessionID="+userSessionID+"&username="+username;
+
+         xhr.open("POST", "loginConfirmation.txt", true);
+         xhr.onreadystatechange = gotReply;
+         xhr.send(data);
       }
 
-      function getUserSessionIDandUsername(){
-         userSessionID = sessionStorage.getItem("userSessionID");
-         username = sessionStorage.getItem("username");
-         if(typeof userSessionID === "undefined" || typeof username === "undefined" ||
-            userSessionID === null || username == null) return false;
-         else return true;
+      function gotReply(){
+         if (this.readyState == 4 && this.status == 200) {
+            if (this.responseText === "Yes") {
+               var reviewWriter = document.querySelector("#dim");
+               reviewWriter.style.display = "block";
+            }
+            else {
+               window.location.href="/login.html";
+            }
+         }
       }
+      */
 
       function completeForm(){
-         var formUID = document.querySelector("#formuid");
+         var formUserSessionID = document.querySelector("#formusersessionid");
          var formUsername = document.querySelector("#formusername");
-         formUID.value = userSessionID;
+         formUserSessionID.value = userSessionID;
          formUsername.value = username;
       }
    }
