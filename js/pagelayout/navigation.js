@@ -15,7 +15,7 @@
       navBar.appendChild(makeButton("/skifree/index.html", "Skifree!", "left"));
 
       //Right Aligned Items
-      if(getUserSessionIDandUsername()){
+      if (getUserSessionIDandUsername()){
          console.log("username: ", username);
          navBar.appendChild(makeFakeButton("Logout", "right", logout));
          navBar.appendChild(makeText("Logged in as: "+username, "right"));
@@ -57,7 +57,6 @@
          return div;
       }
 
-
       function makeText(text, float){
          var div = document.createElement("div");
 
@@ -74,7 +73,7 @@
       function getUserSessionIDandUsername(){
          userSessionID = sessionStorage.getItem("userSessionID");
          username = sessionStorage.getItem("username");
-         if(typeof userSessionID === 'undefined' || typeof username === 'undefined' ||
+         if(typeof userSessionID === "undefined" || typeof username === "undefined" ||
             userSessionID === null || username == null) return false;
          else return true;
       }
@@ -83,5 +82,4 @@
          userSessionID = sessionStorage.removeItem("userSessionID");
          username = sessionStorage.removeItem("username");
       }
-
    }

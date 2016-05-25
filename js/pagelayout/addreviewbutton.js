@@ -16,30 +16,22 @@
          button.style.display = "none";
       }
 
-      function amILoggedIn(){
-
-         /*// Uncomment to bypass login check
-         var reviewWriter = document.querySelector("#dim");
-         reviewWriter.style.display = "block";*/
-
-         var xhr = new XMLHttpRequest();
-         var data = "userSessionID="+userSessionID+"&username="+username;
-
-         xhr.open("POST", "js/db/amILoggedIn", true);
-         xhr.onreadystatechange = gotReply;
-         xhr.send(data);
+      function amILoggedIn() {
+         if (getUserSessionIDandUsername()) {
+            var reviewWriter = document.querySelector("#dim");
+            reviewWriter.style.display = "block";
+         }
+         else {
+            window.location.href="/login.html";
+         }
       }
 
-      function gotReply(){
-         if (this.readyState == 4 && this.status == 200) {
-            if (this.responseText === "Yes") {
-               var reviewWriter = document.querySelector("#dim");
-               reviewWriter.style.display = "block";
-            }
-            else {
-               window.location.href="/login.html";
-            }
-         }
+      function getUserSessionIDandUsername(){
+         userSessionID = sessionStorage.getItem("userSessionID");
+         username = sessionStorage.getItem("username");
+         if(typeof userSessionID === "undefined" || typeof username === "undefined" ||
+            userSessionID === null || username == null) return false;
+         else return true;
       }
 
       function completeForm(){
