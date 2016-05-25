@@ -2,6 +2,7 @@
 
    //Imports
    var REGISTER = require('./registerAction.js');
+   var LOGIN = require('./loginAction.js');
 
    //Exports
    module.exports = {
@@ -15,7 +16,7 @@
 
       switch(userInput.actionType) {
          case "register": REGISTER.executeAction(response, url, db, userInput); break;
-         case "login": console.log("hello login"); break; //TEST NEW TEST NEXT TEST
+         case "login": LOGIN.executeAction(response, url, db, userInput); break;
       // default: ......... break;
       }
    }
