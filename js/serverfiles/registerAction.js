@@ -61,7 +61,7 @@
    function checkValidityOfCrytoRandomBytes(message, eventEmitter, error, buffer) {
       if (error) {
          console.log("Error generating the crypto-secure random bytes.");
-         eventEmitter.emit("Error", error);
+         eventEmitter.emit("Error");
       }
       else {
          console.log(buffer.length + "bytes of random data: " + buffer.toString("hex"));

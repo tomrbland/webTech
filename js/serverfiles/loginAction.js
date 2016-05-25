@@ -37,13 +37,13 @@
 
    function prepareLoginQuery(db, userInput, eventEmitter) {
       console.log("Login - Prepared statement");
-      var ps = db.prepare("SELECT * FROM PERSON WHERE username = ? AND password = ?;", errorHandle.bind(null, "Login - Prepared statement", eventEmitter));
+      var ps = db.prepare("SELECT * FROM PERSON WHERE username = ? AND password = ?;", errorHandle.bind(null, "Login - Prepared statement", eventEmitter, null));
       eventEmitter.on("Success: Login - Prepared statement", getLoginQueryResults.bind(null, ps, userInput, eventEmitter));
    }
 
    function getLoginQueryResults(ps, userInput, eventEmitter) {
       console.log("Login - Get statement");
-      ps.get(userInput.username, userInput.password, setReply.bind(null, eventEmitter));
+      ps.get(userInput.username, userInput.password, setReply.bind(null, eventEmitter, null));
       ps.finalize(errorHandle.bind(null, "Login - Finalized", eventEmitter));
    }
 
@@ -60,17 +60,6 @@
       }
    }
 
-   function errorHandle(message, eventEmitter, error) {
-      console.log("\n************///------ Entered errorHandle for: " + message);
-      if (error) {
-         eventEmitter.emit("Error", error);
-      }
-      else {
-         console.log("Success: ".concat(message));
-         eventEmitter.emit("Success: ".concat(message));
-      }
-   }
-
    //-------------------------------- CREATE NEW SESSION ID --------------------------------
 
    function createUserSessionID(db, eventEmitter, userID) {
@@ -78,13 +67,13 @@
       console.log("createUserSessionID. userID: " + userID);
 
       CRYPTO.randomBytes(256, checkValidityOfCrytoRandomBytes.bind(null, "Crypto-secure session ID creation", eventEmitter));
-      eventEmitter.on("Success: Crypto-secure session ID creation", attemptSessionIDInsertion.bind(null, db, eventEmitter, insertedUserID))
+      eventEmitter.on("Success: Crypto-secure session ID creation", attemptSessionIDInsertion.bind(null, db, eventEmitter, userID))
    }
 
    function checkValidityOfCrytoRandomBytes(message, eventEmitter, error, buffer) {
       if (error) {
          console.log("Error generating the crypto-secure random bytes.");
-         eventEmitter.emit("Error", error);
+         eventEmitter.emit("Error");
       }
       else {
          console.log(buffer.length + "bytes of random data: " + buffer.toString("hex"));
@@ -93,25 +82,36 @@
       }
    }
 
-   function attemptSessionIDInsertion(db, eventEmitter, insertedUserID, sessionID) {
-      db.serialize(prepareSessionIDInsertion.bind(null, db, eventEmitter, insertedUserID, sessionID));
+   function attemptSessionIDInsertion(db, eventEmitter, userID, sessionID) {
+      db.serialize(prepareSessionIDInsertion.bind(null, db, eventEmitter, userID, sessionID));
    }
 
-   function prepareSessionIDInsertion(db, eventEmitter, insertedUserID, sessionID) {
+   function prepareSessionIDInsertion(db, eventEmitter, userID, sessionID) {
       console.log("Insert New Session ID - Prepared statement");
       var ps = db.prepare("INSERT INTO Logged_In (sessionID, personID) VALUES (?, ?);", errorHandle.bind(null, "Insert New Session ID - Prepared statement", eventEmitter, null));
-      eventEmitter.on("Success: Insert New Session ID - Prepared statement", runSessionIDInsertion.bind(null, ps, eventEmitter, insertedUserID, sessionID));
+      eventEmitter.on("Success: Insert New Session ID - Prepared statement", runSessionIDInsertion.bind(null, ps, eventEmitter, userID, sessionID));
    }
 
-   function runSessionIDInsertion(ps, eventEmitter, insertedUserID, sessionID) {
+   function runSessionIDInsertion(ps, eventEmitter, userID, sessionID) {
       console.log("Insert New Session ID - Run statement");
-      ps.run(sessionID, insertedUserID, errorHandle.bind(null, "Insert New Session ID - Run statement", eventEmitter, null));
+      ps.run(sessionID, userID, errorHandle.bind(null, "Insert New Session ID - Run statement", eventEmitter, null));
       eventEmitter.on("Success: Insert New Session ID - Run statement", finalizeSessionIDInsertion.bind(null, ps, eventEmitter, sessionID));
    }
 
    function finalizeSessionIDInsertion(ps, eventEmitter, sessionID) {
       console.log("Insert New Session ID - Finalized");
       ps.finalize(errorHandle.bind(null, "Insert New Session ID - Finalized", eventEmitter, sessionID));
+   }
+
+   function errorHandle(message, eventEmitter, sessionID, error) {
+      console.log("\n************///------ Entered errorHandle for: " + message);
+      if (error) {
+         eventEmitter.emit("Error");
+      }
+      else {
+         console.log("Success: ".concat(message));
+         eventEmitter.emit("Success: ".concat(message), sessionID);
+      }
    }
 
    function failureStatusReply(response, url) {
