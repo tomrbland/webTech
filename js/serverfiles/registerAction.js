@@ -38,7 +38,7 @@
 
    function runNewUserInsertion(db, ps, userInput, eventEmitter) {
       console.log("Insert New User - Run statement");
-      ps.run(userInput.firstName, userInput.surname, userInput.username, userInput.email, userInput.password, errorHandle.bind(ps, "Insert New User - Run statement", eventEmitter, null));
+      ps.run(userInput.firstName, userInput.surname, userInput.username, userInput.email, userInput.password, errorHandle.bind(ps, "Insert New User - Run statement", eventEmitter, userInput));
       eventEmitter.on("Success: Insert New User - Run statement", finalizeNewUserInsertion.bind(null, db, ps, userInput, eventEmitter));
    }
 
@@ -119,7 +119,6 @@
       console.log("failureStatusReply");
       console.log(response + "\n");
       console.log(url + "\n");
-      console.log(JSON.stringify(userInput) + "\n");
 
       var file = "." + url;
       FS.readFile(file, failure.bind(null, response));

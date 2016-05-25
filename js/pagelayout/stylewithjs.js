@@ -1,111 +1,111 @@
-"use strict";
+   "use strict";
 
-if (addEventListener) {
-   addEventListener("load", sizeOnLoad);
-}
-else {
-   attachEvent("onload", sizeOnLoad);
-}
-
-if (addEventListener) {
-   addEventListener("resize", sizeOnResize);
-}
-else {
-   attachEvent("onresize", sizeOnResize);
-}
-
-function sizeOnLoad(){
-   console.log("stylewithjs.js: size - event on load");
-   size();
-}
-
-function sizeOnResize(){
-   console.log("stylewithjs.js: size - event on resize");
-   size();
-}
-
-function size(){
-   var winWidth = window.innerWidth;
-   var winHeight = window.innerHeight;
-   var winHeight2 = document.querySelector("html").clientHeight;
-
-   var header = document.querySelector("header");
-   var nav = document.querySelector("#nav");
-   var resort = document.querySelector("#resort");
-   var responsive = document.querySelector("#responsive");
-
-   reorderDivs(winWidth);
-
-   var sumHeight = getHeight(header) + getHeight(nav) + getHeight(resort);
-   console.log("stylewithjs.js: winHeight: " + winHeight);
-   console.log("stylewithjs.js: sumHeight: " + sumHeight);
-   var setHeight = winHeight - sumHeight;
-
-   responsive.style.height = setHeight + "px";
-
-   function getHeight(o){
-      return o.offsetHeight;
+   if (addEventListener) {
+      addEventListener("load", sizeOnLoad);
+   }
+   else {
+      attachEvent("onload", sizeOnLoad);
    }
 
-   function reorderDivs(width){
-      var photos = document.querySelector("#photos");
-      var weather = document.querySelector("#weather");
-      var map = document.querySelector("#map");
-      var reviewsContainer = document.querySelector("#reviewsContainer");
-      var parent = reviewsContainer.parentNode;
+   if (addEventListener) {
+      addEventListener("resize", sizeOnResize);
+   }
+   else {
+      attachEvent("onresize", sizeOnResize);
+   }
 
-      parent.removeChild(photos);
-      parent.removeChild(weather);
-      parent.removeChild(map);
-      parent.removeChild(reviewsContainer);
+   function sizeOnLoad(){
+      console.log("stylewithjs.js: size - event on load");
+      size();
+   }
 
-      if(window.innerWidth > 768){
-         console.log("stylewithjs.js: Div order reviewsContainer, photos");
-         parent.appendChild(map);
-         parent.appendChild(weather);
-         parent.appendChild(reviewsContainer);
-         parent.appendChild(photos);
+   function sizeOnResize(){
+      console.log("stylewithjs.js: size - event on resize");
+      size();
+   }
 
-         photos.style.float = "right";
-         weather.style.float = "right";
-         map.style.float = "left";
-         reviewsContainer.style.float = "left";
+   function size(){
+      var winWidth = window.innerWidth;
+      var winHeight = window.innerHeight;
+      var winHeight2 = document.querySelector("html").clientHeight;
 
-         photos.style.clear = "right";
-         weather.style.clear = "right";
-         map.style.clear = "left";
-         reviewsContainer.style.clear = "left";
+      var header = document.querySelector("header");
+      var nav = document.querySelector("#nav");
+      var resort = document.querySelector("#resort");
+      var responsive = document.querySelector("#responsive");
 
-         photos.style.width = "35%";
-         weather.style.width = "35%";
-         map.style.width = "65%";
-         reviewsContainer.style.width = "65%";
+      reorderDivs(winWidth);
 
-         reviewsContainer.style.overflowY = "scroll";
+      var sumHeight = getHeight(header) + getHeight(nav) + getHeight(resort);
+      console.log("stylewithjs.js: winHeight: " + winHeight);
+      console.log("stylewithjs.js: sumHeight: " + sumHeight);
+      var setHeight = winHeight - sumHeight;
+
+      responsive.style.height = setHeight + "px";
+
+      function getHeight(o){
+         return o.offsetHeight;
       }
-      else{
-         console.log("stylewithjs.js: Div order photos, reviewsContainer");
-         parent.appendChild(weather);
-         parent.appendChild(map);
-         parent.appendChild(photos);
-         parent.appendChild(reviewsContainer);
 
-         photos.style.float = "none";
-         weather.style.float = "none";
-         map.style.float = "none";
-         reviewsContainer.style.float = "none";
+      function reorderDivs(width){
+         var photos = document.querySelector("#photos");
+         var weather = document.querySelector("#weather");
+         var map = document.querySelector("#map");
+         var reviewsContainer = document.querySelector("#reviewsContainer");
+         var parent = reviewsContainer.parentNode;
 
-         photos.style.clear = "both";
-         weather.style.clear = "both";
-         map.style.clear = "both";
-         reviewsContainer.style.clear = "both";
+         parent.removeChild(photos);
+         parent.removeChild(weather);
+         parent.removeChild(map);
+         parent.removeChild(reviewsContainer);
 
-         photos.style.width = "100%";
-         weather.style.width = "100%";
-         map.style.width = "100%";
-         reviewsContainer.style.width = "100%";
+         if(window.innerWidth > 768){
+            console.log("stylewithjs.js: Div order reviewsContainer, photos");
+            parent.appendChild(map);
+            parent.appendChild(weather);
+            parent.appendChild(reviewsContainer);
+            parent.appendChild(photos);
 
-         reviewsContainer.style.overflowY = "initial";
+            photos.style.float = "right";
+            weather.style.float = "right";
+            map.style.float = "left";
+            reviewsContainer.style.float = "left";
+
+            photos.style.clear = "right";
+            weather.style.clear = "right";
+            map.style.clear = "left";
+            reviewsContainer.style.clear = "left";
+
+            photos.style.width = "35%";
+            weather.style.width = "35%";
+            map.style.width = "65%";
+            reviewsContainer.style.width = "65%";
+
+            reviewsContainer.style.overflowY = "scroll";
+         }
+         else{
+            console.log("stylewithjs.js: Div order photos, reviewsContainer");
+            parent.appendChild(weather);
+            parent.appendChild(map);
+            parent.appendChild(photos);
+            parent.appendChild(reviewsContainer);
+
+            photos.style.float = "none";
+            weather.style.float = "none";
+            map.style.float = "none";
+            reviewsContainer.style.float = "none";
+
+            photos.style.clear = "both";
+            weather.style.clear = "both";
+            map.style.clear = "both";
+            reviewsContainer.style.clear = "both";
+
+            photos.style.width = "100%";
+            weather.style.width = "100%";
+            map.style.width = "100%";
+            reviewsContainer.style.width = "100%";
+
+            reviewsContainer.style.overflowY = "initial";
+         }
       }
    }
-}
