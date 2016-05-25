@@ -21,7 +21,7 @@
 
       attemptUserRegistration(db, userInput, eventEmitter);
 
-      eventEmitter.on("Error", failureStatusReply.bind(null, response, url, userInput));
+      eventEmitter.on("Error", failureStatusReply.bind(null, response, url));
       eventEmitter.on("Success: Insert New User - Finalized", createUserSessionID.bind(null, db, eventEmitter));
       eventEmitter.on("Success: Insert New Session ID - Finalized", successStatusReply.bind(null, response, url, userInput));
    }
@@ -127,17 +127,17 @@
       }
    }
 
-   function failureStatusReply(response, url, userInput) {
+   function failureStatusReply(response, url) {
       console.log("failureStatusReply");
       console.log(response + "\n");
       console.log(url + "\n");
       console.log(JSON.stringify(userInput) + "\n");
 
       var file = "." + url;
-      FS.readFile(file, failure.bind(null, response, userInput));
+      FS.readFile(file, failure.bind(null, response));
    }
 
-   function failure(response, userInput, err, fileContent) {
+   function failure(response, err, fileContent) {
       var typeHeader = { 'Content-Type': "text/html" };
       response.writeHead(OK, typeHeader);
 

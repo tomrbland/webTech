@@ -24,46 +24,53 @@
 
       var eventEmitter = new LOGIN_ACTION_EVENT_HANDLING.EventEmitter();
 
-      attemptUserLogin(response, url, db, userInput, eventEmitter);
+      attemptUserLogin(db, userInput, eventEmitter);
 
-      eventEmitter.on("Error", failureStatusReply.bind(null, response, url, userInput));
+      eventEmitter.on("Error", failureStatusReply.bind(null, response, url));
+   //   eventEmitter.on("Valid login details", ailureStatusReply.bind(null, response, url));
+
       //eventEmitter.on("Success: Insert New User - Finalized", createUserSessionID.bind(null, db, eventEmitter));
       //eventEmitter.on("Success: Insert New Session ID - Finalized", successStatusReply.bind(null, response, url, userInput));
    }
 
-   function attemptUserLogin(response, url, db, userInput, eventEmitter) {
+   function attemptUserLogin(db, userInput, eventEmitter) {
       console.log("attemptUserLogin");
-      db.serialize(prepareLoginQuery.bind(null, response, url, db, userInput, eventEmitter));
+      db.serialize(prepareLoginQuery.bind(null, db, userInput, eventEmitter));
    }
 
-   function prepareLoginQuery(response, url, db, userInput, eventEmitter) {
+   function prepareLoginQuery(db, userInput, eventEmitter) {
       console.log("Login - Prepared statement");
       var ps = db.prepare("SELECT * FROM PERSON WHERE username = ? AND password = ?;", errorHandle.bind(null, "Login - Prepared statement", eventEmitter));
-      eventEmitter.on("Success: Login - Prepared statement", getLoginQueryResults.bind(null, response, url, db, ps, userInput, eventEmitter));
+      eventEmitter.on("Success: Login - Prepared statement", getLoginQueryResults.bind(null, ps, userInput, eventEmitter));
    }
 
-   function getLoginQueryResults(response, url, db, ps, userInput, eventEmitter) {
+   function getLoginQueryResults(ps, userInput, eventEmitter) {
       console.log("Login - Get statement");
-      ps.get(userInput.username, userInput.password, setReply.bind(null, response, url));
+      ps.get(userInput.username, userInput.password, setReply.bind(null, eventEmitter));
       ps.finalize(errorHandle.bind(null, "Login - Finalized", eventEmitter));
    }
 
-   function setReply(response, url, error, row) {
+   function setReply(eventEmitter, error, row) {
       console.log("in setReply");
       if (row) {
          console.log("SUCCESS: " + JSON.stringify(row));
-         successStatusReply(response, url, row);
-
+         eventEmitter.emit("Valid login details.")
       }
       else {
          console.log("ERROR: " + error);
-         failureStatusReply(response, url, error);
+         eventEmitter.emit("Error", error);
       }
    }
 
-   function finalizeLoginQuery(db, ps, userInput, eventEmitter) {
-      console.log("Login - Finalized");
-      ps.finalize(errorHandle.bind(null, "Login - Finalized", eventEmitter));
+   function errorHandle(message, eventEmitter, error) {
+      console.log("\n************///------ Entered errorHandle for: " + message);
+      if (error) {
+         eventEmitter.emit("Error", error);
+      }
+      else {
+         console.log("Success: ".concat(message));
+         eventEmitter.emit("Success: ".concat(message));
+      }
    }
 
    //-------------------------------- CREATE NEW SESSION ID --------------------------------
@@ -122,28 +129,17 @@
    }
    */
 
-   function errorHandle(message, eventEmitter, error) {
-      console.log("\n************///------ Entered errorHandle for: " + message);
-      if (error) {
-         eventEmitter.emit("Error", error);
-      }
-      else {
-         console.log("Success: ".concat(message));
-         eventEmitter.emit("Success: ".concat(message));
-      }
-   }
 
-   function failureStatusReply(response, url, userInput) {
+   function failureStatusReply(response, url) {
       console.log("failureStatusReply");
       console.log(response + "\n");
       console.log(url + "\n");
-      console.log(JSON.stringify(userInput) + "\n");
 
       var file = "." + url;
-      FS.readFile(file, failure.bind(null, response, userInput));
+      FS.readFile(file, failure.bind(null, response));
    }
 
-   function failure(response, userInput, err, fileContent) {
+   function failure(response, err, fileContent) {
       var typeHeader = { 'Content-Type': "text/html" };
       response.writeHead(OK, typeHeader);
 
