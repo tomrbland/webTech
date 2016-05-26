@@ -19,7 +19,7 @@
 
          case "/resort.html": RESORT_REPLIER.reviewsQueryThenReply(response, url, db); break;
 
-         case "/loginconfirmation.txt": USER_LOGIN_AND_SESSION_STATUS_REPLIER.confirmUserLoginAndSessionStatus(response, url, db, userInput); break;
+         case "/loginconfirmation.txt": USER_LOGIN_AND_SESSION_STATUS_REPLIER.confirmUserLoginAndSessionStatus(response, db, userInput); break;
 
          default: STANDARD_REPLIER.reply(response, url, type); break;
       }

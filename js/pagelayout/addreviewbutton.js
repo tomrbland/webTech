@@ -35,7 +35,7 @@
 
       function gotReply(){
          if (this.readyState == 4 && this.status == 200) {
-            if (this.responseText === "Logged in") {
+            if (this.responseText === "Logged in, valid user session ID") {
                var reviewWriter = document.querySelector("#dim");
                reviewWriter.style.display = "block";
             }
