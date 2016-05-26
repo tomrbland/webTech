@@ -50,11 +50,10 @@
          if(float === "left") div.className = "navButtonLeft";
          else div.className = "navButtonRight";
 
-         var a = document.createElement("a");
-         a.href = "";
-         a.innerHTML = text;
+         var p = document.createElement("p");
+         p.innerHTML = text;
 
-         div.appendChild(a);
+         div.appendChild(p);
          div.addEventListener("click", listener);
 
          return div;
