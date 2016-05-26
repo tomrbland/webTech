@@ -1,11 +1,7 @@
    "use strict";
 
-   if (addEventListener) {
-      addEventListener("load", buildHeader);
-   }
-   else {
-      attachEvent("onload", buildHeader);
-   }
+   addEventListener("load", buildHeader);
+
    var resortName;
 
    function buildHeader() {

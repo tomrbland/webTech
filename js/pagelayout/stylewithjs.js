@@ -1,18 +1,8 @@
    "use strict";
 
-   if (addEventListener) {
-      addEventListener("load", sizeOnLoad);
-   }
-   else {
-      attachEvent("onload", sizeOnLoad);
-   }
+   addEventListener("load", sizeOnLoad);
 
-   if (addEventListener) {
-      addEventListener("resize", sizeOnResize);
-   }
-   else {
-      attachEvent("onresize", sizeOnResize);
-   }
+   addEventListener("resize", sizeOnResize);
 
    function sizeOnLoad(){
       console.log("stylewithjs.js: size - event on load");

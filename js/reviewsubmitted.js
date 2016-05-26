@@ -1,11 +1,6 @@
    "use strict";
 
-   if (addEventListener) {
-      addEventListener("load", loaded);
-   }
-   else {
-      attachEvent("onload", loaded);
-   }
+   addEventListener("load", loaded);
 
    function loaded() {
       var redirectLocation = "/index.html";
