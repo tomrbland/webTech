@@ -87,28 +87,29 @@
          var xhr = new XMLHttpRequest();
          var data = "userSessionID="+userSessionID+"&username="+username;
 
-         console.log("Logging out");
          xhr.open("POST", "logout.txt", true);
          xhr.onreadystatechange = loggedout;
          xhr.send(data);
-         console.log("Sent Request");
-      //   userSessionID = sessionStorage.removeItem("userSessionID");
-      //   username = sessionStorage.removeItem("username");
       }
 
       function loggedout(){
-         console.log("Recieved Reply");
-         console.log("readyState:", this.readyState, " status:", this.status);
          if (this.readyState == 4 && this.status == 200) {
             if (this.responseText === "Logout successful") {
-               console.log("loggedout");
                userSessionID = sessionStorage.removeItem("userSessionID");
                username = sessionStorage.removeItem("username");
+               removeNavigation();
+               addNavigation();
             }
             else {
-               console.log("FAILED");
                alert("Logout failed. Erm... now what?");
             }
+         }
+      }
+
+      function removeNavigation(){
+         var n = document.querySelector("#nav");
+         while (n.firstChild) {
+             n.removeChild(n.firstChild);
          }
       }
 
