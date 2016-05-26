@@ -7,12 +7,7 @@ var firstDateDigit = 9;
 var conversionInt = 1000;
 var twoDigits = 10;
 
-if (addEventListener) {
-   addEventListener("load", weather);
-}
-else {
-   attachEvent("onload", weather);
-}
+addEventListener("load", weather);
 
 function weather() {
    buildWeather();

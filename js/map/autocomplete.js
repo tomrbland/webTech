@@ -1,5 +1,7 @@
 //http://stackoverflow.com/questions/3490622/get-latitude-and-longitude-based-on-location-name-with-google-autocomplete-api
 
+"use strict";
+
 google.maps.event.addDomListener(window, "load", initialize);
 
 function initialize() {
