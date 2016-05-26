@@ -62,6 +62,7 @@
    function reply(response, status) {
       console.log("reply");
       console.log("status: " + status);
+      console.log("status OK = " + OK);
 
       var typeHeader = { 'Content-Type': "text/plain" };
       response.writeHead(OK, typeHeader);
