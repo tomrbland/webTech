@@ -48,31 +48,30 @@
    left: 80px;
 }
 #tree3{
-   top: 400px;
-   left: 600px;
+   top: 210px;
+   left: 300px;
 }
 #tree4{
-   top: 550px;
+   top: 270px;
    left: 200px;
 }
 #tree5{
-   top: 80px;
+   top: 275px;
    left: 350px;
 }
-
 
 #rock1{
    top: 230px;
    left: 200px;
 }
 #rock2{
-   top: 630px;
-   left: 630px;
+   top: 270px;
+   left: 300px;
 }
 
 #slowSnow1{
    top: 180px;
-   left: 500px;
+   left: 240px;
 }
 
 #liftSupport1{
@@ -80,15 +79,15 @@
    left: 55px;
 }
 #liftSupport2{
-   top: 395px;
-   left: 210px;
+   top: 155px;
+   left: 350px;
 }
 #liftSupport3{
-   top: 595px;
-   left: 365px;
+   top: 267px;
+   left: 265px;
 }
 
 #jump1{
-   top: 425px;
-   left: 430px;
+   top: 340px;
+   left: 180px;
 }
