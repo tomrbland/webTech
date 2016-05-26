@@ -29,7 +29,9 @@
 
    function prepareLogged_InRowDeletion(db, userInput, eventEmitter) {
       console.log("Logout - Prepared statement");
-      var ps = db.prepare("DELETE * FROM Logged_In WHERE sessionID = ? AND personID = (SELECT id FROM Person WHERE username = ?);", errorHandle.bind(null, "Logout - Prepared statement", eventEmitter));
+      console.log("userInput.userSessionID: " + userInput.userSessionID);
+      console.log("userInput.username: " + userInput.username);
+      var ps = db.prepare("DELETE FROM Logged_In WHERE sessionID = ? AND personID = (SELECT id FROM Person WHERE username = ?);", errorHandle.bind(null, "Logout - Prepared statement", eventEmitter));
       eventEmitter.on("Success: Logout - Prepared statement", runLogged_InRowDeletion.bind(null, ps, userInput, eventEmitter));
    }
 
