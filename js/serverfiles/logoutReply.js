@@ -64,7 +64,7 @@
       console.log("status: " + status);
       console.log("status OK = " + OK);
 
-      var typeHeader = { 'Content-Type': "text/plain" };
+      var typeHeader = { "Content-Type": "text/plain" };
       response.writeHead(OK, typeHeader);
       response.write(status);
       response.end();

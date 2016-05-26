@@ -130,7 +130,7 @@
       console.log("reply");
       console.log("status: " + status);
 
-      var typeHeader = { 'Content-Type': "text/plain" };
+      var typeHeader = { "Content-Type": "text/plain" };
       response.writeHead(OK, typeHeader);
       response.write(status);
       response.end();
