@@ -26,7 +26,7 @@
       db.run(
          "CREATE TABLE Review (" +
             "id INTEGER PRIMARY KEY, " +
-            "personID INTEGER UNIQUE NOT NULL REFERENCES Person (id), " +
+            "personID INTEGER NOT NULL REFERENCES Person (id), " +
             "title TEXT NOT NULL, " +
             "text TEXT NOT NULL" +
          ");",
