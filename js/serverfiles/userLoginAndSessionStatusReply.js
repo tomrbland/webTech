@@ -91,8 +91,8 @@
       var currentDate = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds());
       var currentUnixTimestamp = Date.parse(currentDate)/1000;
       console.log("currentUnixTimestamp: " + currentUnixTimestamp);
-      //userSessionIDUnixTimestamp
-      if (123 < (currentUnixTimestamp - 24 * 60 * 60)) {
+      
+      if (userSessionIDUnixTimestamp < (currentUnixTimestamp - 24 * 60 * 60)) {
          console.log("userSessionIDUnixTimestamp is older than 24hrs");
          db.serialize(prepareSessionIDDeletion.bind(null, db, userInput, timestamp, eventEmitter));
 
