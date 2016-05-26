@@ -39,6 +39,7 @@
          var failMessage = document.querySelector("#Fail");
          redirectingMessage.style.display = "none";
          failMessage.style.display = "block";
-         redirectLocation = sessionStorage.getItem("formsubmittedfrom")+"?error="+s;
+         //redirectLocation = sessionStorage.getItem("formsubmittedfrom")+"?error="+s;
+         redirectLocation = sessionStorage.getItem("formsubmittedfrom");
       }
    }
