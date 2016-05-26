@@ -12,6 +12,9 @@
    //Code
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
 
+   //If username matches a session ID then add
+   //If failure along the way then status = 500 and the 2 other divs blank
+
    function _executeAction(response, url, db, userInput) {
       console.log("addReview.js - entered.");
 
@@ -23,34 +26,83 @@
       console.log(userInput.username);
       console.log(userInput.userSessionID);
 
-      //attemptAddReview(db, userInput, eventEmitter);
+      secondStageLoginVerification(db, userInput, eventEmitter);
 
       eventEmitter.on("Error", failureStatusReply.bind(null, response, url));
-      //eventEmitter.on("Success: Insert New User - Finalized", createUserSessionID.bind(null, db, eventEmitter));
+      eventEmitter.on("Valid login details", attemptAddReview.bind(null, db, userInput, eventEmitter));
+
       //eventEmitter.on("Success: Insert New Session ID - Finalized", successStatusReply.bind(null, response, url, userInput));
    }
 
-   function attemptAddReview(db, userInput, eventEmitter) {
-      db.serialize(prepareReviewInsertion.bind(null, db, userInput, eventEmitter));
+   function secondStageLoginVerification(db, userInput, eventEmitter) {
+      db.serialize(prepareSecondStageLoginVerification.bind(null, db, userInput, eventEmitter));
    }
 
-   function prepareReviewInsertion(db, userInput, eventEmitter) {
+   function prepareSecondStageLoginVerification(db, userInput, eventEmitter) {
+      console.log("Second Stage Login Verification - Prepared statement");
+      var ps = db.prepare("SELECT * FROM Logged_In WHERE sessionID = ? AND personID = (SELECT id FROM Person WHERE username = ?);", errorHandle.bind(null, "Second Stage Login Verification - Prepared statement", eventEmitter));
+      eventEmitter.on("Success: Second Stage Login Verification - Prepared statement", getSecondStageLoginVerificationResults.bind(null, ps, userInput, eventEmitter));
+   }
+
+   function getSecondStageLoginVerificationResults(ps, userInput, eventEmitter) {
+      console.log("Second Stage Login Verification - Get statement");
+      ps.get(userInput.userSessionID, userInput.username, queryResult.bind(null, eventEmitter));
+      ps.finalize(errorHandle.bind(null, "Second Stage Login Verification - Finalized", eventEmitter));
+   }
+
+   function queryResult(eventEmitter, error, row) {
+      console.log("in queryResult");
+      if (row) {
+         console.log("SUCCESS: " + JSON.stringify(row));
+         console.log("SUCCESS: row.personID - " + row.personID);
+         eventEmitter.emit("Valid login details", row.personID);
+      }
+      else {
+         console.log("ERROR: " + error);
+         eventEmitter.emit("Error", error);
+      }
+   }
+
+   function attemptAddReview(db, userInput, eventEmitter, personID) {
+      console.log("attemptAddReview");
+      console.log("personID: " + personID);
+      db.serialize(prepareReviewInsertion.bind(null, db, userInput, personID, eventEmitter));
+   }
+
+   //personID title text
+   function prepareReviewInsertion(db, userInput, personID, eventEmitter) {
       console.log("Add Review - Prepared statement");
-      var ps = db.prepare("INSERT INTO Review (firstName, surname, username, email, password) VALUES (?, ?, ?, ?, ?);", errorHandle.bind(null, "Add Review - Prepared statement", eventEmitter, null));
-      eventEmitter.on("Success: Add Review - Prepared statement", runNewUserInsertion.bind(null, db, ps, userInput, eventEmitter));
+      var ps = db.prepare("INSERT INTO Review (personID, title, text) VALUES (?, ?, ?);", errorHandle.bind(null, "Add Review - Prepared statement", eventEmitter));
+      eventEmitter.on("Success: Add Review - Prepared statement", runReviewInsertion.bind(null, db, userInput, personID, eventEmitter));
    }
 
-   function runNewUserInsertion(db, ps, userInput, eventEmitter) {
+   function runReviewInsertion(db, userInput, personID, eventEmitter) {
       console.log("Add Review - Run statement");
-      ps.run(userInput.firstName, userInput.surname, userInput.username, userInput.email, userInput.password, errorHandle.bind(ps, "Add Review - Run statement", eventEmitter, userInput));
-      eventEmitter.on("Success: Add Review - Run statement", finalizeNewUserInsertion.bind(null, db, ps, userInput, eventEmitter));
+      ps.run(personID, userInput.title, userInput.text, errorHandle.bind(ps, "Add Review - Run statement", eventEmitter));
+      eventEmitter.on("Success: Add Review - Run statement", finalizeReviewInsertion.bind(null, ps, userInput, eventEmitter));
    }
 
-   function finalizeNewUserInsertion(db, ps, userInput, eventEmitter, insertedUserID) {
-      console.log("Insert New User - Finalized");
-      console.log("Insert New User - Finalized. insertedUserID: " + insertedUserID);
-      ps.finalize(errorHandle.bind(null, "Insert New User - Finalized", eventEmitter, insertedUserID));
+   function finalizeReviewInsertion(ps, userInput, eventEmitter) {
+      console.log("Add Review - Finalized");
+      //console.log("Add Review - Finalized. insertedUserID: " + insertedUserID);
+      ps.finalize(errorHandle.bind(null, "Add Review - Finalized", eventEmitter));
    }
+
+   function errorHandle(message, eventEmitter, error) {
+      console.log("\n************///------ Entered errorHandle for: " + message);
+      if (error) {
+         eventEmitter.emit("Error", error);
+      }
+      else {
+         console.log("Success: ".concat(message));
+         eventEmitter.emit("Success: ".concat(message));
+      }
+   }
+
+
+
+
+
 
    //-------------------------------- CREATE NEW SESSION ID --------------------------------
 
@@ -95,29 +147,7 @@
       ps.finalize(errorHandle.bind(null, "Insert New Session ID - Finalized", eventEmitter, sessionID));
    }
 
-   function errorHandle(message, eventEmitter, id, error) {
-      console.log("\n************///------ Entered errorHandle for: " + message);
-      if (error) {
-         eventEmitter.emit("Error", error);
-      }
-      else {
-         if (message === "Insert New User - Run statement") {
-            console.log("this.lastID: " + this.lastID);
-            eventEmitter.emit("Success: ".concat(message), this.lastID);
-         }
-         //Used for "Insert New User - Finalized" to return the DB id of the inserted person
-         //Used for "Insert New Session ID - Finalized" to return the DB id of the new session
-         else if (message.includes("Finalized")) {
-            console.log("Inside conditional for finalized the id is: " + id);
-            console.log("Success: ".concat(message));
-            eventEmitter.emit("Success: ".concat(message), id);
-         }
-         else {
-            console.log("Success: ".concat(message));
-            eventEmitter.emit("Success: ".concat(message));
-         }
-      }
-   }
+
 
    function failureStatusReply(response, url) {
       console.log("failureStatusReply");
