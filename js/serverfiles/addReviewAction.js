@@ -12,19 +12,10 @@
    //Code
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
 
-   //If username matches a session ID then add
-   //If failure along the way then status = 500 and the 2 other divs blank
-
    function _executeAction(response, url, db, userInput) {
       console.log("addReview.js - entered.");
 
       var eventEmitter = new ADD_REVIEW_ACTION_EVENT_HANDLER.EventEmitter();
-
-
-      console.log(userInput.title);
-      console.log(userInput.text);
-      console.log(userInput.username);
-      console.log(userInput.userSessionID);
 
       secondStageLoginVerification(db, userInput, eventEmitter);
 
@@ -68,7 +59,6 @@
       db.serialize(prepareReviewInsertion.bind(null, db, userInput, personID, eventEmitter));
    }
 
-   //personID title text
    function prepareReviewInsertion(db, userInput, personID, eventEmitter) {
       console.log("Add Review - Prepared statement");
       var ps = db.prepare("INSERT INTO Review (personID, title, text) VALUES (?, ?, ?);", errorHandle.bind(null, "Add Review - Prepared statement", eventEmitter));
@@ -87,7 +77,6 @@
 
    function finalizeReviewInsertion(ps, userInput, eventEmitter) {
       console.log("Add Review - Finalized");
-      //console.log("Add Review - Finalized. insertedUserID: " + insertedUserID);
       ps.finalize(errorHandle.bind(null, "Add Review - Finalized", eventEmitter));
    }
 
