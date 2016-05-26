@@ -23,7 +23,7 @@
    }
 
    function reviewsQuery(response, url, db, eventEmitter) {
-      var ps = db.prepare("SELECT firstName, surname, title, text FROM Review JOIN Person ON Review.personID = Person.id;", errorHandle.bind(null, "Prepared statement", eventEmitter));
+      var ps = db.prepare("SELECT firstName, surname, title, text FROM Review JOIN Person ON Review.personID = Person.id ORDER BY Review.id DESC;", errorHandle.bind(null, "Prepared statement", eventEmitter));
       eventEmitter.on("Success: Prepared statement", getAllResults.bind(null, response, url, ps, eventEmitter));
    }
 
