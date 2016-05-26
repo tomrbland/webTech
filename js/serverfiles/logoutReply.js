@@ -39,13 +39,13 @@
       console.log("Logout - Run statement");
       console.log("userInput.userSessionID: " + userInput.userSessionID);
       console.log("userInput.username: " + userInput.username);
-      ps.run(userInput.userSessionID, userInput.username, queryResult.bind(null, eventEmitter));
+      ps.run(userInput.userSessionID, userInput.username, errorHandle.bind(null, "Logout - Run statement", eventEmitter));
       eventEmitter.on("Success: Logout - Run statement", finalizeLogged_InRowDeletion.bind(null, ps, eventEmitter));
    }
 
    function finalizeLogged_InRowDeletion(ps, eventEmitter, sessionID) {
       console.log("Logout - Finalized");
-      ps.finalize(errorHandle.bind(null, "Logout - Finalized", eventEmitter, sessionID));
+      ps.finalize(errorHandle.bind(null, "Logout - Finalized", eventEmitter));
    }
 
    function errorHandle(message, eventEmitter, error) {
