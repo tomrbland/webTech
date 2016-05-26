@@ -39,7 +39,7 @@
                var reviewWriter = document.querySelector("#dim");
                reviewWriter.style.display = "block";
             }
-            else if (this.responseText === "Logged in, but session ID timed out") {
+            else if (this.responseText === "Logged in, but user session ID timed out") {
                logout();
                alert("Your session timed out. Please login again.");
                window.location.href="/login.html";

@@ -39,12 +39,12 @@
 
    function getLoginQueryResults(ps, userInput, eventEmitter) {
       console.log("Login - Get statement");
-      ps.get(userInput.username, userInput.password, setReply.bind(null, eventEmitter));
+      ps.get(userInput.username, userInput.password, queryResult.bind(null, eventEmitter));
       ps.finalize(errorHandle.bind(null, "Login - Finalized", eventEmitter));
    }
 
-   function setReply(eventEmitter, error, row) {
-      console.log("in setReply");
+   function queryResult(eventEmitter, error, row) {
+      console.log("in queryResult");
       if (row) {
          console.log("SUCCESS: " + JSON.stringify(row));
          console.log("SUCCESS: row.id - " + row.id);
