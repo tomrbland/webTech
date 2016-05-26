@@ -27,6 +27,8 @@
       //END
 
       //Functions
+
+      //your standard button. Click me I take you somewhere
       function makeButton(path, text, float) {
          var div = document.createElement("div");
 
@@ -41,6 +43,7 @@
          return div;
       }
 
+      //Fake button looks like a button but doesn't go anywhere
       function makeFakeButton(text, float, listener) {
          var div = document.createElement("div");
 
@@ -57,6 +60,7 @@
          return div;
       }
 
+      //Just text. No button features
       function makeText(text, float) {
          var div = document.createElement("div");
 
@@ -81,7 +85,24 @@
       }
 
       function logout() {
-         userSessionID = sessionStorage.removeItem("userSessionID");
-         username = sessionStorage.removeItem("username");
+         var xhr = new XMLHttpRequest();
+         var data = "userSessionID="+userSessionID+"&username="+username;
+
+         xhr.open("POST", "logout.txt", true);
+         xhr.onreadystatechange = loggedout;
+         xhr.send(data);
       }
+
+      function loggedout(){
+         if (this.readyState == 4 && this.status == 200) {
+            if (this.responseText === "Logout successful") {
+               userSessionID = sessionStorage.removeItem("userSessionID");
+               username = sessionStorage.removeItem("username");
+            }
+            else {
+               alert("Logout failed. Erm... now what?");
+            }
+         }
+      }
+
    }
