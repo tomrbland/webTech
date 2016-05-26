@@ -1,16 +1,6 @@
    "use strict";
 
-   //if (addEventListener) {
-   //   document.addEventListener("load", loaded);
-
-      addEventListener("load", loaded);
-
-   //}
-   //else {
-   //   attachEvent("onload", loaded);
-   //}
-
-   //loaded();
+   addEventListener("load", loaded);
 
    function loaded() {
       console.log("getusersessionidandredirect.js - loaded.");
