@@ -1,38 +1,39 @@
    //Imports
-   var USER_LOGIN_AND_SESSION_STATUS_REPLY_EVENT_HANDLER = require("events");
+   var LOGOUT_REPLY_EVENT_HANDLER = require("events");
 
    //Exports
    module.exports = {
-      confirmUserLoginAndSessionStatus: function(response, db, userInput) {
-         _confirmUserLoginAndSessionStatus(response, db, userInput);
+      completeLogout: function(response, db, userInput) {
+         _completeLogout(response, db, userInput);
       }
    };
 
    //Code
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
 
-   function _confirmUserLoginAndSessionStatus(response, db, userInput) {
-      console.log("confirmUserLoginAndSessionStatus.js - entered");
+   function _completeLogout(response, db, userInput) {
+      console.log("deleteRowFromLogged_InTable.js - entered");
 
-      var eventEmitter = new USER_LOGIN_AND_SESSION_STATUS_REPLY_EVENT_HANDLER.EventEmitter();
+      var eventEmitter = new LOGOUT_REPLY_EVENT_HANDLER.EventEmitter();
 
-      confirmLoginStatus(db, userInput, eventEmitter);
+      deleteRowFromLogged_InTable(db, userInput, eventEmitter);
 
-      eventEmitter.on("Error", reply.bind(null, response, "Not logged in"));
-      eventEmitter.on("Logged in user exists", checkUserSessionIDStatus.bind(null, db, userInput, eventEmitter));
-      eventEmitter.on("Success: Delete Logged_In row with timed out Session ID - Finalized", reply.bind(null, response, "Logged in, but user session ID timed out"));
-      eventEmitter.on("Logged in, valid user session ID", reply.bind(null, response, "Logged in, valid user session ID"));
+      eventEmitter.on("Error", reply.bind(null, response, "Logout failed."));
+
+      //eventEmitter.on("Logged in user exists", checkUserSessionIDStatus.bind(null, db, userInput, eventEmitter));
+      //eventEmitter.on("Success: Delete Logged_In row with timed out Session ID - Finalized", reply.bind(null, response, "Logged in, but user session ID timed out"));
+      //eventEmitter.on("Logged in, valid user session ID", reply.bind(null, response, "Logged in, valid user session ID"));
    }
 
-   function confirmLoginStatus(db, userInput, eventEmitter) {
-      console.log("confirmLoginStatus");
-      db.serialize(prepareLoginStatusQuery.bind(null, db, userInput, eventEmitter));
+   function deleteRowFromLogged_InTable(db, userInput, eventEmitter) {
+      console.log("deleteRowFromLogged_InTable");
+      db.serialize(prepareLogged_InTableDeletion.bind(null, db, userInput, eventEmitter));
    }
 
-   function prepareLoginStatusQuery(db, userInput, eventEmitter) {
-      console.log("Login Status - Prepared statement");
-      var ps = db.prepare("SELECT * FROM Logged_In WHERE sessionID = ? AND personID = (SELECT id FROM Person WHERE username = ?);", errorHandle.bind(null, "Login Status - Prepared statement", eventEmitter));
-      eventEmitter.on("Success: Login Status - Prepared statement", getLoginStatusQueryResults.bind(null, ps, userInput, eventEmitter));
+   function prepareLogged_InTableDeletion(db, userInput, eventEmitter) {
+      console.log("Logout - Prepared statement");
+      var ps = db.prepare("DELETE * FROM Logged_In WHERE sessionID = ? AND personID = ?;", errorHandle.bind(null, "Logout - Prepared statement", eventEmitter));
+      eventEmitter.on("Success: Logout - Prepared statement", getLoginStatusQueryResults.bind(null, ps, userInput, eventEmitter));
    }
 
    function getLoginStatusQueryResults(ps, userInput, eventEmitter) {
