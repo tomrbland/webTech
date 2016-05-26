@@ -93,8 +93,7 @@
          xhr.onreadystatechange = loggedout;
          xhr.send(data);
          console.log("Sent Request");
-         userSessionID = sessionStorage.removeItem("userSessionID");
-         username = sessionStorage.removeItem("username");
+
       }
 
       function loggedout(){
