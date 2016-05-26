@@ -4,8 +4,6 @@
     * Generic untility functions
     */
 
-   //Imports
-
    //Exports
    module.exports = {
       // Check whether a string starts with a prefix
@@ -22,5 +20,3 @@
           return s.toLowerCase();
       }
    };
-
-   //Code

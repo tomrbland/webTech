@@ -1,7 +1,7 @@
    "use strict";
 
    //Imports
-   var ACTION_ROUTER = require("./dynamicreply/action/actionRouter");
+   var ACTION_ROUTER = require("./dynamicreply/action/actionRouter.js");
    var RESORT_REPLIER = require("./dynamicreply/resortReply.js");
    var USER_LOGIN_AND_SESSION_STATUS_REPLIER = require("./dynamicreply/userLoginAndSessionStatusReply.js");
    var LOGOUT_REPLIER = require("./dynamicreply/logoutReply.js");

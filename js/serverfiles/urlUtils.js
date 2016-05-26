@@ -6,8 +6,8 @@
     */
 
    //Imports
-   var FS = require('fs');
-   var UTIL = require('./utilities.js');
+   var FS = require("fs");
+   var UTIL = require("./utilities.js");
 
    //Exports
    module.exports = {
@@ -80,7 +80,6 @@
    function _findType(url){
       var dot = url.lastIndexOf(".");
       var extension = url.substring(dot);
-      //console.log("dot:", dot, " exten:", extension);
       return types[extension];
    }
 

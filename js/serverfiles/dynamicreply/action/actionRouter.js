@@ -1,9 +1,9 @@
    "use strict";
 
    //Imports
-   var REGISTER = require('./dynamicreply/action/registerAction.js');
-   var LOGIN = require('./dynamicreply/action/loginAction.js');
-   var ADD_REVIEW = require('./dynamicreply/action/addReviewAction.js');
+   var REGISTER = require("./registerAction.js");
+   var LOGIN = require("./loginAction.js");
+   var ADD_REVIEW = require("./addReviewAction.js");
 
    //Exports
    module.exports = {
