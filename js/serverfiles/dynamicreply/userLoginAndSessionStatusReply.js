@@ -41,7 +41,6 @@
          eventEmitter.emit("Logged in user exists", row.timestamp)
       }
       else {
-         console.log("ERROR: " + error);
          eventEmitter.emit("Error", error);
       }
    }
@@ -87,11 +86,9 @@
 
    function errorHandle(message, eventEmitter, error) {
       if (error) {
-         console.log("ERROR: " + error);
          eventEmitter.emit("Error");
       }
       else {
-         console.log("Success: ".concat(message));
          eventEmitter.emit("Success: ".concat(message));
       }
    }

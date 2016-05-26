@@ -40,7 +40,6 @@
 
    function errorHandle(message, eventEmitter, error) {
       if (error) {
-         console.log("ERROR: " + error);
          eventEmitter.emit("Error", error);
       }
       else {

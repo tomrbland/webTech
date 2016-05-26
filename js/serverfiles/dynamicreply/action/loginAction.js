@@ -43,7 +43,6 @@
          eventEmitter.emit("Valid login details", row.id)
       }
       else {
-         console.log("ERROR: " + error);
          eventEmitter.emit("Error", error);
       }
    }
@@ -57,7 +56,6 @@
 
    function checkValidityOfCrytoRandomBytes(message, eventEmitter, error, buffer) {
       if (error) {
-         console.log("ERROR: " + error);
          eventEmitter.emit("Error");
       }
       else {
@@ -85,7 +83,6 @@
 
    function errorHandle(message, eventEmitter, sessionID, error) {
       if (error) {
-         console.log("ERROR: " + error);
          eventEmitter.emit("Error");
       }
       else {
