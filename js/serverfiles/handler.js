@@ -1,11 +1,11 @@
    "use strict";
 
    //Imports
-   var ACTION_ROUTER = require("./actionRouter");
-   var RESORT_REPLIER = require("./resortReply.js");
-   var USER_LOGIN_AND_SESSION_STATUS_REPLIER = require("./userLoginAndSessionStatusReply.js");
-   var LOGOUT_REPLIER = require("./logoutReply.js");
-   var STANDARD_REPLIER = require("./standardReply.js");
+   var ACTION_ROUTER = require("./dynamicreply/action/actionRouter.js");
+   var RESORT_REPLIER = require("./dynamicreply/resortReply.js");
+   var USER_LOGIN_AND_SESSION_STATUS_REPLIER = require("./dynamicreply/userLoginAndSessionStatusReply.js");
+   var LOGOUT_REPLIER = require("./dynamicreply/logoutReply.js");
+   var STANDARD_REPLIER = require("./standardreply/standardReply.js");
 
    //Exports
    module.exports = {

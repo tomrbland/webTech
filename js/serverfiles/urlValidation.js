@@ -3,9 +3,8 @@
    //Imports
    var UTIL = require("./utilities.js");
    var URL_UTIL = require("./urlUtils.js");
-   var REPLIER = require("./standardReply.js");
+   var REPLIER = require("./standardreply/standardReply.js");
    var HANDLER = require("./handler.js");
-
    var QUERY_STRING = require("querystring");
 
    //Exports
@@ -19,16 +18,10 @@
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
 
    function _validate(db, request, response) {
-      /*
-      var util = require("util");
-      console.log("validate.js - db: " + util.inspect(db, {showHidden: false, depth: null}));
-      console.log("validate.js - request: " + util.inspect(request, {showHidden: false, depth: null}));
-      console.log("validate.js - response: " + util.inspect(response, {showHidden: false, depth: null}));
-      */
-
       var url = request.url;
 
-      // Turns /resort.html?resort=Les+Arcs%2C+Bourg-Saint-Maurice%2C+France into /resort.html
+      // Turns /resort.html?resort=Les+Arcs%2C+Bourg-Saint-Maurice%2C+France, for example,
+      // into /resort.html
       url = URL_UTIL.removeQuery(url);
 
       url = UTIL.lower(url);
@@ -56,7 +49,6 @@
       }
 
       function end() {
-         console.log("urlValidation.js - URL before entering handler: " + url);
          var userInput = QUERY_STRING.parse(body);
          HANDLER.handleURL(response, url, type, db, userInput);
       }

@@ -25,7 +25,7 @@
    // Deliver the file that has been read in to the browser.
    function deliver(response, type, err, fileContent) {
       if (err) return _fail(response, NotFound, "File not found");
-      var typeHeader = { 'Content-Type': type };
+      var typeHeader = { "Content-Type": type };
       response.writeHead(OK, typeHeader);
       response.write(fileContent);
       response.end();
@@ -33,8 +33,8 @@
 
    // Give a minimal failure response to the browser
    function _fail(response, code, fileContent) {
-      var textTypeHeader = { 'Content-Type': 'text/plain' };
+      var textTypeHeader = { "Content-Type": "text/plain" };
       response.writeHead(code, textTypeHeader);
-      response.write(fileContent, 'utf8');
+      response.write(fileContent, "utf8");
       response.end();
    }
