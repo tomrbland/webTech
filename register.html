@@ -22,8 +22,11 @@
    <link rel="mask-icon" href="/images/icons/safari-pinned-tab.svg" color="#5bbad5"/>
    <link href="css/style.css" rel="stylesheet" type="text/css" />
    <link href="css/styleindex.css" rel="stylesheet" type="text/css" />
+
    <script type="text/javascript" src="js/pagelayout/navigation.js"></script>
    <script type="text/javascript" src="js/storeformsubmitted.js"></script>
+   <script type="text/javascript" src="js/loginFailed.js"></script>
+
 
 </head>
 <body>
@@ -32,7 +35,7 @@
    <div id="centerDiv">
       <form id="content" action="action.html" method="post" name ="register">
          <input type="hidden" name="actionType" value="register" required/>
-         <p><input id = "halfWidthInput" type="text" name="firstName" value="" placeholder="First Name" required/>
+         <p><input id = "halfWidthInput" type="text" name="firstName" value="" placeholder="First Name" autofocus required/>
             <input id = "halfWidthInput" type="text" name="surname" value="" placeholder="Surname" required/></p>
          <p><input id = "fullWidthInput" type="text" name="username" value="" placeholder="Username" required/></p>
          <p><input id = "fullWidthInput" type="email" name="email" value="" placeholder="Email Address" required/></p>
