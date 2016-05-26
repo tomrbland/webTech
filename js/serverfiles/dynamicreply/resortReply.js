@@ -34,6 +34,7 @@
 
    function errorHandle(string, eventEmitter, error) {
       if (error) {
+         console.log("ERROR: " + error);
          eventEmitter.emit("Error", error);
       }
       else {
@@ -43,6 +44,7 @@
 
    function setReply(response, url, error, rows) {
       if (error) {
+         console.log("ERROR: " + error);
          failureReply(response, url, error);
       }
       else {

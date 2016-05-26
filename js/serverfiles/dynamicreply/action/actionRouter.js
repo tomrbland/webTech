@@ -13,8 +13,6 @@
    };
 
    function _route(response, url, db, userInput) {
-      console.log("actionRouter.js - userInput: " + JSON.stringify(userInput));
-
       switch(userInput.actionType) {
          case "register": REGISTER.executeAction(response, url, db, userInput); break;
          case "login": LOGIN.executeAction(response, url, db, userInput); break;
