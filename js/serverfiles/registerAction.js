@@ -1,5 +1,5 @@
    //Imports
-   var REGISTER_ACTION_EVENT_HANDLING = require("events");
+   var REGISTER_ACTION_EVENT_HANDLER = require("events");
    var FS = require("fs");
    var CRYPTO = require("crypto");
 
@@ -17,7 +17,7 @@
    function _executeAction(response, url, db, userInput) {
       console.log("registerAction.js - entered.");
 
-      var eventEmitter = new REGISTER_ACTION_EVENT_HANDLING.EventEmitter();
+      var eventEmitter = new REGISTER_ACTION_EVENT_HANDLER.EventEmitter();
 
       attemptUserRegistration(db, userInput, eventEmitter);
 

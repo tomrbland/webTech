@@ -2,7 +2,7 @@
 
    addEventListener("load", addNavigation);
 
-   function addNavigation(){
+   function addNavigation() {
       var userSessionID;
       var username;
 
@@ -15,7 +15,7 @@
       navBar.appendChild(makeButton("/skifree/index.html", "Skifree!", "left"));
 
       //Right Aligned Items
-      if(getUserSessionIDandUsername()){
+      if (getUserSessionIDandUsername()) {
          console.log("username: ", username);
          navBar.appendChild(makeFakeButton("Logout", "right", logout));
          navBar.appendChild(makeText("Logged in as: "+username, "right"));
@@ -27,7 +27,7 @@
       //END
 
       //Functions
-      function makeButton(path, text, float){
+      function makeButton(path, text, float) {
          var div = document.createElement("div");
 
          if(float === "left") div.className = "navButtonLeft";
@@ -41,7 +41,7 @@
          return div;
       }
 
-      function makeFakeButton(text, float, listener){
+      function makeFakeButton(text, float, listener) {
          var div = document.createElement("div");
 
          if(float === "left") div.className = "navButtonLeft";
@@ -57,8 +57,7 @@
          return div;
       }
 
-
-      function makeText(text, float){
+      function makeText(text, float) {
          var div = document.createElement("div");
 
          if(float === "left") div.className = "navTextLeft";
@@ -71,17 +70,18 @@
          return div;
       }
 
-      function getUserSessionIDandUsername(){
+      function getUserSessionIDandUsername() {
          userSessionID = sessionStorage.getItem("userSessionID");
          username = sessionStorage.getItem("username");
-         if(typeof userSessionID === 'undefined' || typeof username === 'undefined' ||
+         if (typeof userSessionID === "undefined" || typeof username === "undefined" ||
             userSessionID === null || username == null) return false;
-         else return true;
+         else {
+            return true;
+         }
       }
 
-      function logout(){
+      function logout() {
          userSessionID = sessionStorage.removeItem("userSessionID");
          username = sessionStorage.removeItem("username");
       }
-
    }

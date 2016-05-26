@@ -1,7 +1,7 @@
    "use strict";
 
    //Imports
-   var EVENTS_IN_DYNAMIC_REPLY = require("events");
+   var RESORT_REPLY_EVENT_HANDLER = require("events");
    var FS = require("fs");
 
    //Exports
@@ -15,7 +15,7 @@
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
 
    function _reviewsQueryThenReply(response, url, db) {
-      var eventEmitter = new EVENTS_IN_DYNAMIC_REPLY.EventEmitter();
+      var eventEmitter = new RESORT_REPLY_EVENT_HANDLER.EventEmitter();
 
       db.serialize(reviewsQuery.bind(null, response, url, db, eventEmitter));
 
@@ -81,7 +81,7 @@
       response.writeHead(OK, typeHeader);
 
       var fillData = "";
-      for (var i = 0; i < Object.keys(rows).length; i++) {  
+      for (var i = 0; i < Object.keys(rows).length; i++) {
          fillData = fillData.concat('<div class="review"><h3>' + '&quot;' + rows[i].title + '&quot;' + ' — ' + rows[i].firstName + ' ' + rows[i].surname + '</h3><p>' + rows[i].text + '</p></h3></div>');
       }
 

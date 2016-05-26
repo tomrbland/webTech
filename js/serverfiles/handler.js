@@ -1,8 +1,9 @@
    "use strict";
 
    //Imports
-   var ACTION_ROUTER = require("./actionRouter")
-   var DYNAMIC_REPLIER = require("./dynamicReply.js");
+   var ACTION_ROUTER = require("./actionRouter");
+   var RESORT_REPLIER = require("./resortReply.js");
+   var USER_LOGIN_AND_SESSION_STATUS_REPLIER = require("./userLoginAndSessionStatusReply.js");
    var STANDARD_REPLIER = require("./standardReply.js");
 
    //Exports
@@ -16,8 +17,9 @@
       switch (url) {
          case "/action.html": ACTION_ROUTER.route(response, url, db, userInput); break;
 
-         // The reviewsQuery should be performed via an action but will leave it as it is for now.
-         case "/resort.html": DYNAMIC_REPLIER.reviewsQueryThenReply(response, url, db); break;
+         case "/resort.html": RESORT_REPLIER.reviewsQueryThenReply(response, url, db); break;
+
+         case "/loginconfirmation.txt": USER_LOGIN_AND_SESSION_STATUS_REPLIER.confirmUserLoginAndSessionStatus(response, db, userInput); break;
 
          default: STANDARD_REPLIER.reply(response, url, type); break;
       }
