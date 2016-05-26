@@ -17,6 +17,7 @@
       switch(userInput.actionType) {
          case "register": REGISTER.executeAction(response, url, db, userInput); break;
          case "login": LOGIN.executeAction(response, url, db, userInput); break;
+         case "addReview": console.log("hello addReview"); break;
       // default: ......... break;
       }
    }
