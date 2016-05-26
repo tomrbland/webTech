@@ -1,6 +1,5 @@
    //Imports
    var USER_LOGIN_AND_SESSION_STATUS_REPLY_EVENT_HANDLER = require("events");
-   var FS = require("fs");
 
    //Exports
    module.exports = {
@@ -11,12 +10,6 @@
 
    //Code
    var OK = 200, NotFound = 404, BadType = 415, Error = 500;
-
-   //1. SELECT * FROM Logged_In WHERE sessionID = ? AND personID = (SELECT id FROM Person WHERE username = ?);
-   //2. Get statement
-   //3. If not found, return "Not logged in"
-   //4. If found but session is stale (older than 24hrs) return "Logged in, but user session ID timed out"
-   //5. If found return "Valid login"
 
    function _confirmUserLoginAndSessionStatus(response, db, userInput) {
       console.log("confirmUserLoginAndSessionStatus.js - entered");
@@ -91,7 +84,7 @@
       var currentDate = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds());
       var currentUnixTimestamp = Date.parse(currentDate)/1000;
       console.log("currentUnixTimestamp: " + currentUnixTimestamp);
-      
+
       if (userSessionIDUnixTimestamp < (currentUnixTimestamp - 24 * 60 * 60)) {
          console.log("userSessionIDUnixTimestamp is older than 24hrs");
          db.serialize(prepareSessionIDDeletion.bind(null, db, userInput, timestamp, eventEmitter));
