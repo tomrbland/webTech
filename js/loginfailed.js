@@ -13,7 +13,7 @@
       var state = parts[1];
       if(state.indexOf("fail") > -1){
          if(submittedFrom.indexOf("login") > -1)
-            alert("Login Failed.");
-         else alert("Registration failed.\nUsername must be unique.");
+            alert("The username or password you entered is incorrect.");
+         else alert("The username or email address you entered has already been taken.");
       }
    }
