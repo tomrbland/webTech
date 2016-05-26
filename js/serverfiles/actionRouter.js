@@ -3,6 +3,7 @@
    //Imports
    var REGISTER = require('./registerAction.js');
    var LOGIN = require('./loginAction.js');
+   var ADD_REVIEW = require('./addReviewAction.js');
 
    //Exports
    module.exports = {
@@ -17,6 +18,6 @@
       switch(userInput.actionType) {
          case "register": REGISTER.executeAction(response, url, db, userInput); break;
          case "login": LOGIN.executeAction(response, url, db, userInput); break;
-      // default: ......... break;
+         case "addReview": ADD_REVIEW.executeAction(response, url, db, userInput); break;
       }
    }
