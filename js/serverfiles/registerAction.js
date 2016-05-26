@@ -149,7 +149,7 @@
    }
 
    function success(response, userInput, sessionID, err, fileContent) {
-      var typeHeader = { 'Content-Type': "text/html" };
+      var typeHeader = { "Content-Type": "text/html" };
       response.writeHead(OK, typeHeader);
 
       fileContent = fileContent.toString();
