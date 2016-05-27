@@ -1,6 +1,2 @@
 .DS_Store
-js/serverfiles/cert
-js/serverfiles/key
-js/serverfiles/cert.pem
-js/serverfiles/key.pem
 node_modules/
